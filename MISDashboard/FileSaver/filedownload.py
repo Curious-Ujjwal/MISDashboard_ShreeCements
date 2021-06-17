@@ -4,20 +4,30 @@ from email.header import decode_header
 import webbrowser
 import os
 
+#account credentials
 username = 'ujjwalrustagi@gmail.com'
 password = 'Ujjwal@123'
 
+#function which helps to create folder
 def clean(text):
 	return "".join(c if c.isalnum() else "_" for c in text)
 
+#connect with IMAP class with SSL and authenticate
 imap = imaplib.IMAP4_SSL("imap.gmail.com")
 imap.login(username, password)
 
 status, messages = imap.select('INBOX')
+
+#select top 4 messages to download each day
 N = 5
+
+#total number of messages
 messages = int(messages[0])
 
+#iterating the MAILBOX from top to bottom for the top 'N' messages
 for i in range(messages, messages-N, -1):
+	#fetch the email, message by ID
+	#standard format => RFC822
 	res, msg = imap.fetch(str(i), "(RFC822)")
 	for response in msg:
 		if isinstance(response, tuple):
@@ -30,9 +40,11 @@ for i in range(messages, messages-N, -1):
 			if isinstance(From, bytes):
 				From = From.decode(encoding)
 
+			#prints the subject and from ids at the terminal
 			print("Subject:", subject)
 			print("From:", From)
 
+			#if the mail contains the many parts
 			if msg.is_multipart():
 				for part in msg.walk():
 					content_type = part.get_content_type()
@@ -79,6 +91,6 @@ for i in range(messages, messages-N, -1):
 			# 	webbrowser.open(filepath)
 			print("^"*100)
 
-
+#close the connection and logout
 imap.close()
 imap.logout()

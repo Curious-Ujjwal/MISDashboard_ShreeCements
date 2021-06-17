@@ -9,10 +9,14 @@
 
 -> Auto opening of emails through smtplib  -- DONE
 -> Download the .csv/.xlsx files from the mails -- DONE
--> Save these files in a separate directory
+-> Save the files and these get uploaded in the Django Database -- 
+-> Save these files in a separate directory -- 
     ..Directory structure
     /SiteSheets/Date/Site1Data
                     /Site2Data
                     /Site3Data
                     /Site4Data
                 Date in default format
+-> Store the files according to the data-timestamp -- 
+
+
