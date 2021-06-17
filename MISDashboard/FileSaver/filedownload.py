@@ -14,7 +14,7 @@ imap = imaplib.IMAP4_SSL("imap.gmail.com")
 imap.login(username, password)
 
 status, messages = imap.select('INBOX')
-N = 4
+N = 5
 messages = int(messages[0])
 
 for i in range(messages, messages-N, -1):
@@ -62,16 +62,21 @@ for i in range(messages, messages-N, -1):
 				if content_type == "text/plain":
 					print(body)
 
-			if content_type == "text/html":
-				folder_name = clean(subject)
-				if not os.path.isdir(folder_name):
-					os.mkdir(folder_name)
+			
+			####################################################################################
+			######The below code is for saving .html files not to be used in this software######
+			####################################################################################
 
-				filename = "index.html"
-				filepath = os.path.join(folder_name, filename)
+			# if content_type == "text/html":
+			# 	folder_name = clean(subject)
+			# 	if not os.path.isdir(folder_name):
+			# 		os.mkdir(folder_name)
 
-				open(filepath, "w").write(body)
-				webbrowser.open(filepath)
+			# 	filename = "index.html"
+			# 	filepath = os.path.join(folder_name, filename)
+
+			# 	open(filepath, "w").write(body)
+			# 	webbrowser.open(filepath)
 			print("^"*100)
 
 
