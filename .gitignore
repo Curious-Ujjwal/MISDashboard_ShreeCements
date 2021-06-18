@@ -1,6 +1,6 @@
 #Ignore the venv folder at remote repository
 /venv/
-./MISDashboard/db.sqlite3
+/MISDashboard/db.sqlite3
 /MISDashboard/MISDashboard/__pycache__/
 /MISDashboard/FileSaver/__pycache__/
 /MISDashboard/FileSaver/migrations/
