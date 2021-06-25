@@ -87,10 +87,10 @@ for i in range(messages, messages-N, -1):
 					print(body)
 			print("^"*100)
 
-#close the connection and logout
-imap.close()
-imap.logout()
-
 #reposition the directories at the end
 path = os.getcwd() + "\..\MISDashboard\FileSaver"
 os.chdir(path)
+
+#close the connection and logout
+imap.close()
+imap.logout()
