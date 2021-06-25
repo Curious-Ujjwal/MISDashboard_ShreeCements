@@ -1,0 +1,1 @@
+#This script is made for storing files/attachments downloaded with the help of filedownload.py into the DJANGO database.

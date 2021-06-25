@@ -1,0 +1,1 @@
+#This script is mde to execute monthly to remove all the downloaded scripts from the DJANGO mysql database.

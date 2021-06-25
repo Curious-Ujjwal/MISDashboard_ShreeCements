@@ -1,8 +1,10 @@
-import imaplib
-import email
-from email.header import decode_header
-import webbrowser
+#This script is made for downloading the email-attachments sent and storing them in the folder.
 import os
+import email
+import imaplib
+import webbrowser
+from datetime import date
+from email.header import decode_header
 
 #account credentials
 username = 'ujjwalrustagi@gmail.com'
@@ -19,7 +21,14 @@ imap.login(username, password)
 status, messages = imap.select('INBOX')
 
 #select top 4 messages to download each day
-N = 5
+N = 4
+
+today = date.today().strftime('%d-%m-%Y')
+print(today)
+
+path = os.getcwd()+"\..\..\SiteSheets"
+os.chdir(path)
+os.mkdir(today)
 
 #total number of messages
 messages = int(messages[0])
@@ -49,7 +58,7 @@ for i in range(messages, messages-N, -1):
 				for part in msg.walk():
 					content_type = part.get_content_type()
 					content_disposition = str(part.get("Content-Disposition"))
-
+					body = None
 					try:
 						body = part.get_payload(decode=True).decode()
 					except:
@@ -57,13 +66,16 @@ for i in range(messages, messages-N, -1):
 
 					if content_type == "text/plain" and "attachment" not in content_disposition:
 						print(body)
+
 					elif "attachment" in content_disposition:
 						filename = part.get_filename()
+						
 						if filename:
 							folder_name = clean(subject)
 							if not os.path.isdir(folder_name):
 								os.mkdir(folder_name)
 
+							# filepath should be date/folder_name/filename
 							filepath = os.path.join(folder_name, filename)
 
 							open(filepath, "wb").write(part.get_payload(decode=True))
@@ -73,24 +85,12 @@ for i in range(messages, messages-N, -1):
 
 				if content_type == "text/plain":
 					print(body)
-
-			
-			####################################################################################
-			######The below code is for saving .html files not to be used in this software######
-			####################################################################################
-
-			# if content_type == "text/html":
-			# 	folder_name = clean(subject)
-			# 	if not os.path.isdir(folder_name):
-			# 		os.mkdir(folder_name)
-
-			# 	filename = "index.html"
-			# 	filepath = os.path.join(folder_name, filename)
-
-			# 	open(filepath, "w").write(body)
-			# 	webbrowser.open(filepath)
 			print("^"*100)
 
 #close the connection and logout
 imap.close()
 imap.logout()
+
+#reposition the directories at the end
+path = os.getcwd() + "\..\MISDashboard\FileSaver"
+os.chdir(path)
