@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-))i4k@%+djhs03l&ka7zcs_%18i962j2l$3s9rr$pmvay(s5uz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,3 +126,5 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TIME_ZONE = 'Asia/Kolkata'
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']

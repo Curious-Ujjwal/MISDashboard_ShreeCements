@@ -1,12 +1,12 @@
-import os
-from pathlib import Path
-from os import path
-from datetime import date
+from django.contrib import admin
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
-today = date.today().strftime('%d-%m-%Y')
-print(today)
+username = 'admin'
+password = 'enter@SC21'
 
-path = os.getcwd()+"\..\..\SiteSheets"
-os.chdir(path)
-print(os.getcwd())
-# os.mkdir(today)
+user = authenticate(username, password)
+
+
+#Open the Django database
+#Write the 
