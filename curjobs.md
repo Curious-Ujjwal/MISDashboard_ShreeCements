@@ -2,10 +2,10 @@
 
 -> Sub-feature 1 : 
 
- - Auto-opening of emails
- - Read the emails with the attachments
- - Download those attachments 
- - Store them in a folder
+ - Auto-opening of emails -- DONE
+ - Read the emails with the attachments -- DONE
+ - Download those attachments -- DONE
+ - Store them in a folder -- DONE
 
 -> Auto opening of emails through smtplib  -- DONE
 -> Download the .csv/.xlsx files from the mails -- DONE
@@ -21,7 +21,7 @@
 -> Batch file for automating downloads -- DONE
    (Make action on Task Scheduler to execute this batch file)
 -> Collecting the CSV data of four sheets in different variables -- 
--> Declutter all the data from those variables, just keeping only data-containing cells --
--> Then, the function for preparing the combined data sheet in the required format --
--> Function for storing that in Django database. [includes authentication, automation of Session cookie] --
--> Function to pass the data from the final-sheet(s) onto the webpage --
+-> Declutter all the data from those variables, just keeping only data-containing cells -- 
+-> Then, the function for preparing the combined data sheet in the required format -- 
+-> Function for storing that in Django database. [includes authentication, automation of Session cookie] -- 
+-> Function to pass the data from the final-sheet(s) onto the webpage -- 
