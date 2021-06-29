@@ -18,7 +18,8 @@
                     /Site4Data
                 Date in default format
 -> Store the files according to the data-timestamp -- DONE
--> Batch file for automating downloads -- 
+-> Batch file for automating downloads -- DONE
+   (Make action on Task Scheduler to execute this batch file)
 -> Collecting the CSV data of four sheets in different variables -- 
 -> Declutter all the data from those variables, just keeping only data-containing cells --
 -> Then, the function for preparing the combined data sheet in the required format --

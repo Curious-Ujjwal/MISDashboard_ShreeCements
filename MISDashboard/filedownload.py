@@ -6,7 +6,7 @@ import webbrowser
 from datetime import date
 
 from django.conf import settings
-from views import download_files
+from FileSaver.views import download_files
 
 from email.header import decode_header
 

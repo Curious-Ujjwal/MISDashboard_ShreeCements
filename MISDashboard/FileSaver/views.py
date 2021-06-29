@@ -23,13 +23,13 @@ def download_files():
 	status, messages = imap.select('INBOX')
 
 	#select top 4 messages to download each day
-	N = 1
+	N = 4
 
 	today = date.today().strftime('%d-%m-%Y')
 	print(today)
 
 	#search for the SiteSheets folder in the MIS project
-	path = os.getcwd()+"\..\..\SiteSheets"
+	path = os.getcwd()+"\..\SiteSheets"
 	os.chdir(path)
 	os.mkdir(today)			#move to the SiteSheets foler
 
