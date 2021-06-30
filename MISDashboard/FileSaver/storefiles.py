@@ -1,25 +1,46 @@
-#This script is made for storing files/attachments downloaded with the help of
-#filedownload.py into the DJANGO database.
+import os
+from datetime import date
+import pandas as pd
 
-import requests	
-from bs4 import BeautifulSoup
-headers = {
-	'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
-}
-with requests.Session() as s:
+#sheet variables
+site1 = None
+site2 = None
+site3 = None
+site4 = None
 
-	#                    -----------------                   
-	#                   -!-!-!-!-!-!-!-!-!-                  
-	# url needs to be updated after this software is deployed
-	#                   -!-!-!-!-!-!-!-!-!-                      
-	#                    -----------------                       
-	
-	url = 'http://localhost:8000/admin/login/?next=/admin/'
-	r = s.get(url, headers=headers)
-	print(r.content)
-	# soup = BeautifulSoup(r.content, 'html5lib')
-	# soup.find('input', attrs={''})
-	'csrfmiddlewaretoken': 'GewlpLRt1nz6CHxofNZqFUKsjjhe6LEro1DHTnjd73B6CHW8OkWkzP1JWSK1IfHj'
-	'username': 'admin'
-	'password': 'SCA@2021'
-	'next': '/admin/'
+#remember to Nullify the sitedatesheet values
+today = date.today().strftime('%d-%m-%Y')
+path = os.getcwd() + "\..\..\SiteSheets\\" + today
+os.chdir(path)
+
+folderlist = [str(i) for i in os.listdir(path='.')]
+path_to_folder = None
+
+i=0
+#iterate over the 4 folders for 4 sites
+for folder in folderlist:
+	if folder is not None:
+		path = os.getcwd() + "\\" + folder
+		os.chdir(path)
+		filelist = [str(file) for file in os.listdir(path='.')]
+		file = filelist[0]
+		path = os.getcwd() + "\\" + file
+
+		if(i == 0):
+			site1 = pd.read_excel(path, skiprows=3)
+			i += 1
+			print(site1)
+		elif(i == 1):
+			site2 = pd.read_excel(path, skiprows=3)
+			i += 1
+			print(site2)
+		elif(i == 2):
+			site3 = pd.read_excel(path, skiprows=3)
+			i += 1
+			print(site3)
+		else:
+			site4 = pd.read_excel(path, skiprows=3)
+			i += 1
+			print(site4)
+		path = os.getcwd() + "\..\\"
+		os.chdir(path)

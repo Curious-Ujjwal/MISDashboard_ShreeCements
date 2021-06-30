@@ -2,6 +2,7 @@ import os
 import email
 import imaplib
 import webbrowser
+import pandas as pd
 from datetime import date
 from email.header import decode_header
 from django.contrib.auth import login, authenticate
@@ -100,7 +101,6 @@ def download_files():
 
 #Functions to be coded in views:
 # Files have been downloaded, so I should not make any double copy by storing them in database.
-
 # Functions that I should focus on:
 # 1. Collecting the CSV data of four sheets in different variables.
 # 2. Declutter all the data from those variables, just keeping only data-containing cells.
@@ -108,3 +108,47 @@ def download_files():
 # 4. Function for storing that in Django database. [includes authentication, automation of Session cookie]
 # 5. Function to pass the data from the final-sheet(s) onto the webpage.
 # 6. Batch file for automating downloads.
+
+#sheet variables
+site1 = None
+site2 = None
+site3 = None
+site4 = None
+
+#remember to Nullify the sitedatesheet values
+def sheet_variables():
+	today = date.today().strftime('%d-%m-%Y')
+	path = os.getcwd() + "\..\..\SiteSheets\\" + today
+	os.chdir(path)
+	
+	folderlist = [str(i) for i in os.listdir(path='.')]
+	path_to_folder = None
+	
+	i=0
+	#iterate over the 4 folders for 4 sites
+	for folder in folderlist:
+		if folder is not None:
+			path = os.getcwd() + "\\" + folder
+			os.chdir(path)
+			filelist = [str(file) for file in os.listdir(path='.')]
+			file = filelist[0]
+			path = os.getcwd() + "\\" + file
+
+			if(i == 0):
+				site1 = pd.read_excel(path, skiprows=3)
+				i += 1
+				print(site1)
+			elif(i == 1):
+				site2 = pd.read_excel(path, skiprows=3)
+				i += 1
+				print(site2)
+			elif(i == 2):
+				site3 = pd.read_excel(path, skiprows=3)
+				i += 1
+				print(site3)
+			else:
+				site4 = pd.read_excel(path, skiprows=3)
+				i += 1
+				print(site4)
+			path = os.getcwd() + "\..\\"
+			os.chdir(path)

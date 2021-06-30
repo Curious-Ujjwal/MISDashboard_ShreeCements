@@ -21,8 +21,13 @@
 -> Batch file for automating downloads -- DONE
    (Make action on Task Scheduler to execute this batch file)
 -> Make models for final CSV datesheet --
--> Collecting the CSV data of four sheets in different variables -- 
+-> Collecting the CSV data of four sheets in different variables -- DONE
 -> Declutter all the data from those variables, just keeping only data-containing cells -- 
 -> Then, the function for preparing the combined data sheet in the required format -- 
 -> Function for storing that in Django database. [includes authentication, automation of Session cookie] -- 
 -> Function to pass the data from the final-sheet(s) onto the webpage -- 
+
+##Features to be tested on the server while deploying:
+-> Make Task Scheduler to execute the batch file(filestorehelp.bat) every day
+-> Make Task Scheduler to execute the batch file for cleanup.py
+-> Organise the url for later tasks, LOL
