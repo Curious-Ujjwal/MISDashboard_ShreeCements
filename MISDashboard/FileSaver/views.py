@@ -102,8 +102,8 @@ def download_files():
 #Functions to be coded in views:
 # Files have been downloaded, so I should not make any double copy by storing them in database.
 # Functions that I should focus on:
-# 1. Collecting the CSV data of four sheets in different variables.
-# 2. Declutter all the data from those variables, just keeping only data-containing cells.
+# 1. Collecting the CSV data of four sheets in different variables. -- DONE
+# 2. Declutter all the data from those variables, just keeping only data-containing cells. -- DONE
 # 3. Then, the function for preparing the combined data sheet in the required format.
 # 4. Function for storing that in Django database. [includes authentication, automation of Session cookie]
 # 5. Function to pass the data from the final-sheet(s) onto the webpage.
@@ -152,3 +152,6 @@ def sheet_variables():
 				print(site4)
 			path = os.getcwd() + "\..\\"
 			os.chdir(path)
+
+	#code lines to call the function for computing the combined sheet
+	site1 = site2 = site3 = site4 = None
