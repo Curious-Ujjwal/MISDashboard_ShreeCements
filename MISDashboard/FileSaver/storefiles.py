@@ -27,26 +27,26 @@ for folder in folderlist:
 		path = os.getcwd() + "\\" + file
 
 		if(i == 0):
-			site1 = pd.read_excel(path, skiprows=3)
+			site1 = pd.read_excel(path, skiprows=6)
 			i += 1
 			print(site1)
 			print('\n')
 		elif(i == 1):
-			site2 = pd.read_excel(path, skiprows=5)
+			site2 = pd.read_excel(path, skiprows=6)
 			i += 1
 			print(site2)
 			print('\n')
 		elif(i == 2):
-			site3 = pd.read_excel(path, skiprows=3)
+			site3 = pd.read_excel(path, skiprows=6)
 			i += 1
 			print(site3)
 			print('\n')
 		else:
-			site4 = pd.read_excel(path, skiprows=3)
+			site4 = pd.read_excel(path, skiprows=6)
 			i += 1
 			print(site4)
 			print('\n')
 		path = os.getcwd() + "\..\\"
 		os.chdir(path)
 
-		site1 = site2 = site3 = site4 = None
+site1 = site2 = site3 = site4 = None
