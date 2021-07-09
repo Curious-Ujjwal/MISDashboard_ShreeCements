@@ -23,8 +23,9 @@ def download_files():
 
 	status, messages = imap.select('INBOX')
 
-	#select top 4 messages to download each day
-	N = 4
+	#select top 9 messages to download each day
+	# 5 site reports and 4 wms reports
+	N = 9
 
 	today = date.today().strftime('%d-%m-%Y')
 	print(today)
@@ -32,7 +33,7 @@ def download_files():
 	#search for the SiteSheets folder in the MIS project
 	path = os.getcwd()+"\..\SiteSheets"
 	os.chdir(path)
-	os.mkdir(today)			#move to the SiteSheets foler
+	os.mkdir(today)			#move to the SiteSheets folder
 
 	#total number of messages
 	messages = int(messages[0])
@@ -73,7 +74,14 @@ def download_files():
 
 						elif "attachment" in content_disposition:
 							filename = part.get_filename()
-							
+
+							# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ #
+							# the specification for storing files and folders is missing
+							# kindly complete this after the task of calculating the values if finished
+							# folder_name pattern and file name pattern should be specified
+							# folder names should consist of the site first name
+							# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ #
+
 							if filename:
 								folder_name = clean(subject)
 								if not os.path.isdir(folder_name):
@@ -102,20 +110,25 @@ def download_files():
 #Functions to be coded in views:
 # Files have been downloaded, so I should not make any double copy by storing them in database.
 # Functions that I should focus on:
-# 1. Collecting the CSV data of four sheets in different variables. -- DONE
-# 2. Declutter all the data from those variables, just keeping only data-containing cells. -- DONE
-# 3. Then, the function for preparing the combined data sheet in the required format.
-# 4. Function for storing that in Django database. [includes authentication, automation of Session cookie]
-# 5. Function to pass the data from the final-sheet(s) onto the webpage.
-# 6. Batch file for automating downloads.
+# 1. Prepare the model for the final sheet first
+# 2. Code the calculations part for our Final Sheet 
+# 3. Function to pass the data from the final-sheet(s) onto the webpage.
+# 4. Batch file for automating downloads.
 
-#sheet variables
-site1 = None
+#Site sheet and WMS sheet variables
+site1 = None 
 site2 = None
 site3 = None
 site4 = None
+site5 = None
 
+wmsC = None
+wmsJ = None
+wmsP = None
+wmsR = None
 #remember to Nullify the sitedatesheet values
+
+
 def sheet_variables():
 	today = date.today().strftime('%d-%m-%Y')
 	path = os.getcwd() + "\..\..\SiteSheets\\" + today
@@ -125,7 +138,10 @@ def sheet_variables():
 	path_to_folder = None
 	
 	i=0
-	#iterate over the 4 folders for 4 sites
+	#iterate over the 5 folders for 5 sites
+	#and then iterate ovr the 4 folders for 4 WMS reports and 
+	#beawar WMS parameters are included in its own report
+
 	for folder in folderlist:
 		if folder is not None:
 			path = os.getcwd() + "\\" + folder
@@ -146,12 +162,25 @@ def sheet_variables():
 				site3 = pd.read_excel(path, skiprows=3)
 				i += 1
 				print(site3)
-			else:
+			elif(i == 3):
 				site4 = pd.read_excel(path, skiprows=3)
-				i += 1
+				i+=1
 				print(site4)
+			elif(i == 4):
+				wmsC = pd.read_excel(path, skiprows=3)
+				i+=1
+				print(wmsC)
+			elif(i == 5):
+				wmsJ = pd.read_excel(path, skiprows=3)
+				i+=1
+				print(wmsJ)
+			elif(i == 6):
+				wmsP = pd.read_excel(path, skiprows=3)
+				i+=1
+				print(wmsP)
+			else:
+				wmsR = pd.read_excel(path, skiprows=3)
+				i += 1
+				print(wmsR)
 			path = os.getcwd() + "\..\\"
 			os.chdir(path)
-
-	#code lines to call the function for computing the combined sheet
-	site1 = site2 = site3 = site4 = None

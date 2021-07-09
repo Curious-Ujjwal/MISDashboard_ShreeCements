@@ -3,21 +3,30 @@ from datetime import date
 import pandas as pd
 
 #sheet variables
-site1 = None
-site2 = None
-site3 = None
-site4 = None
-
-#remember to Nullify the sitedatesheet values
 today = date.today().strftime('%d-%m-%Y')
-path = os.getcwd() + "\..\..\SiteSheets\\" + today
+# path = os.getcwd() + "\..\..\SiteSheets\\" + today
+path = os.getcwd() + "\..\..\SiteSheets\\" + '30-06-2021'
 os.chdir(path)
 
 folderlist = [str(i) for i in os.listdir(path='.')]
 path_to_folder = None
 
 i=0
-#iterate over the 4 folders for 4 sites
+#iterate over the 5 folders for 5 sites
+#and then iterate ovr the 4 folders for 4 WMS reports and 
+#beawar WMS parameters are included in its own report
+
+site1 = None 
+site2 = None
+site3 = None
+site4 = None
+site5 = None
+
+wmsC = None
+wmsJ = None
+wmsP = None
+wmsR = None
+
 for folder in folderlist:
 	if folder is not None:
 		path = os.getcwd() + "\\" + folder
@@ -27,26 +36,36 @@ for folder in folderlist:
 		path = os.getcwd() + "\\" + file
 
 		if(i == 0):
-			site1 = pd.read_excel(path, skiprows=6)
+			site1 = pd.read_excel(path, skiprows=3)
 			i += 1
 			print(site1)
-			print('\n')
 		elif(i == 1):
-			site2 = pd.read_excel(path, skiprows=6)
+			site2 = pd.read_excel(path, skiprows=3)
 			i += 1
 			print(site2)
-			print('\n')
 		elif(i == 2):
-			site3 = pd.read_excel(path, skiprows=6)
+			site3 = pd.read_excel(path, skiprows=3)
 			i += 1
 			print(site3)
-			print('\n')
-		else:
-			site4 = pd.read_excel(path, skiprows=6)
-			i += 1
+		elif(i == 3):
+			site4 = pd.read_excel(path, skiprows=3)
+			i+=1
 			print(site4)
-			print('\n')
+		elif(i == 4):
+			wmsC = pd.read_excel(path, skiprows=3)
+			i+=1
+			print(wmsC)
+		elif(i == 5):
+			wmsJ = pd.read_excel(path, skiprows=3)
+			i+=1
+			print(wmsJ)
+		elif(i == 6):
+			wmsP = pd.read_excel(path, skiprows=3)
+			i+=1
+			print(wmsP)
+		else:
+			wmsR = pd.read_excel(path, skiprows=3)
+			i += 1
+			print(wmsR)
 		path = os.getcwd() + "\..\\"
 		os.chdir(path)
-
-site1 = site2 = site3 = site4 = None
