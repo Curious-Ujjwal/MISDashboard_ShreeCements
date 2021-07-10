@@ -1,18 +1,3 @@
-table {
-	display: table;
-	table-layout: fixed;
-	width: 100px;
-}
-
-.column-date {
-	width: 55px;
-}
-
-.column-site1, .column-site2, .column-site3, .column-site4{
-	width: 105px;
-	display: table-cell;
-}
-
-td.field-site1, td.field-site2, td.field-site3, td.field-site4{
-	word-wrap: break-word;
+#header {
+	background-color: red;
 }
