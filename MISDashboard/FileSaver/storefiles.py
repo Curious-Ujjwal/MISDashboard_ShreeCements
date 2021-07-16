@@ -38,34 +38,39 @@ for folder in folderlist:
 		if(i == 0):
 			site1 = pd.read_excel(path, skiprows=3)
 			i += 1
-			print(site1)
+			# print(site1)
 		elif(i == 1):
 			site2 = pd.read_excel(path, skiprows=3)
 			i += 1
-			print(site2)
+			# print(site2)
 		elif(i == 2):
 			site3 = pd.read_excel(path, skiprows=3)
 			i += 1
-			print(site3)
+			# print(site3)
 		elif(i == 3):
 			site4 = pd.read_excel(path, skiprows=3)
 			i+=1
-			print(site4)
+			# print(site4)
 		elif(i == 4):
 			wmsC = pd.read_excel(path, skiprows=3)
 			i+=1
-			print(wmsC)
+			# print(wmsC)
 		elif(i == 5):
 			wmsJ = pd.read_excel(path, skiprows=3)
 			i+=1
-			print(wmsJ)
+			# print(wmsJ)
 		elif(i == 6):
 			wmsP = pd.read_excel(path, skiprows=3)
 			i+=1
-			print(wmsP)
+			# print(wmsP)
 		else:
 			wmsR = pd.read_excel(path, skiprows=3)
 			i += 1
-			print(wmsR)
+			# print(wmsR)
 		path = os.getcwd() + "\..\\"
 		os.chdir(path)
+
+print("Hello")
+site1 = site1.to_numpy()
+print(site1)
+print("Hello")
