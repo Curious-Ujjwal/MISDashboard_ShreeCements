@@ -7,6 +7,9 @@ from datetime import date
 from email.header import decode_header
 from django.contrib.auth import login, authenticate
 import numpy
+from defineconstants import *
+from .models import *
+
 
 #account credentials
 username = 'ujjwalrustagi@gmail.com'
@@ -112,9 +115,9 @@ def download_files():
 # Files have been downloaded, so I should not make any double copy by storing them in database.
 # Functions that I should focus on:
 # 1. Prepare the model for the final sheet first -- DONE
-# 2. Code the calculations part for our Final Sheet 
+# 2. Code the calculations part for our Final Sheet -- DONE
 # 3. Function to pass the data from the final-sheet(s) onto the webpage.
-# 4. Batch file for automating downloads.
+# 4. Batch file for automating downloads. -- DONE
 
 #Site sheet and WMS sheet variables
 site1 = None 
@@ -128,13 +131,6 @@ wmsJ = None
 wmsP = None
 wmsR = None
 #remember to Nullify the sitedatesheet values
-
-#plant constants
-beawar_constant = 62
-panipat_constant = 1247.4
-roorkee_constant = 999.4
-jharkhand_constant = 1998.8
-castamet_constant = 999.37
 
 def sheet_variables():
 	today = date.today().strftime('%d-%m-%Y')
@@ -206,68 +202,63 @@ def calculate_values():
 	wmsP = wmsP.to_numpy()
 	wmsR = wmsR.to_numpy()
 
+	#these functions are called to save the latest data in the database
 	calculate_panipat_values()
 	calculate_castamet_values()
 	calculate_beawar_values()
 	calculate_roorkee_values()
 	calculate_jharkhand_values()
 
-	# return 
+	#then make a call to open the dashboard main page instead of pass statement
 	pass
+
+#return the no. of days in a year based on if it is a leap/non-leap year
+# true -> leap year
+# false -> non-leap year
+def calculate_days(date_year):
+	if (date_year%4) == 0:
+		if (date_year%100) == 0:
+			if(date_year%400) == 0:
+				return true
+			else:
+				return false
+		else:
+			return true
+	else:
+		return false
 
 #Day and month from date
 today = date.today().strftime('%d-%m-%Y')
 date_day = int(today[:2])
 date_month = int(today[3:5])
 date_year = int(today[6:])
-days_in_the_year = None
-
-def calculate_days(date_year):
-	if (date_year%4) == 0:
-		if (date_year%100) == 0:
-			if(date_year%400) == 0:
-				days_in_the_year = 366
-			else:
-				days_in_the_year = 365
-		else:
-			days_in_the_year = 366
-	else:
-		days_in_the_year = 365
+days_in_the_year = 366 if calculate_days(date_year) else 365
 
 #write the function for days_elapsed after the starting date of the year
 days_elapsed = days_in_the_year
 
 #Data used for calculating seasonal tilt
 #Admin can modify panipat_global_inclide for any excpected changes
+panipat1_seasonal_tilt = None
+panipat2_seasonal_tilt = None
+roorkee_seasonal_tilt = None
+jharkhand_seasonal_tilt = None
+castamet_5deg_fix_tilt = None
+beawar_seasonal_tilt = b_beawar_seasonal_tilt
 
-#make a .py file of these constants and import these at the starting of views
-#so that everydaythe calculation time is not consumed for report updation
-panipat1_global_inclide = [164, 178, 210, 208, 213, 185, 164, 162, 174, 194, 183, 172]
-panipat2_global_inclide = [118, 140, 187, 203, 213, 186, 166, 162, 165, 162, 132, 117]
-month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-panipat1_constant_list = [0.944530409437306, 0.9529803175127, 0.954555380136122, 0.954300017174192, 0.953091560307309, 0.947753511668245, 0.939540661806116, 0.938834687371429, 0.945421487506378, 0.950208497025997, 0.965168644285554, 0.946435450279757]
-panipat1_constant_list = [0.921754941158239, 0.9393848287515, 0.948137771519821, 0.952435617251985, 0.952208331023773, 0.947311474902127, 0.939029505439681, 0.937779478459364, 0.941581090707797, 0.939360736441002, 0.930310436479281, 0.920679618774834]
-panipat1_seasonal_tilt = [0]*12
-panipat2_seasonal_tilt = [0]*12
+if(calculate(date_year)):
+	panipat1_seasonal_tilt = lp_panipat1_seasonal_tilt
+	panipat2_seasonal_tilt = lp_panipat2_seasonal_tilt
+	roorkee_seasonal_tilt = lp_roorkee_seasonal_tilt
+	jharkhand_seasonal_tilt = lp_jharkhand_seasonal_tilt
+	castamet_5deg_fix_tilt = lp_castamet_5deg_fix_tilt
 
-
-for i in range(12):
-	 if i==1 and days_in_the_year==366:
-		panipat1_seasonal_tilt[i] = ((panipat1_global_inclide[i]*panipat1_constant_list[i])/month_days[i]+1)
-	else:
-		panipat1_seasonal_tilt[i] = ((panipat1_global_inclide[i]*panipat1_constant_list[i])/month_days[i])
-
-
-for i in range(12):
-	if i==1 and days_in_the_year==366:
-		panipat2_seasonal_tilt[i] = ((panipat2_global_inclide[i]*panipat2_constant_list[i])/month_days[i]+1)
-	else:
-		panipat2_seasonal_tilt[i] = ((panipat2_global_inclide[i]*panipat2_constant_list[i])/month_days[i])
-
-#error correction for months of April, May, June
-panipat1_seasonal_tilt[3] = 6.23322506140001-0.005
-panipat1_seasonal_tilt[4] = panipat_seasonal_tilt[4]-0.31
-panipat1_seasonal_tilt[5] = 5.90162280384445+0.01544443
+else:
+	panipat1_seasonal_tilt = nlp_panipat1_seasonal_tilt
+	panipat2_seasonal_tilt = nlp_panipat2_seasonal_tilt
+	roorkee_seasonal_tilt = nlp_roorkee_seasonal_tilt
+	jharkhand_seasonal_tilt = nlp_jharkhand_seasonal_tilt
+	castamet_5deg_fix_tilt = nlp_castamet_5deg_fix_tilt
 
 
 def calculate_panipat_values():
@@ -360,21 +351,53 @@ def calculate_panipat_values():
 	yearly_dust_loss_plf = ((float)yearly_dust_loss_kwh/(panipat_constant*24*days_elapsed))*100
 	yearly_misc_loss = yearly_generation_loss-yearly_irradiance_loss-yearly_deemed_loss_plf-yearly_grid_outage_loss_plf-yearly_bd_loss_plf-yearly_dust_loss_plf
 
-
-castamet_global_inclide = [142.1, 159, 197.7, 209.4, 218.8, 188.4, 168, 159.2, 174.8, 173.8, 136.2, 136.1]
-castamet_constant_list = [0.988927347522672, 0.992909399757744, 0.993488062490747, 0.994861378142273, 0.994822772991885, 0.994217824725635, 0.99215753947913, 0.991787606021159, 0.991609222534777, 0.991348933037635, 0.987935230884706, 0.983498304458082]
-castamet_5deg_fix_tilt = [0]*12
-
-for i in range(12):
-	if i==1 and days_in_the_year==366:
-		castamet_5deg_fix_tilt[i] = ((castamet_global_inclide[i]*castamet_constant_list[i])/month_days[i]+1)
-	else:
-		castamet_5deg_fix_tilt[i] = ((castamet_global_inclide[i]*castamet_constant_list[i])/month_days[i])
-
-#Error correction code for Castamet Site
-castamet_5deg_fix_tilt[3] = 6.8158
-castamet_5deg_fix_tilt[4] = castamet_5deg_fix_tilt[4] - 0.04
-castamet_5deg_fix_tilt[5] = castamet_5deg_fix_tilt[5] - 0.044
+	p = Panipat_Sheet(date=today, 
+					  daily_target_generation=today_target_generation_value,
+					  daily_actual_generation=today_actual_generation_value,
+					  irradiation_target_plf=0.0,
+					  kwh_target_plf=0.0,
+					  monthly_target_generation=monthly_target_generation_value,
+					  monthly_actual_generation=monthly_actual_generation_value,
+					  yearly_target_generation=yearly_target_generation_value,
+					  yearly_actual_generation=yearly_actual_generation_value,
+					  daily_target_plf=today_target_plf,
+					  daily_actual_plf=today_actual_plf,
+					  monthly_target_plf=monthly_target_plf,
+					  monthly_actual_plf=monthly_actual_plf,
+					  yearly_target_plf=yearly_target_plf,
+					  yearly_actual_plf=yearly_actual_plf,
+					  daily_target_performance_ratio=today_target_performace_ratio,
+					  daily_actual_performance_ratio=today_actual_performance_ratio,
+					  monthly_target_performance_ratio=monthly_target_performance_ratio,
+					  monthly_actual_performance_ratio=monthly_actual_performance_ratio,
+					  yearly_target_performance_ratio=yearly_target_performance_ratio,
+					  yearly_actual_performance_ratio=yearly_actual_performance_ratio,
+					  daily_target_irradiance=today_target_irradiance,
+					  daily_actual_irradiance=today_actual_irradiance,
+					  monthly_target_irradiance=monthly_target_irradiance,
+					  monthly_actual_irradiance=monthly_actual_irradiance,
+					  yearly_target_irradiance=yearly_target_irradiance,
+					  yearly_actual_irradiance=yearly_actual_irradiance,
+					  daily_irradiance_loss=today_irradiance_loss,
+					  monthly_irradiance_loss=monthly_irradiance_loss,
+					  yearly_irradiance_loss=yearly_irradiance_loss,
+					  daily_deemed_loss=today_deemed_loss_plf,
+					  monthly_deemed_loss=monthly_deemed_loss_plf,
+					  yearly_deemed_loss=yearly_deemed_loss_plf,
+					  daily_grid_loss=today_grid_outage_loss_plf,
+					  monthly_grid_loss=monthly_grid_outage_loss_plf,
+					  yearly_grid_loss=yearly_grid_outage_loss_plf,
+					  daily_bd_loss=today_bd_loss_plf,
+					  monthly_bd_loss=monthly_bd_loss_plf,
+					  yearly_bd_loss=yearly_bd_loss_plf,
+					  daily_dust_loss=today_dust_loss_plf,
+					  monthly_dust_los=monthly_dust_loss_plf,
+					  yearly_dust_loss=yearly_dust_loss_plf,
+					  daily_misc_loss=today_misc_loss,
+					  monthly_misc_loss=monthly_misc_loss,
+					  yearly_misc_loss=yearly_misc_loss
+		)
+	p.save()
 
 
 def calculate_castamet_values():
@@ -466,7 +489,54 @@ def calculate_castamet_values():
 	yearly_dust_loss_plf = ((float)yearly_dust_loss_kwh/(castamet_constant*24*days_elapsed))*100
 	yearly_misc_loss = yearly_generation_loss-yearly_irradiance_loss-yearly_deemed_loss_plf-yearly_grid_outage_loss_plf-yearly_bd_loss_plf-yearly_dust_loss_plf
 
-beawar_seasonal_tilt = [5.55969262291147, 6.37028281140042, 6.307165627972, 6.74832287692192, 6.31875435673262, 6.68, 4.88754635479502, 4.54857603854664, 5.08638962577947, 5.91604603230079, 5.28697120607801, 5.47857152158707]
+	c = Castamet_Sheet(date=today, 
+					  daily_target_generation=today_target_generation_value,
+					  daily_actual_generation=today_actual_generation_value,
+					  irradiation_target_plf=0.0,
+					  kwh_target_plf=0.0,
+					  monthly_target_generation=monthly_target_generation_value,
+					  monthly_actual_generation=monthly_actual_generation_value,
+					  yearly_target_generation=yearly_target_generation_value,
+					  yearly_actual_generation=yearly_actual_generation_value,
+					  daily_target_plf=today_target_plf,
+					  daily_actual_plf=today_actual_plf,
+					  monthly_target_plf=monthly_target_plf,
+					  monthly_actual_plf=monthly_actual_plf,
+					  yearly_target_plf=yearly_target_plf,
+					  yearly_actual_plf=yearly_actual_plf,
+					  daily_target_performance_ratio=today_target_performace_ratio,
+					  daily_actual_performance_ratio=today_actual_performance_ratio,
+					  monthly_target_performance_ratio=monthly_target_performance_ratio,
+					  monthly_actual_performance_ratio=monthly_actual_performance_ratio,
+					  yearly_target_performance_ratio=yearly_target_performance_ratio,
+					  yearly_actual_performance_ratio=yearly_actual_performance_ratio,
+					  daily_target_irradiance=today_target_irradiance,
+					  daily_actual_irradiance=today_actual_irradiance,
+					  monthly_target_irradiance=monthly_target_irradiance,
+					  monthly_actual_irradiance=monthly_actual_irradiance,
+					  yearly_target_irradiance=yearly_target_irradiance,
+					  yearly_actual_irradiance=yearly_actual_irradiance,
+					  daily_irradiance_loss=today_irradiance_loss,
+					  monthly_irradiance_loss=monthly_irradiance_loss,
+					  yearly_irradiance_loss=yearly_irradiance_loss,
+					  daily_deemed_loss=today_deemed_loss_plf,
+					  monthly_deemed_loss=monthly_deemed_loss_plf,
+					  yearly_deemed_loss=yearly_deemed_loss_plf,
+					  daily_grid_loss=today_grid_outage_loss_plf,
+					  monthly_grid_loss=monthly_grid_outage_loss_plf,
+					  yearly_grid_loss=yearly_grid_outage_loss_plf,
+					  daily_bd_loss=today_bd_loss_plf,
+					  monthly_bd_loss=monthly_bd_loss_plf,
+					  yearly_bd_loss=yearly_bd_loss_plf,
+					  daily_dust_loss=today_dust_loss_plf,
+					  monthly_dust_los=monthly_dust_loss_plf,
+					  yearly_dust_loss=yearly_dust_loss_plf,
+					  daily_misc_loss=today_misc_loss,
+					  monthly_misc_loss=monthly_misc_loss,
+					  yearly_misc_loss=yearly_misc_loss
+		)
+	c.save()
+
 
 def calculate_beawar_values():
 	#Daily parameter values
@@ -558,22 +628,53 @@ def calculate_beawar_values():
 	yearly_dust_loss_plf = ((float)yearly_dust_loss_kwh/(beawar_constant*24*days_elapsed))*100
 	yearly_misc_loss = yearly_generation_loss-yearly_irradiance_loss-yearly_deemed_loss_plf-yearly_grid_outage_loss_plf-yearly_bd_loss_plf-yearly_dust_loss_plf
 
-
-roorkee_global_inclide = [163.9, 179.2, 213.2, 201.4, 210.3, 182.1, 157.7, 159.8, 154.1, 206.8, 200.5, 185.6]
-roorkee_constant_list = [0.944395938091124, 0.953324713401739, 0.955421528486887, 0.953051798460278, 0.952698901631499, 0.947261197993877, 0.937324869114803, 0.93845701311761, 0.938736592192122, 0.953461313791492, 0.954948746043538, 0.950556500465678]
-roorkee_seasonal_tilt = [0]*12
-
-for i in range(12):
-	if i==1 and days_in_the_year==366:
-		#in case of month of February in leap year
-		roorkee_seasonal_tilt[i] = ((roorkee_global_inclide[i]*roorkee_constant_list[i])/month_days[i]+1)
-	else:
-		roorkee_seasonal_tilt[i] = ((roorkee_global_inclide[i]*roorkee_constant_list[i])/month_days[i])
-
-roorkee_seasonal_tilt[3] = 5.85394388888889
-roorkee_seasonal_tilt[4] = roorkee_seasonal_tilt[4] - 0.075
-roorkee_seasonal_tilt[5] = 6.09094888888889 - 0.36
-
+	b = Beawar_Sheet(date=today, 
+					  daily_target_generation=today_target_generation_value,
+					  daily_actual_generation=today_actual_generation_value,
+					  irradiation_target_plf=0.0,
+					  kwh_target_plf=0.0,
+					  monthly_target_generation=monthly_target_generation_value,
+					  monthly_actual_generation=monthly_actual_generation_value,
+					  yearly_target_generation=yearly_target_generation_value,
+					  yearly_actual_generation=yearly_actual_generation_value,
+					  daily_target_plf=today_target_plf,
+					  daily_actual_plf=today_actual_plf,
+					  monthly_target_plf=monthly_target_plf,
+					  monthly_actual_plf=monthly_actual_plf,
+					  yearly_target_plf=yearly_target_plf,
+					  yearly_actual_plf=yearly_actual_plf,
+					  daily_target_performance_ratio=today_target_performace_ratio,
+					  daily_actual_performance_ratio=today_actual_performance_ratio,
+					  monthly_target_performance_ratio=monthly_target_performance_ratio,
+					  monthly_actual_performance_ratio=monthly_actual_performance_ratio,
+					  yearly_target_performance_ratio=yearly_target_performance_ratio,
+					  yearly_actual_performance_ratio=yearly_actual_performance_ratio,
+					  daily_target_irradiance=today_target_irradiance,
+					  daily_actual_irradiance=today_actual_irradiance,
+					  monthly_target_irradiance=monthly_target_irradiance,
+					  monthly_actual_irradiance=monthly_actual_irradiance,
+					  yearly_target_irradiance=yearly_target_irradiance,
+					  yearly_actual_irradiance=yearly_actual_irradiance,
+					  daily_irradiance_loss=today_irradiance_loss,
+					  monthly_irradiance_loss=monthly_irradiance_loss,
+					  yearly_irradiance_loss=yearly_irradiance_loss,
+					  daily_deemed_loss=today_deemed_loss_plf,
+					  monthly_deemed_loss=monthly_deemed_loss_plf,
+					  yearly_deemed_loss=yearly_deemed_loss_plf,
+					  daily_grid_loss=today_grid_outage_loss_plf,
+					  monthly_grid_loss=monthly_grid_outage_loss_plf,
+					  yearly_grid_loss=yearly_grid_outage_loss_plf,
+					  daily_bd_loss=today_bd_loss_plf,
+					  monthly_bd_loss=monthly_bd_loss_plf,
+					  yearly_bd_loss=yearly_bd_loss_plf,
+					  daily_dust_loss=today_dust_loss_plf,
+					  monthly_dust_los=monthly_dust_loss_plf,
+					  yearly_dust_loss=yearly_dust_loss_plf,
+					  daily_misc_loss=today_misc_loss,
+					  monthly_misc_loss=monthly_misc_loss,
+					  yearly_misc_loss=yearly_misc_loss
+		)
+	b.save()
 
 def calculate_roorkee_values():
 	#Daily parameter values
@@ -664,20 +765,53 @@ def calculate_roorkee_values():
 	yearly_dust_loss_plf = ((float)yearly_dust_loss_kwh/(roorkee_constant*24*days_elapsed))*100
 	yearly_misc_loss = yearly_generation_loss-yearly_irradiance_loss-yearly_deemed_loss_plf-yearly_grid_outage_loss_plf-yearly_bd_loss_plf-yearly_dust_loss_plf
 
-
-jharkhand_seasonal_inclide = [178.4, 178.9, 199.5, 196.1, 206.6, 162.5, 138.2, 139.7, 141.8, 163.7, 175.3, 187.3]
-jharkhand_constant_list = [0.947579317979094, 0.951919311027177, 0.951144680217931, 0.951027938381949, 0.951741209093958, 0.941209819176676, 0.928920938728215, 0.929843421973975, 0.933312340425954, 0.940681159048405, 0.947492377629911, 0.950074901876732]
-jharkhand_seasonal_tilt = [0]*12
-
-for i in range(12):
-	if i==1 and days_in_the_year==366:
-		#in case of month of February in leap year
-		jharkhand_seasonal_tilt[i] = ((jharkhand_seasonal_inclide[i]*jharkhand_constant_list[i])/month_days[i]+1)
-	else:
-		jharkhand_seasonal_tilt[i] = ((jharkhand_seasonal_inclide[i]*jharkhand_constant_list[i])/month_days[i])
-
-jharkhand_seasonal_tilt[4] = 5.89235449729202+0.04
-jharkhand_seasonal_tilt[5] = 4.70571811653336+0.0205
+	r = Roorkee_Sheet(date=today, 
+					  daily_target_generation=today_target_generation_value,
+					  daily_actual_generation=today_actual_generation_value,
+					  irradiation_target_plf=0.0,
+					  kwh_target_plf=0.0,
+					  monthly_target_generation=monthly_target_generation_value,
+					  monthly_actual_generation=monthly_actual_generation_value,
+					  yearly_target_generation=yearly_target_generation_value,
+					  yearly_actual_generation=yearly_actual_generation_value,
+					  daily_target_plf=today_target_plf,
+					  daily_actual_plf=today_actual_plf,
+					  monthly_target_plf=monthly_target_plf,
+					  monthly_actual_plf=monthly_actual_plf,
+					  yearly_target_plf=yearly_target_plf,
+					  yearly_actual_plf=yearly_actual_plf,
+					  daily_target_performance_ratio=today_target_performace_ratio,
+					  daily_actual_performance_ratio=today_actual_performance_ratio,
+					  monthly_target_performance_ratio=monthly_target_performance_ratio,
+					  monthly_actual_performance_ratio=monthly_actual_performance_ratio,
+					  yearly_target_performance_ratio=yearly_target_performance_ratio,
+					  yearly_actual_performance_ratio=yearly_actual_performance_ratio,
+					  daily_target_irradiance=today_target_irradiance,
+					  daily_actual_irradiance=today_actual_irradiance,
+					  monthly_target_irradiance=monthly_target_irradiance,
+					  monthly_actual_irradiance=monthly_actual_irradiance,
+					  yearly_target_irradiance=yearly_target_irradiance,
+					  yearly_actual_irradiance=yearly_actual_irradiance,
+					  daily_irradiance_loss=today_irradiance_loss,
+					  monthly_irradiance_loss=monthly_irradiance_loss,
+					  yearly_irradiance_loss=yearly_irradiance_loss,
+					  daily_deemed_loss=today_deemed_loss_plf,
+					  monthly_deemed_loss=monthly_deemed_loss_plf,
+					  yearly_deemed_loss=yearly_deemed_loss_plf,
+					  daily_grid_loss=today_grid_outage_loss_plf,
+					  monthly_grid_loss=monthly_grid_outage_loss_plf,
+					  yearly_grid_loss=yearly_grid_outage_loss_plf,
+					  daily_bd_loss=today_bd_loss_plf,
+					  monthly_bd_loss=monthly_bd_loss_plf,
+					  yearly_bd_loss=yearly_bd_loss_plf,
+					  daily_dust_loss=today_dust_loss_plf,
+					  monthly_dust_los=monthly_dust_loss_plf,
+					  yearly_dust_loss=yearly_dust_loss_plf,
+					  daily_misc_loss=today_misc_loss,
+					  monthly_misc_loss=monthly_misc_loss,
+					  yearly_misc_loss=yearly_misc_loss
+		)
+	r.save()
 
 def calculate_jharkhand_values():
 	#Daily parameter values
@@ -767,3 +901,51 @@ def calculate_jharkhand_values():
 	"""
 	yearly_dust_loss_plf = ((float)yearly_dust_loss_kwh/(jharkhand_constant*24*days_elapsed))*100
 	yearly_misc_loss = yearly_generation_loss-yearly_irradiance_loss-yearly_deemed_loss_plf-yearly_grid_outage_loss_plf-yearly_bd_loss_plf-yearly_dust_loss_plf
+
+	j = Jharkhand_Sheet(date=today, 
+					  daily_target_generation=today_target_generation_value,
+					  daily_actual_generation=today_actual_generation_value,
+					  irradiation_target_plf=0.0,
+					  kwh_target_plf=0.0,
+					  monthly_target_generation=monthly_target_generation_value,
+					  monthly_actual_generation=monthly_actual_generation_value,
+					  yearly_target_generation=yearly_target_generation_value,
+					  yearly_actual_generation=yearly_actual_generation_value,
+					  daily_target_plf=today_target_plf,
+					  daily_actual_plf=today_actual_plf,
+					  monthly_target_plf=monthly_target_plf,
+					  monthly_actual_plf=monthly_actual_plf,
+					  yearly_target_plf=yearly_target_plf,
+					  yearly_actual_plf=yearly_actual_plf,
+					  daily_target_performance_ratio=today_target_performace_ratio,
+					  daily_actual_performance_ratio=today_actual_performance_ratio,
+					  monthly_target_performance_ratio=monthly_target_performance_ratio,
+					  monthly_actual_performance_ratio=monthly_actual_performance_ratio,
+					  yearly_target_performance_ratio=yearly_target_performance_ratio,
+					  yearly_actual_performance_ratio=yearly_actual_performance_ratio,
+					  daily_target_irradiance=today_target_irradiance,
+					  daily_actual_irradiance=today_actual_irradiance,
+					  monthly_target_irradiance=monthly_target_irradiance,
+					  monthly_actual_irradiance=monthly_actual_irradiance,
+					  yearly_target_irradiance=yearly_target_irradiance,
+					  yearly_actual_irradiance=yearly_actual_irradiance,
+					  daily_irradiance_loss=today_irradiance_loss,
+					  monthly_irradiance_loss=monthly_irradiance_loss,
+					  yearly_irradiance_loss=yearly_irradiance_loss,
+					  daily_deemed_loss=today_deemed_loss_plf,
+					  monthly_deemed_loss=monthly_deemed_loss_plf,
+					  yearly_deemed_loss=yearly_deemed_loss_plf,
+					  daily_grid_loss=today_grid_outage_loss_plf,
+					  monthly_grid_loss=monthly_grid_outage_loss_plf,
+					  yearly_grid_loss=yearly_grid_outage_loss_plf,
+					  daily_bd_loss=today_bd_loss_plf,
+					  monthly_bd_loss=monthly_bd_loss_plf,
+					  yearly_bd_loss=yearly_bd_loss_plf,
+					  daily_dust_loss=today_dust_loss_plf,
+					  monthly_dust_los=monthly_dust_loss_plf,
+					  yearly_dust_loss=yearly_dust_loss_plf,
+					  daily_misc_loss=today_misc_loss,
+					  monthly_misc_loss=monthly_misc_loss,
+					  yearly_misc_loss=yearly_misc_loss
+		)
+	j.save()
