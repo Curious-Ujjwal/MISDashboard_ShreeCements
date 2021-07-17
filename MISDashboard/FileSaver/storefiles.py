@@ -16,11 +16,11 @@ i=0
 #and then iterate ovr the 4 folders for 4 WMS reports and 
 #beawar WMS parameters are included in its own report
 
-site1 = None 
-site2 = None
-site3 = None
-site4 = None
-site5 = None
+siteP = None 
+siteB = None
+siteJ = None
+siteC = None
+siteR = None
 
 wmsC = None
 wmsJ = None
@@ -72,5 +72,12 @@ for folder in folderlist:
 
 print("Hello")
 site1 = site1.to_numpy()
-print(site1)
+# print(site1)
 print("Hello")
+
+p_rows, p_cols = site1.shape
+sum = 0.0
+for i in range(p_rows):
+	sum += site1[i][3]
+
+print(sum)

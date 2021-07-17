@@ -21,6 +21,7 @@ class Operator_Entry(models.Model):
 
 class Panipat_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)
+	days_elapsed = models.PositiveIntegerField(default=0, verbose_name='No. of days elapsed from the start of the year', help_text='Start of the year is marked by April of that session.')
 	daily_target_generation = models.PositiveIntegerField(default=0)
 	daily_actual_generation = models.PositiveIntegerField(default=0)
 	irradiation_target_plf = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Target PLF based on Actual Irradiation')
@@ -86,6 +87,7 @@ class Panipat_Sheet(models.Model):
 
 class Castamet_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)
+	days_elapsed = models.PositiveIntegerField(default=0, verbose_name='No. of days elapsed from the start of the year', help_text='Start of the year is marked by April of that session.')
 	daily_target_generation = models.PositiveIntegerField(default=0)
 	daily_actual_generation = models.PositiveIntegerField(default=0)
 	irradiation_target_plf = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Target PLF based on Actual Irradiation')
@@ -151,6 +153,7 @@ class Castamet_Sheet(models.Model):
 
 class Jharkhand_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)
+	days_elapsed = models.PositiveIntegerField(default=0, verbose_name='No. of days elapsed from the start of the year', help_text='Start of the year is marked by April of that session.')
 	daily_target_generation = models.PositiveIntegerField(default=0)
 	daily_actual_generation = models.PositiveIntegerField(default=0)
 	irradiation_target_plf = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Target PLF based on Actual Irradiation')
@@ -216,6 +219,7 @@ class Jharkhand_Sheet(models.Model):
 
 class Roorkee_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)
+	days_elapsed = models.PositiveIntegerField(default=0, verbose_name='No. of days elapsed from the start of the year', help_text='Start of the year is marked by April of that session.')
 	daily_target_generation = models.PositiveIntegerField(default=0)
 	daily_actual_generation = models.PositiveIntegerField(default=0)
 	irradiation_target_plf = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Target PLF based on Actual Irradiation')
@@ -281,6 +285,7 @@ class Roorkee_Sheet(models.Model):
 
 class Beawar_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)
+	days_elapsed = models.PositiveIntegerField(default=0, verbose_name='No. of days elapsed from the start of the year', help_text='Start of the year is marked by April of that session.')
 	daily_target_generation = models.PositiveIntegerField(default=0)
 	daily_actual_generation = models.PositiveIntegerField(default=0)
 	irradiation_target_plf = models.DecimalField(max_digits=4, decimal_places=2, verbose_name='Target PLF based on Actual Irradiation')
