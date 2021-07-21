@@ -144,55 +144,57 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 
 		if form.has_changed():
-			obj.kwh_target_plf = (float(obj.irradiation_target_plf))*panipat_constant*24
+			# obj.kwh_target_plf = obj.irradiation_target_plf
+
+			obj.kwh_target_plf = round((float(obj.irradiation_target_plf)*panipat_constant*24)/100, 2)
 			irradiation_sum = irradiation_sum + float(obj.kwh_target_plf)
 
 			#Calculation of daily parameters
-			obj.daily_target_plf = ((float(obj.daily_target_generation))/(panipat_constant*24))*100
-			obj.daily_actual_performance_ratio = ((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100
-			obj.daily_irradiance_loss = obj.daily_target_plf - float(obj.irradiation_target_plf)
-			obj.daily_deemed_loss_plf = ((float(obj.daily_deemed_loss))/(panipat_constant*24))*100
-			obj.daily_grid_loss_plf = ((float(obj.daily_grid_loss))/(panipat_constant*24))*100
-			obj.daily_bd_loss_plf = ((float(obj.daily_bd_loss))/(panipat_constant*24))*100
-			obj.daily_dust_loss_plf = ((float(obj.daily_dust_loss))/(panipat_constant*24))*100
-			daily_generation_loss = Decimal(str(obj.daily_target_plf - float(obj.daily_actual_plf)))
+			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))
+			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100))
+			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
+			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(panipat_constant*24))*100))
+			obj.daily_grid_loss_plf = Decimal(str(((float(obj.daily_grid_loss))/(panipat_constant*24))*100))
+			obj.daily_bd_loss_plf = Decimal(str(((float(obj.daily_bd_loss))/(panipat_constant*24))*100))
+			obj.daily_dust_loss_plf = Decimal(str(((float(obj.daily_dust_loss))/(panipat_constant*24))*100))
+			daily_generation_loss = obj.daily_target_plf - obj.daily_actual_plf
 			obj.daily_misc_loss = daily_generation_loss - obj.daily_irradiance_loss - obj.daily_deemed_loss_plf - obj.daily_grid_loss_plf - obj.daily_bd_loss_plf - obj.daily_dust_loss_plf
 
 
 			#Calculation of monthly parameters
-			obj.monthly_actual_irradiance = ((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*days_elapsed))*100
-			monthly_mean_target_irradiation = ((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_irradiance_loss = obj.monthly_target_plf - monthly_mean_target_irradiation
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100
-			obj.monthly_deemed_loss = obj.daily_deemed_loss + monthly_deemedloss_till_date
-			obj.monthly_deemed_loss_plf = ((float(obj.monthly_deemed_loss))/(panipat_constant*24*day))*100
-			obj.monthly_grid_loss = obj.daily_grid_loss + monthly_gridloss_till_date
-			obj.monthly_grid_loss_plf = ((float(obj.monthly_grid_loss))/(panipat_constant*24*day))*100
-			obj.monthly_bd_loss = monthly_bdloss_till_date + obj.daily_bd_loss
-			obj.monthly_bd_loss_plf = ((float(obj.monthly_bd_loss))/(panipat_constant*24*day))*100
-			obj.monthly_dust_loss = monthly_dustloss_till_date + obj.daily_dust_loss
-			obj.monthly_dust_loss_plf = ((float(obj.monthly_dust_loss))/(panipat_constant*24*day))*100
-			monthly_generation_loss = Decimal(str(obj.monthly_target_plf - obj.monthly_actual_plf))
+			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(obj.days_elapsed)))*100))
+			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100))
+			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
+			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
+			obj.monthly_grid_loss_plf = Decimal(str(((float(obj.monthly_grid_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_bd_loss = Decimal(str(monthly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.monthly_bd_loss_plf = Decimal(str(((float(obj.monthly_bd_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_dust_loss = Decimal(str(monthly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.monthly_dust_loss_plf = Decimal(str(((float(obj.monthly_dust_loss))/(panipat_constant*24*day))*100))
+			monthly_generation_loss = obj.monthly_target_plf - obj.monthly_actual_plf
 			obj.monthly_misc_loss = monthly_generation_loss - obj.monthly_irradiance_loss - obj.monthly_deemed_loss_plf - obj.monthly_grid_loss_plf - obj.monthly_bd_loss_plf - obj.monthly_dust_loss_plf
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = yearly_target_gen_till_date + obj.daily_target_plf
-			obj.yearly_target_plf = ((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100
-			obj.yearly_actual_irradiance = ((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100))
+			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
 			
-			irradiation_sum = ((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)
-			obj.yearly_irradiance_loss = (float(obj.yearly_target_generation)/(panipat_constant*24*days_elapsed))*100 - (float(irradiation_sum)/(panipat_constant*24*days_elapsed))*100 - 0.1
+			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
+			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(panipat_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(panipat_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
-			obj.yearly_deemed_loss = float(yearly_deemedloss_till_date + obj.daily_deemed_loss_plf)
-			obj.yearly_deemed_loss_plf = (float(obj.yearly_deemed_loss)/(panipat_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_grid_loss = yearly_gridloss_till_date + obj.daily_grid_loss
-			obj.yearly_grid_loss_plf = (float(obj.yearly_grid_loss)/(panipat_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_bd_loss = yearly_bdloss_till_date + obj.daily_bd_loss
-			obj.yearly_bd_loss_plf = (float(obj.yearly_bd_loss)/(panipat_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_dust_loss = yearly_dustloss_till_date + obj.daily_dust_loss
-			obj.yearly_dust_loss_plf = (float(obj.yearly_dust_loss)/(panipat_constant*24*(obj.days_elapsed)))*100
+			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
+			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_grid_loss = Decimal(str(yearly_gridloss_till_date)) + obj.daily_grid_loss
+			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_bd_loss = Decimal(str(yearly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_dust_loss = Decimal(str(yearly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
 			obj.yearly_misc_loss = yearly_generation_loss - obj.yearly_irradiance_loss - obj.yearly_deemed_loss_plf - obj.yearly_grid_loss_plf - obj.yearly_bd_loss_plf - obj.yearly_dust_loss_plf
 
 
@@ -294,7 +296,7 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Castamet_Sheet.objects.latest('date')
+			last_record = Panipat_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
@@ -323,7 +325,7 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 			annual_actual_irradiance_till_date = last_record.yearly_actual_irradiance
 			yearly_irradianceloss_till_date = last_record.yearly_irradiance_loss
 			yearly_tg_till_date = last_record.yearly_target_generation
-			irradiation_sum = (float(yearly_tg_till_date)/(castamet_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
+			irradiation_sum = (float(yearly_tg_till_date)/(panipat_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
 
 			if irradiation_sum < 0.0:
 				irradiation_sum = 0.0
@@ -333,55 +335,57 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 
 
 		if form.has_changed():
-			obj.kwh_target_plf = (float(obj.irradiation_target_plf))*castamet_constant*24
+			# obj.kwh_target_plf = obj.irradiation_target_plf
+
+			obj.kwh_target_plf = round((float(obj.irradiation_target_plf)*panipat_constant*24)/100, 2)
 			irradiation_sum = irradiation_sum + float(obj.kwh_target_plf)
 
 			#Calculation of daily parameters
-			obj.daily_target_plf = ((float(obj.daily_target_generation))/(castamet_constant*24))*100
-			obj.daily_actual_performance_ratio = ((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*castamet_constant))*100
-			obj.daily_irradiance_loss = obj.daily_target_plf - float(obj.irradiation_target_plf)
-			obj.daily_deemed_loss_plf = ((float(obj.daily_deemed_loss))/(castamet_constant*24))*100
-			obj.daily_grid_loss_plf = ((float(obj.daily_grid_loss))/(castamet_constant*24))*100
-			obj.daily_bd_loss_plf = ((float(obj.daily_bd_loss))/(castamet_constant*24))*100
-			obj.daily_dust_loss_plf = ((float(obj.daily_dust_loss))/(castamet_constant*24))*100
-			daily_generation_loss = Decimal(str(obj.daily_target_plf - float(obj.daily_actual_plf)))
+			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))
+			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100))
+			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
+			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(panipat_constant*24))*100))
+			obj.daily_grid_loss_plf = Decimal(str(((float(obj.daily_grid_loss))/(panipat_constant*24))*100))
+			obj.daily_bd_loss_plf = Decimal(str(((float(obj.daily_bd_loss))/(panipat_constant*24))*100))
+			obj.daily_dust_loss_plf = Decimal(str(((float(obj.daily_dust_loss))/(panipat_constant*24))*100))
+			daily_generation_loss = obj.daily_target_plf - obj.daily_actual_plf
 			obj.daily_misc_loss = daily_generation_loss - obj.daily_irradiance_loss - obj.daily_deemed_loss_plf - obj.daily_grid_loss_plf - obj.daily_bd_loss_plf - obj.daily_dust_loss_plf
 
 
 			#Calculation of monthly parameters
-			obj.monthly_actual_irradiance = ((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*castamet_constant*days_elapsed))*100
-			monthly_mean_target_irradiation = ((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_irradiance_loss = obj.monthly_target_plf - monthly_mean_target_irradiation
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*castamet_constant))*100
-			obj.monthly_deemed_loss = obj.daily_deemed_loss + monthly_deemedloss_till_date
-			obj.monthly_deemed_loss_plf = ((float(obj.monthly_deemed_loss))/(castamet_constant*24*day))*100
-			obj.monthly_grid_loss = obj.daily_grid_loss + monthly_gridloss_till_date
-			obj.monthly_grid_loss_plf = ((float(obj.monthly_grid_loss))/(castamet_constant*24*day))*100
-			obj.monthly_bd_loss = monthly_bdloss_till_date + obj.daily_bd_loss
-			obj.monthly_bd_loss_plf = ((float(obj.monthly_bd_loss))/(castamet_constant*24*day))*100
-			obj.monthly_dust_loss = monthly_dustloss_till_date + obj.daily_dust_loss
-			obj.monthly_dust_loss_plf = ((float(obj.monthly_dust_loss))/(castamet_constant*24*day))*100
-			monthly_generation_loss = Decimal(str(obj.monthly_target_plf - obj.monthly_actual_plf))
+			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(obj.days_elapsed)))*100))
+			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100))
+			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
+			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
+			obj.monthly_grid_loss_plf = Decimal(str(((float(obj.monthly_grid_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_bd_loss = Decimal(str(monthly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.monthly_bd_loss_plf = Decimal(str(((float(obj.monthly_bd_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_dust_loss = Decimal(str(monthly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.monthly_dust_loss_plf = Decimal(str(((float(obj.monthly_dust_loss))/(panipat_constant*24*day))*100))
+			monthly_generation_loss = obj.monthly_target_plf - obj.monthly_actual_plf
 			obj.monthly_misc_loss = monthly_generation_loss - obj.monthly_irradiance_loss - obj.monthly_deemed_loss_plf - obj.monthly_grid_loss_plf - obj.monthly_bd_loss_plf - obj.monthly_dust_loss_plf
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = yearly_target_gen_till_date + obj.daily_target_plf
-			obj.yearly_target_plf = ((float(obj.yearly_target_generation))/(castamet_constant*24*obj.days_elapsed))*100
-			obj.yearly_actual_irradiance = ((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100))
+			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
 			
-			irradiation_sum = ((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)
-			obj.yearly_irradiance_loss = (float(obj.yearly_target_generation)/(castamet_constant*24*days_elapsed))*100 - (float(irradiation_sum)/(castamet_constant*24*days_elapsed))*100 - 0.1
+			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
+			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(panipat_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(panipat_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
-			obj.yearly_deemed_loss = float(yearly_deemedloss_till_date + obj.daily_deemed_loss_plf)
-			obj.yearly_deemed_loss_plf = (float(obj.yearly_deemed_loss)/(castamet_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_grid_loss = yearly_gridloss_till_date + obj.daily_grid_loss
-			obj.yearly_grid_loss_plf = (float(obj.yearly_grid_loss)/(castamet_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_bd_loss = yearly_bdloss_till_date + obj.daily_bd_loss
-			obj.yearly_bd_loss_plf = (float(obj.yearly_bd_loss)/(castamet_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_dust_loss = yearly_dustloss_till_date + obj.daily_dust_loss
-			obj.yearly_dust_loss_plf = (float(obj.yearly_dust_loss)/(castamet_constant*24*(obj.days_elapsed)))*100
+			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
+			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_grid_loss = Decimal(str(yearly_gridloss_till_date)) + obj.daily_grid_loss
+			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_bd_loss = Decimal(str(yearly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_dust_loss = Decimal(str(yearly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
 			obj.yearly_misc_loss = yearly_generation_loss - obj.yearly_irradiance_loss - obj.yearly_deemed_loss_plf - obj.yearly_grid_loss_plf - obj.yearly_bd_loss_plf - obj.yearly_dust_loss_plf
 
 
@@ -480,7 +484,7 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Jharkhand_Sheet.objects.latest('date')
+			last_record = Panipat_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
@@ -509,7 +513,7 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 			annual_actual_irradiance_till_date = last_record.yearly_actual_irradiance
 			yearly_irradianceloss_till_date = last_record.yearly_irradiance_loss
 			yearly_tg_till_date = last_record.yearly_target_generation
-			irradiation_sum = (float(yearly_tg_till_date)/(jharkhand_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
+			irradiation_sum = (float(yearly_tg_till_date)/(panipat_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
 
 			if irradiation_sum < 0.0:
 				irradiation_sum = 0.0
@@ -519,55 +523,57 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 
 
 		if form.has_changed():
-			obj.kwh_target_plf = (float(obj.irradiation_target_plf))*jharkhand_constant*24
+			# obj.kwh_target_plf = obj.irradiation_target_plf
+
+			obj.kwh_target_plf = round((float(obj.irradiation_target_plf)*panipat_constant*24)/100, 2)
 			irradiation_sum = irradiation_sum + float(obj.kwh_target_plf)
 
 			#Calculation of daily parameters
-			obj.daily_target_plf = ((float(obj.daily_target_generation))/(jharkhand_constant*24))*100
-			obj.daily_actual_performance_ratio = ((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*jharkhand_constant))*100
-			obj.daily_irradiance_loss = obj.daily_target_plf - float(obj.irradiation_target_plf)
-			obj.daily_deemed_loss_plf = ((float(obj.daily_deemed_loss))/(jharkhand_constant*24))*100
-			obj.daily_grid_loss_plf = ((float(obj.daily_grid_loss))/(jharkhand_constant*24))*100
-			obj.daily_bd_loss_plf = ((float(obj.daily_bd_loss))/(jharkhand_constant*24))*100
-			obj.daily_dust_loss_plf = ((float(obj.daily_dust_loss))/(jharkhand_constant*24))*100
-			daily_generation_loss = Decimal(str(obj.daily_target_plf - float(obj.daily_actual_plf)))
+			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))
+			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100))
+			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
+			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(panipat_constant*24))*100))
+			obj.daily_grid_loss_plf = Decimal(str(((float(obj.daily_grid_loss))/(panipat_constant*24))*100))
+			obj.daily_bd_loss_plf = Decimal(str(((float(obj.daily_bd_loss))/(panipat_constant*24))*100))
+			obj.daily_dust_loss_plf = Decimal(str(((float(obj.daily_dust_loss))/(panipat_constant*24))*100))
+			daily_generation_loss = obj.daily_target_plf - obj.daily_actual_plf
 			obj.daily_misc_loss = daily_generation_loss - obj.daily_irradiance_loss - obj.daily_deemed_loss_plf - obj.daily_grid_loss_plf - obj.daily_bd_loss_plf - obj.daily_dust_loss_plf
 
 
 			#Calculation of monthly parameters
-			obj.monthly_actual_irradiance = ((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant*days_elapsed))*100
-			monthly_mean_target_irradiation = ((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_irradiance_loss = obj.monthly_target_plf - monthly_mean_target_irradiation
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant))*100
-			obj.monthly_deemed_loss = obj.daily_deemed_loss + monthly_deemedloss_till_date
-			obj.monthly_deemed_loss_plf = ((float(obj.monthly_deemed_loss))/(jharkhand_constant*24*day))*100
-			obj.monthly_grid_loss = obj.daily_grid_loss + monthly_gridloss_till_date
-			obj.monthly_grid_loss_plf = ((float(obj.monthly_grid_loss))/(jharkhand_constant*24*day))*100
-			obj.monthly_bd_loss = monthly_bdloss_till_date + obj.daily_bd_loss
-			obj.monthly_bd_loss_plf = ((float(obj.monthly_bd_loss))/(jharkhand_constant*24*day))*100
-			obj.monthly_dust_loss = monthly_dustloss_till_date + obj.daily_dust_loss
-			obj.monthly_dust_loss_plf = ((float(obj.monthly_dust_loss))/(jharkhand_constant*24*day))*100
-			monthly_generation_loss = Decimal(str(obj.monthly_target_plf - obj.monthly_actual_plf))
+			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(obj.days_elapsed)))*100))
+			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100))
+			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
+			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
+			obj.monthly_grid_loss_plf = Decimal(str(((float(obj.monthly_grid_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_bd_loss = Decimal(str(monthly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.monthly_bd_loss_plf = Decimal(str(((float(obj.monthly_bd_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_dust_loss = Decimal(str(monthly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.monthly_dust_loss_plf = Decimal(str(((float(obj.monthly_dust_loss))/(panipat_constant*24*day))*100))
+			monthly_generation_loss = obj.monthly_target_plf - obj.monthly_actual_plf
 			obj.monthly_misc_loss = monthly_generation_loss - obj.monthly_irradiance_loss - obj.monthly_deemed_loss_plf - obj.monthly_grid_loss_plf - obj.monthly_bd_loss_plf - obj.monthly_dust_loss_plf
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = yearly_target_gen_till_date + obj.daily_target_plf
-			obj.yearly_target_plf = ((float(obj.yearly_target_generation))/(jharkhand_constant*24*obj.days_elapsed))*100
-			obj.yearly_actual_irradiance = ((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100))
+			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
 			
-			irradiation_sum = ((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)
-			obj.yearly_irradiance_loss = (float(obj.yearly_target_generation)/(jharkhand_constant*24*days_elapsed))*100 - (float(irradiation_sum)/(jharkhand_constant*24*days_elapsed))*100 - 0.1
+			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
+			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(panipat_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(panipat_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
-			obj.yearly_deemed_loss = float(yearly_deemedloss_till_date + obj.daily_deemed_loss_plf)
-			obj.yearly_deemed_loss_plf = (float(obj.yearly_deemed_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_grid_loss = yearly_gridloss_till_date + obj.daily_grid_loss
-			obj.yearly_grid_loss_plf = (float(obj.yearly_grid_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_bd_loss = yearly_bdloss_till_date + obj.daily_bd_loss
-			obj.yearly_bd_loss_plf = (float(obj.yearly_bd_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_dust_loss = yearly_dustloss_till_date + obj.daily_dust_loss
-			obj.yearly_dust_loss_plf = (float(obj.yearly_dust_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100
+			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
+			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_grid_loss = Decimal(str(yearly_gridloss_till_date)) + obj.daily_grid_loss
+			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_bd_loss = Decimal(str(yearly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_dust_loss = Decimal(str(yearly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
 			obj.yearly_misc_loss = yearly_generation_loss - obj.yearly_irradiance_loss - obj.yearly_deemed_loss_plf - obj.yearly_grid_loss_plf - obj.yearly_bd_loss_plf - obj.yearly_dust_loss_plf
 
 
@@ -667,7 +673,7 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Roorkee_Sheet.objects.latest('date')
+			last_record = Panipat_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
@@ -696,7 +702,7 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 			annual_actual_irradiance_till_date = last_record.yearly_actual_irradiance
 			yearly_irradianceloss_till_date = last_record.yearly_irradiance_loss
 			yearly_tg_till_date = last_record.yearly_target_generation
-			irradiation_sum = (float(yearly_tg_till_date)/(roorkee_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
+			irradiation_sum = (float(yearly_tg_till_date)/(panipat_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
 
 			if irradiation_sum < 0.0:
 				irradiation_sum = 0.0
@@ -706,55 +712,57 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 
 
 		if form.has_changed():
-			obj.kwh_target_plf = (float(obj.irradiation_target_plf))*roorkee_constant*24
+			# obj.kwh_target_plf = obj.irradiation_target_plf
+
+			obj.kwh_target_plf = round((float(obj.irradiation_target_plf)*panipat_constant*24)/100, 2)
 			irradiation_sum = irradiation_sum + float(obj.kwh_target_plf)
 
 			#Calculation of daily parameters
-			obj.daily_target_plf = ((float(obj.daily_target_generation))/(roorkee_constant*24))*100
-			obj.daily_actual_performance_ratio = ((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*roorkee_constant))*100
-			obj.daily_irradiance_loss = obj.daily_target_plf - float(obj.irradiation_target_plf)
-			obj.daily_deemed_loss_plf = ((float(obj.daily_deemed_loss))/(roorkee_constant*24))*100
-			obj.daily_grid_loss_plf = ((float(obj.daily_grid_loss))/(roorkee_constant*24))*100
-			obj.daily_bd_loss_plf = ((float(obj.daily_bd_loss))/(roorkee_constant*24))*100
-			obj.daily_dust_loss_plf = ((float(obj.daily_dust_loss))/(roorkee_constant*24))*100
-			daily_generation_loss = Decimal(str(obj.daily_target_plf - float(obj.daily_actual_plf)))
+			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))
+			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100))
+			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
+			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(panipat_constant*24))*100))
+			obj.daily_grid_loss_plf = Decimal(str(((float(obj.daily_grid_loss))/(panipat_constant*24))*100))
+			obj.daily_bd_loss_plf = Decimal(str(((float(obj.daily_bd_loss))/(panipat_constant*24))*100))
+			obj.daily_dust_loss_plf = Decimal(str(((float(obj.daily_dust_loss))/(panipat_constant*24))*100))
+			daily_generation_loss = obj.daily_target_plf - obj.daily_actual_plf
 			obj.daily_misc_loss = daily_generation_loss - obj.daily_irradiance_loss - obj.daily_deemed_loss_plf - obj.daily_grid_loss_plf - obj.daily_bd_loss_plf - obj.daily_dust_loss_plf
 
 
 			#Calculation of monthly parameters
-			obj.monthly_actual_irradiance = ((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant*days_elapsed))*100
-			monthly_mean_target_irradiation = ((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_irradiance_loss = obj.monthly_target_plf - monthly_mean_target_irradiation
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant))*100
-			obj.monthly_deemed_loss = obj.daily_deemed_loss + monthly_deemedloss_till_date
-			obj.monthly_deemed_loss_plf = ((float(obj.monthly_deemed_loss))/(roorkee_constant*24*day))*100
-			obj.monthly_grid_loss = obj.daily_grid_loss + monthly_gridloss_till_date
-			obj.monthly_grid_loss_plf = ((float(obj.monthly_grid_loss))/(roorkee_constant*24*day))*100
-			obj.monthly_bd_loss = monthly_bdloss_till_date + obj.daily_bd_loss
-			obj.monthly_bd_loss_plf = ((float(obj.monthly_bd_loss))/(roorkee_constant*24*day))*100
-			obj.monthly_dust_loss = monthly_dustloss_till_date + obj.daily_dust_loss
-			obj.monthly_dust_loss_plf = ((float(obj.monthly_dust_loss))/(roorkee_constant*24*day))*100
-			monthly_generation_loss = Decimal(str(obj.monthly_target_plf - obj.monthly_actual_plf))
+			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(obj.days_elapsed)))*100))
+			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100))
+			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
+			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
+			obj.monthly_grid_loss_plf = Decimal(str(((float(obj.monthly_grid_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_bd_loss = Decimal(str(monthly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.monthly_bd_loss_plf = Decimal(str(((float(obj.monthly_bd_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_dust_loss = Decimal(str(monthly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.monthly_dust_loss_plf = Decimal(str(((float(obj.monthly_dust_loss))/(panipat_constant*24*day))*100))
+			monthly_generation_loss = obj.monthly_target_plf - obj.monthly_actual_plf
 			obj.monthly_misc_loss = monthly_generation_loss - obj.monthly_irradiance_loss - obj.monthly_deemed_loss_plf - obj.monthly_grid_loss_plf - obj.monthly_bd_loss_plf - obj.monthly_dust_loss_plf
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = yearly_target_gen_till_date + obj.daily_target_plf
-			obj.yearly_target_plf = ((float(obj.yearly_target_generation))/(roorkee_constant*24*obj.days_elapsed))*100
-			obj.yearly_actual_irradiance = ((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100))
+			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
 			
-			irradiation_sum = ((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)
-			obj.yearly_irradiance_loss = (float(obj.yearly_target_generation)/(roorkee_constant*24*days_elapsed))*100 - (float(irradiation_sum)/(roorkee_constant*24*days_elapsed))*100 - 0.1
+			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
+			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(panipat_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(panipat_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
-			obj.yearly_deemed_loss = float(yearly_deemedloss_till_date + obj.daily_deemed_loss_plf)
-			obj.yearly_deemed_loss_plf = (float(obj.yearly_deemed_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_grid_loss = yearly_gridloss_till_date + obj.daily_grid_loss
-			obj.yearly_grid_loss_plf = (float(obj.yearly_grid_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_bd_loss = yearly_bdloss_till_date + obj.daily_bd_loss
-			obj.yearly_bd_loss_plf = (float(obj.yearly_bd_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_dust_loss = yearly_dustloss_till_date + obj.daily_dust_loss
-			obj.yearly_dust_loss_plf = (float(obj.yearly_dust_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
+			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
+			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_grid_loss = Decimal(str(yearly_gridloss_till_date)) + obj.daily_grid_loss
+			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_bd_loss = Decimal(str(yearly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_dust_loss = Decimal(str(yearly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
 			obj.yearly_misc_loss = yearly_generation_loss - obj.yearly_irradiance_loss - obj.yearly_deemed_loss_plf - obj.yearly_grid_loss_plf - obj.yearly_bd_loss_plf - obj.yearly_dust_loss_plf
 
 
@@ -838,23 +846,6 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 	)
 
 	def save_model(self, request, obj, form, change):
-		if form.has_changed():
-			#Calculation of daily parameters
-			obj.daily_target_plf = ((float(obj.daily_target_generation))/(panipat_constant*24))*100
-			obj.daily_actual_performance_ratio = ((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100
-			obj.daily_irradiance_loss = obj.daily_target_plf - obj.irradiation_target_plf
-			obj.daily_deemed_loss_plf = ((float(obj.daily_deemed_loss))/(panipat_constant*24))*100
-			obj.daily_grid_loss_plf = ((float(obj.daily_grid_loss))/(panipat_constant*24))*100
-			obj.daily_bd_loss_plf = ((float(obj.daily_bd_loss))/(panipat_constant*24))*100
-			obj.daily_dust_loss_plf = ((float(obj.daily_dust_loss))/(panipat_constant*24))*100
-			generation_loss = obj.daily_target_plf - obj.daily_actual_plf
-			obj.daily_misc_loss = generation_loss - obj.daily_irradiance_loss - obj.daily_deemed_loss_plf - obj.daily_grid_loss_plf - obj.daily_bd_loss_plf - obj.daily_dust_loss_plf
-			
-
-
-		super().save_model(request, obj, form, change)
-
-
 		month_irradiance_till_date = 0.0
 		monthly_irradiance_loss_till_date = 0.0
 		monthly_deemedloss_till_date = 0.0
@@ -872,7 +863,7 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Roorkee_Sheet.objects.latest('date')
+			last_record = Panipat_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
@@ -901,7 +892,7 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 			annual_actual_irradiance_till_date = last_record.yearly_actual_irradiance
 			yearly_irradianceloss_till_date = last_record.yearly_irradiance_loss
 			yearly_tg_till_date = last_record.yearly_target_generation
-			irradiation_sum = (float(yearly_tg_till_date)/(roorkee_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
+			irradiation_sum = (float(yearly_tg_till_date)/(panipat_constant*24*(obj.days_elapsed-1)))*100 - yearly_irradianceloss_till_date - 0.1
 
 			if irradiation_sum < 0.0:
 				irradiation_sum = 0.0
@@ -911,55 +902,57 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 
 
 		if form.has_changed():
-			obj.kwh_target_plf = (float(obj.irradiation_target_plf))*roorkee_constant*24
+			# obj.kwh_target_plf = obj.irradiation_target_plf
+
+			obj.kwh_target_plf = round((float(obj.irradiation_target_plf)*panipat_constant*24)/100, 2)
 			irradiation_sum = irradiation_sum + float(obj.kwh_target_plf)
 
 			#Calculation of daily parameters
-			obj.daily_target_plf = ((float(obj.daily_target_generation))/(roorkee_constant*24))*100
-			obj.daily_actual_performance_ratio = ((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*roorkee_constant))*100
-			obj.daily_irradiance_loss = obj.daily_target_plf - float(obj.irradiation_target_plf)
-			obj.daily_deemed_loss_plf = ((float(obj.daily_deemed_loss))/(roorkee_constant*24))*100
-			obj.daily_grid_loss_plf = ((float(obj.daily_grid_loss))/(roorkee_constant*24))*100
-			obj.daily_bd_loss_plf = ((float(obj.daily_bd_loss))/(roorkee_constant*24))*100
-			obj.daily_dust_loss_plf = ((float(obj.daily_dust_loss))/(roorkee_constant*24))*100
-			daily_generation_loss = Decimal(str(obj.daily_target_plf - float(obj.daily_actual_plf)))
+			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))
+			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100))
+			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
+			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(panipat_constant*24))*100))
+			obj.daily_grid_loss_plf = Decimal(str(((float(obj.daily_grid_loss))/(panipat_constant*24))*100))
+			obj.daily_bd_loss_plf = Decimal(str(((float(obj.daily_bd_loss))/(panipat_constant*24))*100))
+			obj.daily_dust_loss_plf = Decimal(str(((float(obj.daily_dust_loss))/(panipat_constant*24))*100))
+			daily_generation_loss = obj.daily_target_plf - obj.daily_actual_plf
 			obj.daily_misc_loss = daily_generation_loss - obj.daily_irradiance_loss - obj.daily_deemed_loss_plf - obj.daily_grid_loss_plf - obj.daily_bd_loss_plf - obj.daily_dust_loss_plf
 
 
 			#Calculation of monthly parameters
-			obj.monthly_actual_irradiance = ((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant*days_elapsed))*100
-			monthly_mean_target_irradiation = ((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))
-			obj.monthly_irradiance_loss = obj.monthly_target_plf - monthly_mean_target_irradiation
-			obj.monthly_actual_performance_ratio = ((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant))*100
-			obj.monthly_deemed_loss = obj.daily_deemed_loss + monthly_deemedloss_till_date
-			obj.monthly_deemed_loss_plf = ((float(obj.monthly_deemed_loss))/(roorkee_constant*24*day))*100
-			obj.monthly_grid_loss = obj.daily_grid_loss + monthly_gridloss_till_date
-			obj.monthly_grid_loss_plf = ((float(obj.monthly_grid_loss))/(roorkee_constant*24*day))*100
-			obj.monthly_bd_loss = monthly_bdloss_till_date + obj.daily_bd_loss
-			obj.monthly_bd_loss_plf = ((float(obj.monthly_bd_loss))/(roorkee_constant*24*day))*100
-			obj.monthly_dust_loss = monthly_dustloss_till_date + obj.daily_dust_loss
-			obj.monthly_dust_loss_plf = ((float(obj.monthly_dust_loss))/(roorkee_constant*24*day))*100
-			monthly_generation_loss = Decimal(str(obj.monthly_target_plf - obj.monthly_actual_plf))
+			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(obj.days_elapsed)))*100))
+			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100))
+			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
+			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
+			obj.monthly_grid_loss_plf = Decimal(str(((float(obj.monthly_grid_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_bd_loss = Decimal(str(monthly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.monthly_bd_loss_plf = Decimal(str(((float(obj.monthly_bd_loss))/(panipat_constant*24*day))*100))
+			obj.monthly_dust_loss = Decimal(str(monthly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.monthly_dust_loss_plf = Decimal(str(((float(obj.monthly_dust_loss))/(panipat_constant*24*day))*100))
+			monthly_generation_loss = obj.monthly_target_plf - obj.monthly_actual_plf
 			obj.monthly_misc_loss = monthly_generation_loss - obj.monthly_irradiance_loss - obj.monthly_deemed_loss_plf - obj.monthly_grid_loss_plf - obj.monthly_bd_loss_plf - obj.monthly_dust_loss_plf
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = yearly_target_gen_till_date + obj.daily_target_plf
-			obj.yearly_target_plf = ((float(obj.yearly_target_generation))/(roorkee_constant*24*obj.days_elapsed))*100
-			obj.yearly_actual_irradiance = ((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100))
+			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
 			
-			irradiation_sum = ((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)
-			obj.yearly_irradiance_loss = (float(obj.yearly_target_generation)/(roorkee_constant*24*days_elapsed))*100 - (float(irradiation_sum)/(roorkee_constant*24*days_elapsed))*100 - 0.1
+			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
+			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(panipat_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(panipat_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
-			obj.yearly_deemed_loss = float(yearly_deemedloss_till_date + obj.daily_deemed_loss_plf)
-			obj.yearly_deemed_loss_plf = (float(obj.yearly_deemed_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_grid_loss = yearly_gridloss_till_date + obj.daily_grid_loss
-			obj.yearly_grid_loss_plf = (float(obj.yearly_grid_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_bd_loss = yearly_bdloss_till_date + obj.daily_bd_loss
-			obj.yearly_bd_loss_plf = (float(obj.yearly_bd_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
-			obj.yearly_dust_loss = yearly_dustloss_till_date + obj.daily_dust_loss
-			obj.yearly_dust_loss_plf = (float(obj.yearly_dust_loss)/(roorkee_constant*24*(obj.days_elapsed)))*100
+			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
+			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_grid_loss = Decimal(str(yearly_gridloss_till_date)) + obj.daily_grid_loss
+			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_bd_loss = Decimal(str(yearly_bdloss_till_date)) + obj.daily_bd_loss
+			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_dust_loss = Decimal(str(yearly_dustloss_till_date)) + obj.daily_dust_loss
+			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(panipat_constant*24*(obj.days_elapsed)))*100))
 			obj.yearly_misc_loss = yearly_generation_loss - obj.yearly_irradiance_loss - obj.yearly_deemed_loss_plf - obj.yearly_grid_loss_plf - obj.yearly_bd_loss_plf - obj.yearly_dust_loss_plf
 
 
