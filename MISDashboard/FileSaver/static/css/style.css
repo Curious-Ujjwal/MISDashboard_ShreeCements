@@ -1,0 +1,47 @@
+:root {
+    --offcanvas-width: 270px;
+    --topNavbarHeight: 72px;
+}
+
+.sidebar-nav {
+    width: var(--offcanvas-width);
+}
+
+.navbar-toggler {
+    border-color: red !important;
+    border-width: 2.5px;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.navhover:hover {
+    background-color: rgb(224, 223, 223);
+}
+
+.navbar-brand {
+    margin-left: 50vw;
+    transform: translateX(-50%);
+}
+
+@media (min-width: 992px) {
+    body {
+        overflow: auto !important;
+    }
+    
+    .offcanvas-backdrop::before {
+        display: none;
+    }
+
+    .sidebar-nav {
+        transform: none;
+        visibility: visible !important;
+        top: var(--topNavbarHeight);
+        height: calc(100%-var(--topNavbarHeight));
+    }
+
+    main {
+        margin-left: var(--offcanvas-width);
+    }
+}

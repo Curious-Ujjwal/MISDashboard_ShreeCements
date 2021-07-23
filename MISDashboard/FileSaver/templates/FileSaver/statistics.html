@@ -1,0 +1,548 @@
+{% extends 'FileSaver/base.html' %}
+{% block title %}Live Statistics - Sitewise{% endblock %}
+{% load static %}
+
+
+  {% block main_content %}
+
+    <!-- Main Cards area -->
+    <main class="mt-5 pt-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 fw-normal fs-4 text-uppercase">Latest Statistics</div>
+            </div>
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Site Beawar
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                  <div class="accordion-body">
+                    <div class="row mt-2">
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <center>
+                          <canvas id="myChart-Beawar" width="200" height="200"></canvas>
+                        </center>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Site Panipat
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                  <div class="accordion-body">
+                    <div class="row mt-2">
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <center>
+                          <canvas id="myChart-Panipat" width="200" height="200"></canvas>
+                        </center>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                    Site Roorkee
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                  <div class="accordion-body">
+                    <div class="row mt-2">
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <center>
+                          <canvas id="myChart-Roorkee" width="200" height="200"></canvas>
+                        </center>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                    Site Jharkhand
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                  <div class="accordion-body">
+                    <div class="row mt-2">
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <center>
+                          <canvas id="myChart-Jharkhand" width="200" height="200"></canvas>
+                        </center>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                        <div class="col-12">
+                          <center>
+                            <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Primary card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          </center>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                    Site Castamet
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                  <div class="accordion-body">
+                    <div class="accordion-body">
+                      <div class="row mt-2">
+                        <div class="col-12 col-md-4">
+                          <div class="col-12">
+                            <center>
+                              <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body">
+                                  <h5 class="card-title">Primary card title</h5>
+                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                              </div>
+                            </center>
+                          </div>
+                          <div class="col-12">
+                            <center>
+                              <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body">
+                                  <h5 class="card-title">Primary card title</h5>
+                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                              </div>
+                            </center>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                          <center>
+                            <canvas id="myChart-Castamet" width="200" height="200"></canvas>
+                          </center>
+                        </div>
+                        <div class="col-12 col-md-4">
+                          <div class="col-12">
+                            <center>
+                              <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body">
+                                  <h5 class="card-title">Primary card title</h5>
+                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                              </div>
+                            </center>
+                          </div>
+                          <div class="col-12">
+                            <center>
+                              <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
+                                <div class="card-header">Header</div>
+                                <div class="card-body">
+                                  <h5 class="card-title">Primary card title</h5>
+                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                              </div>
+                            </center>
+                          </div>
+                        </div>
+                      </div>
+  
+  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </main>
+  {% endblock %}
+    <!-- Main cards area -->
+
+    
+    {% block extra_scripts %}
+          <script>
+            var ctxBeawar = document.getElementById('myChart-Beawar').getContext('2d');
+            var ctxPanipat = document.getElementById('myChart-Panipat').getContext('2d');
+            var ctxRoorkee = document.getElementById('myChart-Roorkee').getContext('2d');
+            var ctxJharkhand = document.getElementById('myChart-Jharkhand').getContext('2d');
+            var ctxCastamet = document.getElementById('myChart-Castamet').getContext('2d');
+            var myChartBeawar = new Chart(ctxBeawar, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var myChartPanipat = new Chart(ctxPanipat, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 13, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var myChartRoorkee = new Chart(ctxRoorkee, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 15, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var myChartJharkhand = new Chart(ctxJharkhand, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var myChartCastamet = new Chart(ctxCastamet, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            </script>
+    {% endblock %}
+
+

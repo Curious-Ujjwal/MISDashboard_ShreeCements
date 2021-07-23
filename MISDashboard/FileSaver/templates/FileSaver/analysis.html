@@ -1,0 +1,31 @@
+{% extends 'FileSaver/base.html' %}
+{% block title %}
+    Analysis Window
+{% endblock %}
+{% load static %}
+
+{% block main_content %}
+    <!-- Main Cards area -->
+    <main class="mt-5 pt-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 fw-normal fs-4">Analysis Window</div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <button type="button" class="btn btn-primary bg-gradient fs-5" style="width: 100%;">
+                        Analyse Solar data from a particular site
+                    </button>
+                </div>
+                <div class="col-12 col-md-6">
+                    <button type="button" class="btn btn-primary bg-gradient fs-5" style="width: 100%;">
+                        Analyse Solar data in between different sites
+                    </button>
+                </div>
+            </div>
+    </main>
+    <!-- Main cards area -->
+{% endblock %}
+    
+</body>
+</html>
