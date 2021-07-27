@@ -46,48 +46,48 @@ def sheet_variables():
 
 			if(i == 0):
 				global siteP
-				siteP = pd.read_excel(path, skiprows=3)
+				siteP = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i += 1
 				# print(site1)
 			elif(i == 1):
 				global siteB
-				siteB = pd.read_excel(path, skiprows=3)
+				siteB = pd.read_excel(path, skiprows=2, engine='openpyxl')
 				i += 1
 				# print(site2)
 			elif(i == 2):
 				global siteJ
-				siteJ = pd.read_excel(path, skiprows=3)
+				siteJ = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i += 1
 				# print(site3)
 			elif(i == 3):
 				global siteC
-				siteC = pd.read_excel(path, skiprows=3)
+				siteC = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i+=1
 				# print(site4)
 			elif(i == 4):
 				global siteR
-				siteR = pd.read_excel(path, skiprows=2)
+				siteR = pd.read_excel(path, skiprows=2, engine='openpyxl')
 				#skip 2 rows in reading Beawar Sheet
 				i+=1
 				# print(site5)
 			elif(i == 5):
 				global wmsC
-				wmsC = pd.read_excel(path, skiprows=3)
+				wmsC = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i+=1
 				# print(wmsC)	
 			elif(i == 6):
 				global wmsJ
-				wmsJ = pd.read_excel(path, skiprows=3)
+				wmsJ = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i+=1
 				# print(wmsJ)
 			elif(i == 7):
 				global wmsP
-				wmsP = pd.read_excel(path, skiprows=3)
+				wmsP = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i+=1
 				# print(wmsP)
 			elif(i == 8):
 				global wmsR
-				wmsR = pd.read_excel(path, skiprows=3)
+				wmsR = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i += 1
 				# print(wmsR)
 				path = os.getcwd() + "\\..\\"
