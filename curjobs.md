@@ -30,10 +30,10 @@
     -> Basic layout and common features -- DONE
     -> Login function, Date filter, Representation through Charts, and then the table-view, save the table feature -- DONE
     -> Guide to use the dashboard, and admin panel
--> Connect the FRONTEND and BACKEND
+-> Connect the FRONTEND and BACKEND -- DONE
 -> Customise the django-admin panel according to the Company's Website color scheme. -- DONE
 -> and then review the code for debug purposes
--> Prepare the Report (1st Draft)
+-> Prepare the Report (1st Draft) -- DONE
 -> Prepare the PPT (1st Draft)
 
 ##Features to be tested on the server while deploying:
