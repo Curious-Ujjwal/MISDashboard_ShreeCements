@@ -97,6 +97,7 @@ class Panipat_Sheet(models.Model):
 		return cdate
 
 
+
 class Castamet_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)
 	days_elapsed = models.PositiveIntegerField(default=0, verbose_name='No. of days elapsed from the start of the year', help_text='Start of the year is marked by April of that session.')
