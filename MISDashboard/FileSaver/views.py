@@ -1128,6 +1128,7 @@ def calculate_roorkee_values():
 		)
 	r.save()
 
+
 def calculate_jharkhand_values():
 	#Daily parameter values
 	today_sum = 0.0
@@ -1380,7 +1381,13 @@ def error_page(request):
 	return render(request, 'FileSaver/404.html')
 
 def dailyupdates(request):
+	lastJrecord = Jharkhand_Sheet.objects.latest('date')
+	lastPrecord = Panipat_Sheet.objects.latest('date')
+	lastCrecord = Castamet_Sheet.objects.latest('date')
+	lastBrecord = Beawar_Sheet.objects.latest('date')
+	lastRrecord = Roorkee_Sheet.objects.latest('date')
 	global p_rows, b_rows, j_rows, c_rows, r_rows
+	global siteP, siteJ, siteR, siteC, siteB
 	context = {
 		# 'pcount': p_rows,	#Panipat has 22 invertors
 		# 'bcount': 3,		#Beawar has 3 invertors
@@ -1392,6 +1399,16 @@ def dailyupdates(request):
 		'jcount': 21,	#Jharkhand has 21 invertors
 		'ccount': 18,	#Castamet has 18 invertors
 		'rcount': 21,	#Roorkee has 21 invertors
+		'panipat_object': lastPrecord,
+		'jharkhand_object': lastJrecord,
+		'castamet_object': lastCrecord,
+		'beawar_object': lastBrecord,
+		'roorkee_object': lastRrecord,
+		'sitePanipat': siteP,
+		'siteJharkhand': siteJ,
+		'siteRoorkee': siteR,
+		'siteCastamet': siteC,
+		'siteBeawar': siteB,
 	}
 	return render(request, 'FileSaver/statistics.html', context)
 

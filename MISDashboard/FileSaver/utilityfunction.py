@@ -50,8 +50,8 @@ def sheet_variables():
 				i += 1
 				# print(site1)
 			elif(i == 1):
-				global siteB
-				siteB = pd.read_excel(path, skiprows=2, engine='openpyxl')
+				global siteR
+				siteR = pd.read_excel(path, skiprows=6, engine='openpyxl')
 				i += 1
 				# print(site2)
 			elif(i == 2):
@@ -65,8 +65,8 @@ def sheet_variables():
 				i+=1
 				# print(site4)
 			elif(i == 4):
-				global siteR
-				siteR = pd.read_excel(path, skiprows=2, engine='openpyxl')
+				global siteB
+				siteB = pd.read_excel(path, skiprows=2, engine='openpyxl')
 				#skip 2 rows in reading Beawar Sheet
 				i+=1
 				# print(site5)
