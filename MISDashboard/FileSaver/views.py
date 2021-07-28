@@ -1359,16 +1359,16 @@ def calculate_jharkhand_values():
 		)
 	j.save()
 
-# p_rows, p_cols = siteP.shape
-# b_rows, b_cols = siteB.shape
-# j_rows, j_cols = siteJ.shape
-# c_rows, c_cols = siteC.shape
-# r_rows, r_cols = siteR.shape
+p_rows, p_cols = siteP.shape
+b_rows, b_cols = siteB.shape
+j_rows, j_cols = siteJ.shape
+c_rows, c_cols = siteC.shape
+r_rows, r_cols = siteR.shape
 
-# wc_rows, wc_cols = wmsC.shape
-# wj_rows, wj_cols = wmsJ.shape
-# wp_rows, wp_cols = wmsP.shape
-# wr_rows, wr_cols = wmsR.shape
+wc_rows, wc_cols = wmsC.shape
+wj_rows, wj_cols = wmsJ.shape
+wp_rows, wp_cols = wmsP.shape
+wr_rows, wr_cols = wmsR.shape
 
 # calculate_panipat_values() # -- DONE
 # calculate_castamet_values() # -- DONE
@@ -1380,13 +1380,18 @@ def error_page(request):
 	return render(request, 'FileSaver/404.html')
 
 def dailyupdates(request):
+	global p_rows, b_rows, j_rows, c_rows, r_rows
 	context = {
-		# pcount: p_rows,
-		# bcount: p_rows,
-		# jcount: j_rows,
-		# ccount: c_rows,
-		# rcount: r_rows,
-
+		# 'pcount': p_rows,	#Panipat has 22 invertors
+		# 'bcount': 3,		#Beawar has 3 invertors
+		# 'jcount': j_rows,	#Jharkhand has 21 invertors
+		# 'ccount': c_rows,	#Castamet has 18 invertors
+		# 'rcount': r_rows,	#Roorkee has 21 invertors
+		'pcount': 22,	#Panipat has 22 invertors
+		'bcount': 3,		#Beawar has 3 invertors
+		'jcount': 21,	#Jharkhand has 21 invertors
+		'ccount': 18,	#Castamet has 18 invertors
+		'rcount': 21,	#Roorkee has 21 invertors
 	}
 	return render(request, 'FileSaver/statistics.html', context)
 
