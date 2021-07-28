@@ -2,7 +2,13 @@
 {% block title %}Live Statistics - Sitewise{% endblock %}
 {% load static %}
 
-
+<!-- 
+  Four parameters:
+  1. Daily generation in kWh
+  2. Daily generation in % PLF
+  3. Performance Ratio in %
+  4. Inclined irradiance (in kWh/m2)
+-->
   {% block main_content %}
 
     <!-- Main Cards area -->
@@ -15,7 +21,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                    Site Beawar
+                    Site Beawar - {{ bcount }} invertors
                   </button>
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -25,22 +31,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in kWh)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in % PLF)</div>
                             </div>
                           </center>
                         </div>
@@ -54,22 +60,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Performance Ratio (in %)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Inclined irradiance (in kWh/m<sup>2</sup>)</div>
                             </div>
                           </center>
                         </div>
@@ -83,7 +89,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                    Site Panipat
+                    Site Panipat - {{ pcount }} invertors
                   </button>
                 </h2>
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
@@ -93,22 +99,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in kWh)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in % PLF)</div>
                             </div>
                           </center>
                         </div>
@@ -122,22 +128,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Performance Ratio (in %)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Inclined irradiance (in kWh/m<sup>2</sup>)</div>
                             </div>
                           </center>
                         </div>
@@ -151,7 +157,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                    Site Roorkee
+                    Site Roorkee - {{ rcount }} invertors
                   </button>
                 </h2>
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
@@ -161,22 +167,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in kWh)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in % PLF)</div>
                             </div>
                           </center>
                         </div>
@@ -190,22 +196,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Performance Ratio (in %)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Inclined irradiance (in kWh/m<sup>2</sup>)</div>
                             </div>
                           </center>
                         </div>
@@ -219,7 +225,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingFour">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
-                    Site Jharkhand
+                    Site Jharkhand - {{ jcount }} invertors
                   </button>
                 </h2>
                 <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
@@ -229,22 +235,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in kWh)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Daily generation (in % PLF)</div>
                             </div>
                           </center>
                         </div>
@@ -258,22 +264,22 @@
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Performance Ratio (in %)</div>
                             </div>
                           </center>
                         </div>
                         <div class="col-12">
                           <center>
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
-                              <div class="card-header">Header</div>
                               <div class="card-body">
-                                <h5 class="card-title">Primary card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h2 class="card-title">Primary card title</h2>
                               </div>
+                              <br>
+                              <div class="card-header fs-5">Inclined irradiance (in kWh/m<sup>2</sup>)</div>
                             </div>
                           </center>
                         </div>
@@ -287,7 +293,7 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingFive">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-                    Site Castamet
+                    Site Castamet - {{ ccount }} invertors
                   </button>
                 </h2>
                 <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
@@ -298,22 +304,22 @@
                           <div class="col-12">
                             <center>
                               <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Header</div>
                                 <div class="card-body">
-                                  <h5 class="card-title">Primary card title</h5>
-                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h2 class="card-title">Primary card title</h2>
                                 </div>
+                                <br>
+                                <div class="card-header fs-5">Daily generation (in kWh)</div>
                               </div>
                             </center>
                           </div>
                           <div class="col-12">
                             <center>
                               <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Header</div>
                                 <div class="card-body">
-                                  <h5 class="card-title">Primary card title</h5>
-                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h2 class="card-title">Primary card title</h2>
                                 </div>
+                                <br>
+                                <div class="card-header fs-5">Daily generation (in % PLF)</div>
                               </div>
                             </center>
                           </div>
@@ -327,22 +333,22 @@
                           <div class="col-12">
                             <center>
                               <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Header</div>
                                 <div class="card-body">
-                                  <h5 class="card-title">Primary card title</h5>
-                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h2 class="card-title">Primary card title</h2>
                                 </div>
+                                <br>
+                                <div class="card-header fs-5">Performance Ratio (in %)</div>
                               </div>
                             </center>
                           </div>
                           <div class="col-12">
                             <center>
                               <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
-                                <div class="card-header">Header</div>
                                 <div class="card-body">
-                                  <h5 class="card-title">Primary card title</h5>
-                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <h2 class="card-title">Primary card title</h2>
                                 </div>
+                                <br>
+                                <div class="card-header fs-5">Inclined irradiance (in kWh/m<sup>2</sup>)</div>
                               </div>
                             </center>
                           </div>
