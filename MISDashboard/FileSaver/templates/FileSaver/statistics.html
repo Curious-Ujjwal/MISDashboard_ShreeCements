@@ -354,12 +354,16 @@
             var ctxRoorkee = document.getElementById('myChart-Roorkee').getContext('2d');
             var ctxJharkhand = document.getElementById('myChart-Jharkhand').getContext('2d');
             var ctxCastamet = document.getElementById('myChart-Castamet').getContext('2d');
+
+            // Data points set globally
+            var BeawarData = '{{ panipat_gen }}';
             var myChartBeawar = new Chart(ctxBeawar, {
                 type: 'bar',
                 data: {
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     datasets: [{
-                        label: '# of Votes',
+                        label: 'Comparison of Day-to-Day generation(in kWh)',
+                        // data: [panipat_gen.0,],
                         data: [12, 19, 3, 5, 2, 3],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -394,7 +398,7 @@
                 data: {
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     datasets: [{
-                        label: '# of Votes',
+                        label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 13, 5, 2, 3],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -429,7 +433,7 @@
                 data: {
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     datasets: [{
-                        label: '# of Votes',
+                        label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 3, 15, 2, 3],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -464,7 +468,7 @@
                 data: {
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     datasets: [{
-                        label: '# of Votes',
+                        label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 3, 5, 2, 3],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -499,7 +503,7 @@
                 data: {
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     datasets: [{
-                        label: '# of Votes',
+                        label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 3, 5, 2, 3],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',

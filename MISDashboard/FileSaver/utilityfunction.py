@@ -46,7 +46,7 @@ def sheet_variables():
 
 			if(i == 0):
 				global siteP
-				siteP = pd.read_excel(path, skiprows=6, engine='openpyxl')
+				siteP = pd.read_excel(path, skiprows=3, engine='openpyxl')
 				i += 1
 				# print(site1)
 			elif(i == 1):
@@ -61,7 +61,7 @@ def sheet_variables():
 				# print(site3)
 			elif(i == 3):
 				global siteC
-				siteC = pd.read_excel(path, skiprows=6, engine='openpyxl')
+				siteC = pd.read_excel(path, skiprows=5, engine='openpyxl')
 				i+=1
 				# print(site4)
 			elif(i == 4):

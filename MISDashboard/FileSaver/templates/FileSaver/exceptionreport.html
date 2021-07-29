@@ -5,6 +5,8 @@
 {% load static %}
     <!-- Main Cards area -->
     {% block main_content %}
+
+
       <main class="mt-5 pt-4">
         <div class="container-fluid">
             <div class="row">
@@ -13,50 +15,94 @@
             <em>
                 <code class="fs-6">All target values are as per FY 20-21</code>
             </em>
+            <br><br>
+            <form action="#">
+                <label for="ipdate" class="form-label d-block mx-auto" style="width: 40%;">Select a date</label>
+                <input type="date" class="mx-auto form-control mb-1" name="ipdate" id="ipdate" style="width: 40%;">
+                <div class="row justify-content-center">
+                    <div class="col-1">
+                        <button type="submit" class="btn btn-danger fw-bold">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
             <br><br><br>
             <div class="container-fluid">
-                <table class="table table-hover">
+                <a href="{% url 'downloadreport' %}">
+                    <button class="btn btn-success bg-gradient text-white fw-bold" style="font-family: Noto Sans;">
+                        Download Solar Exception Report
+                    </button>
+                </a>
+                <br><br>
+                <table class="table table-hover mytable table-bordered border-danger">
                     <thead class="table-danger">
-                      <tr>
-                        <th scope="col">S.No.</th>
-                        <th scope="col">Particular</th>
-                        <th scope="col">UOM</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                      </tr>
+                        <tr class="text-uppercase fs-5">
+                            <th scope="col" colspan="3">
+                                <center>Site Locations</center>
+                            </th>
+                            <th scope="col" colspan="6" class="text-white bg-primary sticky-top"><center>Site Beawar</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-danger sticky-top"><center>Site Panipat</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-warning sticky-top"><center>Site Roorkee</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-info sticky-top"><center>Site Jharkhand</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-dark sticky-top"><center>Site Castamet</center></th>
+                        </tr>
+                        <tr>
+                            <th></th><th></th><th></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                        </tr>
+                        <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Particulars</th>
+                            <th scope="col">UOM</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row" rowspan="2">1</th>
-                            <td rowspan="2">Generation (Today)</td>
+                            <td rowspan="2" class="text-decoration-underline">Generation (Today)</td>
                             <td>KWH</td>
                             <td>192</td>
                             <td>192</td>
@@ -90,8 +136,8 @@
                             <td>192</td>
                           </tr>
                         <tr>
-                        <td>PLF</td>
-                        <td>192</td>
+                            <td>PLF</td>
+                            <td>192</td>
                             <td>192</td>
                             <td>192</td>
                             <td>192</td>
@@ -124,7 +170,7 @@
                       </tr>
                       <tr>
                         <th scope="row">2</th>
-                        <td>Performance Ratio (PR)</td>
+                        <td class="text-decoration-underline">Performance Ratio (PR)</td>
                         <td>%</td>
                         <td>81.1%</td>
                         <td>81.1%</td>
@@ -159,7 +205,7 @@
                       </tr>
                       <tr>
                         <th scope="row">3</th>
-                        <td>Irradiance(Inclined)</td>
+                        <td class="text-decoration-underline">Irradiance(Inclined)</td>
                         <td>kWh/m<sup>2</sup></td>
                         <td>6.4</td>
                         <td>6.4</td>
@@ -194,7 +240,7 @@
                       </tr>
                       <tr>
                         <th scope="row">4a</th>
-                        <td> Loss Due to Low Irradiance</td>
+                        <td class="text-decoration-underline">Loss Due to Low Irradiance</td>
                         <td>% PLF</td>
                         <td>-3.0%</td>
                         <td>-3.0%</td>
@@ -229,7 +275,7 @@
                       </tr>
                       <tr>
                         <th scope="row">4b</th>
-                        <td>Loss Due to Deemed</td>
+                        <td class="text-decoration-underline">Loss Due to Deemed</td>
                         <td>% PLF</td>
                         <td>-3.0%</td>
                         <td>-3.0%</td>
@@ -264,7 +310,7 @@
                       </tr>
                       <tr>
                         <th scope="row">4c</th>
-                        <td>Loss Due to GRID outage</td>
+                        <td class="text-decoration-underline">Loss Due to GRID outage</td>
                         <td>% PLF</td>
                         <td>-3.0%</td>
                         <td>-3.0%</td>
@@ -299,7 +345,7 @@
                       </tr>
                       <tr>
                         <th scope="row">4d</th>
-                        <td>Loss Due to BD</td>
+                        <td class="text-decoration-underline">Loss Due to BD</td>
                         <td>% PLF</td>
                         <td>-3.0%</td>
                         <td>-3.0%</td>
@@ -334,7 +380,7 @@
                       </tr>
                       <tr>
                         <th scope="row">4e</th>
-                        <td>Loss due to Dust</td>
+                        <td class="text-decoration-underline">Loss due to Dust</td>
                         <td>% PLF</td>
                         <td>-3.0%</td>
                         <td>-3.0%</td>
@@ -369,7 +415,7 @@
                       </tr>
                       <tr>
                         <th scope="row">4f</th>
-                        <td>Misc. Loss</td>
+                        <td class="text-decoration-underline">Misc. Loss</td>
                         <td>% PLF</td>
                         <td>-3.0%</td>
                         <td>-3.0%</td>
@@ -403,132 +449,135 @@
                         <td>-3.0%</td>
                       </tr>
                       <tr>
-                        <th scope="row">Today Major Observation</th>
+                        <td></td>
+                        <td class="text-decoration-underline">Today's Major Observations</td>
                         <td></td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp.<br> difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                         <td>i) Total PR difference : 4.75%<br>
                             a)1.0% Misc losses<br>
-                            b)-0.5% due to temp. difference<br>
+                            b)-0.5% due to temp. <br>difference<br>
                         </td>
                       </tr>
                     </tbody>
                   </table>
             </div>
+            
+        </div>
       </main>
     {% endblock %}
     <!-- Main cards area -->

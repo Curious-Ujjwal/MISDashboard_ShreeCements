@@ -19,14 +19,41 @@
                         </a>
                       
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%; background-color: #ffeaea;">  
-                            <li>On a particular Date</li>
-                            <li><a class="dropdown-item" href="#">Select Date</a></li>
-                            <li><a class="dropdown-item" href="#">Select particular of interest</a></li>
-                            <li><a class="dropdown-item" href="#">Select invertor (Compare all / Select from multiple checkbox)</a></li>
-                            <li>In-between particular invertors</li>
-                            <li><a class="dropdown-item" href="#">Select Date</a></li>
-                            <li><a class="dropdown-item" href="#">Select particular of interest</a></li>
-                            <li><a class="dropdown-item" href="#">Select invertor(Compare all / Select from multiple checkbox)</a></li>
+                            <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis on a particular date</li>
+                            <li>
+                                <div class="container">
+                                    <form action="#">
+                                        <div class="input-group mb-3">
+                                            <input type="date" class="form-control">
+                                        </div>
+                                        <div class="form-floating">
+                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="siteselect">
+                                                <option selected>Click to select</option>
+                                                <option value="1">Site Beawar</option>
+                                                <option value="2">Site Jharkhand</option>
+                                                <option value="3">Site Castamet</option>
+                                                <option value="4">Site Roorkee</option>
+                                                <option value="5">Site Panipat</option>
+                                            </select>
+                                            <label for="siteselect">Choose A Site</label>
+                                        </div>
+                                        <!-- button to select all the invertors from the dropdown
+                                        select menu to choose 2 invertors from -->
+                                        <div class="form-floating">
+                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="selectinvertor">
+                                                <option selected>Click to select</option>
+                                                <option value="1">Invertor i+1</option>
+                                            </select>
+                                            <label for="selectinvertor">Select the invertor</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger bg-gradient">Analyse</button>
+                                    </form>
+                                </div>
+                            </li>
+                            <br>
+                            <li class="text-capitalize fs-5 mx-auto text-decoration-underline" style="width: fit-content;">
+                                Analysis between 2 dates on a site of a particular invertor
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -36,15 +63,36 @@
                             Analyse Solar data between different sites
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%; background-color: #ffeaea;">
-                            <li>Analysis on basis of particular (Comparison between all sites)</li>
-                            <li class="dropdown-item">Choose particular</li>
-                            <li class="dropdown-item">Choose date</li>
-                            <li> </li>
-                            <li><a class="dropdown-item" href="#">Choose two sites to compare between</a></li>
-                            <li class="dropdown-item">Choose a particular</li>
-
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis based on a particular (Comparison between all sites)</li>
+                            <li>
+                                <div class="container">
+                                    <form action="#">
+                                        <div class="input-group mb-3">
+                                            <input type="date" class="form-control">
+                                        </div>
+                                        <div class="form-floating">
+                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="chooseparticular">
+                                                <option selected>Click to select</option>
+                                                <option value="1">Daily generation</option>
+                                                <option value="2">Performance Ratio</option>
+                                                <option value="3">Irradiance(inclinced)</option>
+                                                <option value="4">Loss due to low Irradiance</option>
+                                                <option value="5">Loss due to deemed</option>
+                                                <option value="6">Loss due to GRID outage</option>
+                                                <option value="7">Loss due to BreakDown</option>
+                                                <option value="8">Loss due to Dust</option>
+                                                <option value="9">Misc. Losses</option>
+                                            </select>
+                                            <label for="chooseparticular">Choose a particular to compare</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger bg-gradient">Analyse</button>
+                                    </form>
+                                </div>
+                            </li>
+                            <br>
+                            <li class="text-capitalize fs-5 mx-auto text-decoration-underline" style="width: fit-content;">
+                                Analysis between 2 dates
+                            </li>
                         </ul>
                     </div>
                 </div>

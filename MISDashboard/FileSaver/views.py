@@ -1388,6 +1388,28 @@ def dailyupdates(request):
 	lastRrecord = Roorkee_Sheet.objects.latest('date')
 	global p_rows, b_rows, j_rows, c_rows, r_rows
 	global siteP, siteJ, siteR, siteC, siteB
+
+
+	#prepare lists for data-values
+
+	daily_panipat_gen = []
+	daily_jharkhand_gen = []
+	daily_castamet_gen = []
+	daily_beawar_gen = [siteB[0][1], siteB[1][1], siteB[2][1]]
+	daily_roorkee_gen = []
+
+	for i in range(p_rows):
+		daily_panipat_gen.append(siteP[i][4])
+
+	for i in range(j_rows):
+		daily_jharkhand_gen.append(siteJ[i][4])
+
+	for i in range(c_rows):
+		daily_castamet_gen.append(siteC[i][4])
+
+	for i in range(r_rows):
+		daily_roorkee_gen.append(siteR[i][4])
+
 	context = {
 		# 'pcount': p_rows,	#Panipat has 22 invertors
 		# 'bcount': 3,		#Beawar has 3 invertors
@@ -1409,6 +1431,11 @@ def dailyupdates(request):
 		'siteRoorkee': siteR,
 		'siteCastamet': siteC,
 		'siteBeawar': siteB,
+		'panipat_gen': daily_panipat_gen,
+		'jharkhand_gen': daily_jharkhand_gen,
+		'castamet_gen': daily_castamet_gen,
+		'roorkee_gen': daily_roorkee_gen,
+		'beawar_gen': daily_beawar_gen,
 	}
 	return render(request, 'FileSaver/statistics.html', context)
 
@@ -1419,4 +1446,8 @@ def analysis(request):
 	return render(request, 'FileSaver/analysis.html')
 
 def report(request):
+	return render(request, 'FileSaver/exceptionreport.html')
+
+def downloadreport(request):
+	#function for preparing CSV and then download
 	return render(request, 'FileSaver/exceptionreport.html')
