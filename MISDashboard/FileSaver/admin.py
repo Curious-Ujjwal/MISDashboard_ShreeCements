@@ -6,12 +6,40 @@ from datetime import date
 from .models import *
 # from .forms import *
 
+#Calcualting today's date, month and year for calculation purposes
 today = date.today().strftime('%d-%m-%Y')
 day = int(today[:2])
 month = int(today[3:5])
 year = int(today[6:])
 
 # Register your models here.
+
+
+"""
+	For all the classes Panipat_SheetAdmin, Castamet_SheetAdmin, Jharkhand_SheetAdmin, Roorkee_SheetAdmin, Beawar_SheetAdmin
+	Read the following:
+	-> The records are filtered by date through DateRangeFilter
+	-> All the records are ordered in django-admin by the reverse order of date using ordering
+	-> Actions for deleting, saving are displayed on top and bottom using actions_on_top, actions_on_bottom
+	-> If the attribute is empty, it will be displayed -empty- , if it is not necesary to be filled.
+	-> Max records to be shown are - 366. using list_max_show_all
+	-> Then fieldsets are defined for managing the display of various features. using fieldsets
+
+	-> Then anytime, a model value is changed, some particulars which maybe dependent on these variables are calculated based on those variables.
+	-> save_model: function that helps to achieve the above
+	-> first some temporary variables are defined for in-between calculation
+
+	-> Calculations occur as follows: 
+	-> if any record exists in a sheet, that is taken as last_record
+	-> Then check if the today's date's month is same as last_record('s) month, for keeping up with the current month calculations
+	-> Some parameters are imported from defineconstants.py file in the same folder as this file.
+	-> These parameters serve as constants used in the calculation for the new parameters to be saved in the current day's record.
+	-> Daily, monthly and yearly calculations are carried out as shown in the Sheets/Solar_Exception_Report.xlsx
+	-> All the variables are stored as Decimal type. It makes calculation easier, and no need of more type-casting when calculating other intermediate variables.
+"""
+
+
+
 
 class Panipat_SheetAdmin(admin.ModelAdmin):
 	list_filter = (('date',DateRangeFilter), )
@@ -144,10 +172,12 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 
 		if form.has_changed():
-			# obj.kwh_target_plf = obj.irradiation_target_plf
-
+			
+			#rounding the final answer coming out of calculation at 2 decimal places
+			#this value is used for irradiation_sum
 			obj.kwh_target_plf = round((float(obj.irradiation_target_plf)*panipat_constant*24)/100, 2)
 			irradiation_sum = irradiation_sum + float(obj.kwh_target_plf)
+
 
 			#Calculation of daily parameters
 			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))

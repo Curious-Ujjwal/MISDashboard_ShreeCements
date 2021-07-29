@@ -18,6 +18,14 @@ class Operator_Entry(models.Model):
 	def __str__(self):
 		return 'Operator-Entry'+f"{self.pk}"
 
+"""
+	Structure for Panipat_Sheet, Castamet_Sheet, Jharkhand_Sheet, Roorkee_Sheet, Beawar_Sheet
+	-> date : date of the month 	D M Y
+	-> days_elapsed : days that have passed in the running year
+	-> parameters for the target, actual values are assigned for 
+		Daily, Monhly, and Yearly generation or loss values
+"""
+
 
 class Panipat_Sheet(models.Model):
 	date = models.DateField(default=date.today, editable=False, primary_key=True)

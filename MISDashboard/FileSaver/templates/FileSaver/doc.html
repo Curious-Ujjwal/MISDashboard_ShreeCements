@@ -1,13 +1,17 @@
+<!-- Common HTML template code for all the dashboard pages -->
 {% extends 'FileSaver/base.html' %}
-{% load static %}
 
+<!-- Title block for all the webpages -->
 {% block title %}
 	How to Use MIS Dashboard
 {% endblock %}
 
+<!-- Load static images, css and js defined in STATIC_URL in settings.py -->
+{% load static %}
 
-<!-- Main area of the Templates -->
-    {% block main_content %}
-    	Welcome to the Documentation of this project
-    {% endblock %}
-    <!-- Main cards of the Templates -->
+
+<!-- Load main content of web page -->
+{% block main_content %}
+    Welcome to the Documentation of this project
+{% endblock %}
+<!-- Load main content of web page -->

@@ -1,13 +1,22 @@
+<!-- Common HTML template code for all the dashboard pages -->
 {% extends 'FileSaver/base.html' %}
-{% block title %}Live Statistics - Sitewise{% endblock %}
+
+<!-- Title block for all the webpages -->
+{% block title %}
+  Live Statistics - Sitewise
+{% endblock %}
+
+<!-- Load static images, css and js defined in STATIC_URL in settings.py -->
 {% load static %}
 
 <!-- 
-  Four parameters:
+  Four parameters are displayed on cards:
   1. Daily generation in kWh
   2. Daily generation in % PLF
   3. Performance Ratio in %
   4. Inclined irradiance (in kWh/m2)
+
+  and the graph is drawn with the help of charts.js library using the calculated data
 -->
   {% block main_content %}
 
@@ -30,6 +39,8 @@
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.daily_actual_generation }}</span> kWh</h2>
@@ -40,6 +51,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.daily_actual_plf }}</span> % PLF</h2>
@@ -51,12 +64,16 @@
                       </div>
                       <div class="col-12 col-md-4">
                         <center>
+
+                          <!-- Chart area for Beawar site -->
                           <canvas id="myChart-Beawar" width="200" height="200"></canvas>
                         </center>
                       </div>
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.daily_actual_performance_ratio }}</span> %</h2>
@@ -67,6 +84,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
@@ -94,6 +113,8 @@
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.daily_actual_generation }}</span> kWh</h2>
@@ -104,6 +125,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.daily_actual_plf }}</span> % PLF</h2>
@@ -115,12 +138,16 @@
                       </div>
                       <div class="col-12 col-md-4">
                         <center>
+
+                          <!-- Chart area for Beawar site -->
                           <canvas id="myChart-Panipat" width="200" height="200"></canvas>
                         </center>
                       </div>
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.daily_actual_performance_ratio }}</span> %</h2>
@@ -131,6 +158,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
@@ -158,6 +187,8 @@
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.daily_actual_generation }}</span> kWh</h2>
@@ -168,6 +199,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.daily_actual_plf }}</span> % PLF</h2>
@@ -179,12 +212,16 @@
                       </div>
                       <div class="col-12 col-md-4">
                         <center>
+
+                          <!-- Chart area for Beawar site -->
                           <canvas id="myChart-Roorkee" width="200" height="200"></canvas>
                         </center>
                       </div>
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.daily_actual_performance_ratio }}</span> %</h2>
@@ -195,6 +232,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
@@ -222,6 +261,8 @@
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.daily_actual_generation }}</span> kWh</h2>
@@ -232,6 +273,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.daily_actual_plf }}</span> % PLF</h2>
@@ -243,12 +286,16 @@
                       </div>
                       <div class="col-12 col-md-4">
                         <center>
+
+                          <!-- Chart area for Beawar site -->
                           <canvas id="myChart-Jharkhand" width="200" height="200"></canvas>
                         </center>
                       </div>
                       <div class="col-12 col-md-4">
                         <div class="col-12">
                           <center>
+
+                            <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.daily_actual_performance_ratio }}</span> %</h2>
@@ -259,6 +306,8 @@
                         </div>
                         <div class="col-12">
                           <center>
+
+                            <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
                                 <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
@@ -287,6 +336,8 @@
                         <div class="col-12 col-md-4">
                           <div class="col-12">
                             <center>
+
+                              <!-- Daily Solar Generation (in Kwh) card -->
                               <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
                                   <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.daily_actual_generation }}</span> kWh</h2>
@@ -297,6 +348,8 @@
                           </div>
                           <div class="col-12">
                             <center>
+
+                              <!-- Daily Solar Generation (in %PLF) card -->
                               <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
                                   <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.daily_actual_plf }}</span> % PLF</h2>
@@ -308,12 +361,16 @@
                         </div>
                         <div class="col-12 col-md-4">
                           <center>
+
+                            <!-- Chart area for Beawar site -->
                             <canvas id="myChart-Castamet" width="200" height="200"></canvas>
                           </center>
                         </div>
                         <div class="col-12 col-md-4">
                           <div class="col-12">
                             <center>
+
+                              <!-- Performance Ratio card -->
                               <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
                                   <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.daily_actual_performance_ratio }}</span> %</h2>
@@ -324,6 +381,8 @@
                           </div>
                           <div class="col-12">
                             <center>
+
+                              <!-- Inclined irradiance card -->
                               <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
                                   <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
@@ -349,18 +408,28 @@
     
     {% block extra_scripts %}
           <script>
+
+            // Variables for creating generation chart using ChartJS
             var ctxBeawar = document.getElementById('myChart-Beawar').getContext('2d');
             var ctxPanipat = document.getElementById('myChart-Panipat').getContext('2d');
             var ctxRoorkee = document.getElementById('myChart-Roorkee').getContext('2d');
             var ctxJharkhand = document.getElementById('myChart-Jharkhand').getContext('2d');
             var ctxCastamet = document.getElementById('myChart-Castamet').getContext('2d');
 
-            // Data points set globally
-            var BeawarData = '{{ panipat_gen }}';
+
+            // Making solar generation chart for site Beawar
             var myChartBeawar = new Chart(ctxBeawar, {
                 type: 'bar',
                 data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+
+                    // define the labels for each invertor
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], 
+
+                    // define the value of each bar,
+                    //            color of each bar,
+                    //            border-color and border-width of each bar
+                    //            and the label for the chart(define the legends)
+
                     datasets: [{
                         label: 'Comparison of Day-to-Day generation(in kWh)',
                         // data: [panipat_gen.0,],
@@ -384,6 +453,8 @@
                         borderWidth: 1
                     }]
                 },
+
+                // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
                     scales: {
                         y: {
@@ -396,7 +467,14 @@
             var myChartPanipat = new Chart(ctxPanipat, {
                 type: 'bar',
                 data: {
+
+                  // define the labels for each invertor
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+
+                    // define the value of each bar,
+                    //            color of each bar,
+                    //            border-color and border-width of each bar
+                    //            and the label for the chart(define the legends)
                     datasets: [{
                         label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 13, 5, 2, 3],
@@ -419,6 +497,8 @@
                         borderWidth: 1
                     }]
                 },
+
+                // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
                     scales: {
                         y: {
@@ -431,7 +511,14 @@
             var myChartRoorkee = new Chart(ctxRoorkee, {
                 type: 'bar',
                 data: {
+
+                    // define the labels for each invertor
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+
+                    // define the value of each bar,
+                    //            color of each bar,
+                    //            border-color and border-width of each bar
+                    //            and the label for the chart(define the legends)
                     datasets: [{
                         label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 3, 15, 2, 3],
@@ -454,6 +541,8 @@
                         borderWidth: 1
                     }]
                 },
+
+                // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
                     scales: {
                         y: {
@@ -466,7 +555,13 @@
             var myChartJharkhand = new Chart(ctxJharkhand, {
                 type: 'bar',
                 data: {
+                    // define the labels for each invertor
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+
+                    // define the value of each bar,
+                    //            color of each bar,
+                    //            border-color and border-width of each bar
+                    //            and the label for the chart(define the legends)
                     datasets: [{
                         label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 3, 5, 2, 3],
@@ -489,6 +584,8 @@
                         borderWidth: 1
                     }]
                 },
+
+                // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
                     scales: {
                         y: {
@@ -501,7 +598,13 @@
             var myChartCastamet = new Chart(ctxCastamet, {
                 type: 'bar',
                 data: {
+                    // define the labels for each invertor
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+
+                    // define the value of each bar,
+                    //            color of each bar,
+                    //            border-color and border-width of each bar
+                    //            and the label for the chart(define the legends)
                     datasets: [{
                         label: 'Comparison of Day-to-Day generation(in kWh)',
                         data: [12, 19, 3, 5, 2, 3],
@@ -524,6 +627,8 @@
                         borderWidth: 1
                     }]
                 },
+
+                // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
                     scales: {
                         y: {

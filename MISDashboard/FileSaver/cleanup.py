@@ -1,4 +1,6 @@
-#This script is mde to execute monthly to remove all the downloaded scripts from the DJANGO mysql database.
+#This script is made to execute monthly to remove all the downloaded scripts from the DJANGO mysql database.
+#This script is scheduled to run on a monthly basis to remove all the downloaded site sheets and WMS reports from the SiteSheets folder.
+
 import os
 
 path = os.getcwd()+"\..\..\SiteSheets"
@@ -26,13 +28,23 @@ for folder in listing:#for every date folder
 				filelist = [str(file) for file in os.listdir(path='.')]
 				file = filelist[0]
 				print(file)
+
+				#remove the file
 				os.remove(file)
 				path_to_folder = path
 				path = os.getcwd()+"\.."
+
+				#get out of the folder from which file was removed
 				os.chdir(path)
+
+				#remove that folder
 				os.rmdir(path_to_folder)
 		
 		path_to_folder = path
 		path = os.getcwd()+"\.."
+
+		#get out of the folder from which file was removed
 		os.chdir(path)
+		
+		#remove that folder
 		os.rmdir(path_to_folder) 

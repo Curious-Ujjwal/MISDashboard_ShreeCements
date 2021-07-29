@@ -114,13 +114,7 @@ def download_files():
 	imap.close()
 	imap.logout()	
 
-# #Functions to be coded in views:
-# # Files have been downloaded, so I should not make any double copy by storing them in database.
-# # Functions that I should focus on:
-# # 1. Prepare the model for the final sheet first -- DONE
-# # 2. Code the calculations part for our Final Sheet -- DONE
-# # 3. Function to pass the data from the final-sheet(s) onto the webpage.
-# # 4. Batch file for automating downloads. -- DONE
+
 
 # #Site sheet and WMS sheet variables
 
@@ -191,7 +185,7 @@ else:
 	jharkhand_seasonal_tilt = nlp_jharkhand_seasonal_tilt
 	castamet_5deg_fix_tilt = nlp_castamet_5deg_fix_tilt
 
-
+#For panipat site using siteP datasheet and Panipat WMS report
 def calculate_panipat_values():
 	#Daily parameters calculation
 	today_sum = 0.0
@@ -432,6 +426,7 @@ def calculate_panipat_values():
 	p.save()
 
 
+#For castamet site using siteP datasheet and Castamet WMS report
 def calculate_castamet_values():
 	#Daily parameter values
 
@@ -664,6 +659,7 @@ def calculate_castamet_values():
 	c.save()
 
 
+#For beawar site using siteB datasheet and Beawar WMS report
 def calculate_beawar_values():
 	#Daily parameter values
 	today_sum = 0.0
@@ -896,6 +892,8 @@ def calculate_beawar_values():
 		)
 	b.save()
 
+
+#For roorkee site using siteR datasheet and Roorkee WMS report
 def calculate_roorkee_values():
 	#Daily parameter values
 	
@@ -1129,6 +1127,7 @@ def calculate_roorkee_values():
 	r.save()
 
 
+#For jharkhand site using siteJ datasheet and Jharkhand WMS report
 def calculate_jharkhand_values():
 	#Daily parameter values
 	today_sum = 0.0
@@ -1380,6 +1379,8 @@ wr_rows, wr_cols = wmsR.shape
 def error_page(request):
 	return render(request, 'FileSaver/404.html')
 
+
+#For showing live statistics on a daily basis
 def dailyupdates(request):
 	lastJrecord = Jharkhand_Sheet.objects.latest('date')
 	lastPrecord = Panipat_Sheet.objects.latest('date')
@@ -1439,15 +1440,20 @@ def dailyupdates(request):
 	}
 	return render(request, 'FileSaver/statistics.html', context)
 
+#For documentation html page
 def startdoc(request):
 	return render(request, 'FileSaver/doc.html')
 
+#For HTML page with analysis window
 def analysis(request):
 	return render(request, 'FileSaver/analysis.html')
 
+#For page with exception report
 def report(request):
 	return render(request, 'FileSaver/exceptionreport.html')
 
+
+#Function for storing the CSV formatted data and then downloading it onto the machine
 def downloadreport(request):
 	#function for preparing CSV and then download
 	return render(request, 'FileSaver/exceptionreport.html')

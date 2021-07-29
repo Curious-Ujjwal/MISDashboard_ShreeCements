@@ -1,11 +1,20 @@
+<!-- Common HTML template code for all the dashboard pages -->
 {% extends 'FileSaver/base.html' %}
+
+<!-- Title block for all the webpages -->
 {% block title %}
     Analysis Window
 {% endblock %}
+
+<!-- Load static images, css and js defined in STATIC_URL in settings.py -->
 {% load static %}
 
+<!-- Load main content of web page -->
 {% block main_content %}
-    <!-- Main Cards area -->
+
+    <!-- This page contains two options of analysing data -->
+    <!-- 1. From a particular site out of the 5 sites -->
+    <!-- 2. Among different sites -->
     <main class="mt-5 pt-4">
         <div class="container-fluid">
             <div class="row">
@@ -14,10 +23,15 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="dropdown">
+
+                        <!-- 1. From a particular site out of the 5 sites -->
                         <a class="btn btn-secondary bg-danger dropdown-toggle fs-5 text-capitalize" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
                             Analyse Solar Data from a particular site
                         </a>
                       
+                        <!-- Again two options -->
+                        <!-- 1. Based on a particular date -->
+                        <!-- 2. Between 2 dates for a particular invertor -->
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%; background-color: #ffeaea;">  
                             <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis on a particular date</li>
                             <li>
@@ -59,9 +73,14 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="dropdown">
+                        <!-- 2. Among different sites -->
                         <a class="btn btn-secondary bg-danger dropdown-toggle fs-5 text-capitalize" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
                             Analyse Solar data between different sites
                         </a>
+
+                        <!-- Again two options -->
+                        <!-- 1. Based on a particular date -->
+                        <!-- 2. Between 2 dates for a particular invertor -->
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%; background-color: #ffeaea;">
                             <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis based on a particular (Comparison between all sites)</li>
                             <li>
@@ -97,6 +116,10 @@
                     </div>
                 </div>
             </div>
+
+            <!-- This the display area after selecting the form -->
+            <!-- It displays the parameters selected for analysis of data -->
+            <!-- Then major graphs are also displayed along with the comparison tables -->
             <div class="container">
                 <div class="p-5 mb-4 bg-light rounded-3">
                     <div class="container-fluid py-5">
@@ -114,6 +137,3 @@
     </main>
     <!-- Main cards area -->
 {% endblock %}
-    
-</body>
-</html>
