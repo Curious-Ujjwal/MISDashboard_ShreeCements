@@ -39,10 +39,11 @@
 
 
 /* Custom styling for table-cell padding */
-.mytable>tbody>tr>td, .mytable>tbody>tr>th, .mytable>tfoot>tr>td, .mytable>tfoot>tr>th, .mytable>thead>tr>td, .mytable>thead>tr>th {
+/* Can be used if width of bootstrap-table cell needs to be expanded */
+/* .mytable>tbody>tr>td, .mytable>tbody>tr>th, .mytable>tfoot>tr>td, .mytable>tfoot>tr>th, .mytable>thead>tr>td, .mytable>thead>tr>th {
     white-space: nowrap;
     width: 150px;
-}
+} */
 
 @media (min-width: 992px) {
     body {

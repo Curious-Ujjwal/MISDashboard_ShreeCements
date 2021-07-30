@@ -36,14 +36,14 @@
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                   <div class="accordion-body">
                     <div class="row mt-2">
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.daily_actual_generation }}</span> kWh</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ beawar_object.daily_actual_generation }}</span><br> kWh</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
@@ -55,28 +55,28 @@
                             <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.daily_actual_plf }}</span> % PLF</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ beawar_object.daily_actual_plf }}</span><br> % PLF</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
                           </center>
                         </div>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-6">
                         <center>
 
                           <!-- Chart area for Beawar site -->
-                          <canvas id="myChart-Beawar" width="200" height="200"></canvas>
+                          <canvas id="myChart-Beawar" width="200" height="150"></canvas>
                         </center>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.daily_actual_performance_ratio }}</span> %</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ beawar_object.daily_actual_performance_ratio }}</span> <br>%</h2>
                               </div>
                               <div class="card-header fs-5">Performance Ratio</div>
                             </div>
@@ -88,7 +88,7 @@
                             <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ beawar_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ beawar_object.monthly_actual_irradiance }}</span><br> kWh/m<sup>2</sup></h2>
                               </div>
                               <div class="card-header fs-5">Inclined irradiance</div>
                             </div>
@@ -110,14 +110,14 @@
                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                   <div class="accordion-body">
                     <div class="row mt-2">
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.daily_actual_generation }}</span> kWh</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ panipat_object.daily_actual_generation }}</span><br> kWh</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
@@ -129,28 +129,28 @@
                             <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.daily_actual_plf }}</span> % PLF</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ panipat_object.daily_actual_plf }}</span><br> % PLF</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
                           </center>
                         </div>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-6">
                         <center>
 
                           <!-- Chart area for Beawar site -->
-                          <canvas id="myChart-Panipat" width="200" height="200"></canvas>
+                          <canvas id="myChart-Panipat" width="200" height="150"></canvas>
                         </center>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.daily_actual_performance_ratio }}</span> %</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ panipat_object.daily_actual_performance_ratio }}</span><br> %</h2>
                               </div>
                               <div class="card-header fs-5">Performance Ratio</div>
                             </div>
@@ -162,7 +162,7 @@
                             <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ panipat_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ panipat_object.monthly_actual_irradiance }}</span><br> kWh/m<sup>2</sup></h2>
                               </div>
                               <div class="card-header fs-5">Inclined irradiance</div>
                             </div>
@@ -184,14 +184,14 @@
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                   <div class="accordion-body">
                     <div class="row mt-2">
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.daily_actual_generation }}</span> kWh</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ roorkee_object.daily_actual_generation }}</span><br> kWh</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
@@ -203,28 +203,28 @@
                             <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.daily_actual_plf }}</span> % PLF</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ roorkee_object.daily_actual_plf }}</span><br> % PLF</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
                           </center>
                         </div>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-6">
                         <center>
 
                           <!-- Chart area for Beawar site -->
-                          <canvas id="myChart-Roorkee" width="200" height="200"></canvas>
+                          <canvas id="myChart-Roorkee" width="200" height="150"></canvas>
                         </center>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.daily_actual_performance_ratio }}</span> %</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ roorkee_object.daily_actual_performance_ratio }}</span><br> %</h2>
                               </div>
                               <div class="card-header fs-5">Performance Ratio</div>
                             </div>
@@ -236,7 +236,7 @@
                             <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ roorkee_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ roorkee_object.monthly_actual_irradiance }}</span><br> kWh/m<sup>2</sup></h2>
                               </div>
                               <div class="card-header fs-5">Inclined irradiance</div>
                             </div>
@@ -258,14 +258,14 @@
                 <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
                   <div class="accordion-body">
                     <div class="row mt-2">
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Daily Solar Generation (in Kwh) card -->
                             <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.daily_actual_generation }}</span> kWh</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ jharkhand_object.daily_actual_generation }}</span><br> kWh</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
@@ -277,28 +277,28 @@
                             <!-- Daily Solar Generation (in %PLF) card -->
                             <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.daily_actual_plf }}</span> % PLF</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ jharkhand_object.daily_actual_plf }}</span><br> % PLF</h2>
                               </div>
                               <div class="card-header fs-5">Daily Solar Generation</div>
                             </div>
                           </center>
                         </div>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-6">
                         <center>
 
                           <!-- Chart area for Beawar site -->
-                          <canvas id="myChart-Jharkhand" width="200" height="200"></canvas>
+                          <canvas id="myChart-Jharkhand" width="200" height="150"></canvas>
                         </center>
                       </div>
-                      <div class="col-12 col-md-4">
+                      <div class="col-12 col-md-3">
                         <div class="col-12">
                           <center>
 
                             <!-- Performance Ratio card -->
                             <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.daily_actual_performance_ratio }}</span> %</h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ jharkhand_object.daily_actual_performance_ratio }}</span><br> %</h2>
                               </div>
                               <div class="card-header fs-5">Performance Ratio</div>
                             </div>
@@ -310,7 +310,7 @@
                             <!-- Inclined irradiance card -->
                             <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                               <div class="card-body">
-                                <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ jharkhand_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
+                                <h2 class="card-title display-6"><span class="fw-bold">{{ jharkhand_object.monthly_actual_irradiance }}</span><br> kWh/m<sup>2</sup></h2>
                               </div>
                               <div class="card-header fs-5">Inclined irradiance</div>
                             </div>
@@ -333,14 +333,14 @@
                   <div class="accordion-body">
                     <div class="accordion-body">
                       <div class="row mt-2">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                           <div class="col-12">
                             <center>
 
                               <!-- Daily Solar Generation (in Kwh) card -->
                               <div class="card text-white bg-primary bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
-                                  <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.daily_actual_generation }}</span> kWh</h2>
+                                  <h2 class="card-title display-6"><span class="fw-bold">{{ castamet_object.daily_actual_generation }}</span><br> kWh</h2>
                                 </div>
                                 <div class="card-header fs-5">Daily Solar Generation</div>
                               </div>
@@ -352,28 +352,28 @@
                               <!-- Daily Solar Generation (in %PLF) card -->
                               <div class="card text-white bg-success bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
-                                  <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.daily_actual_plf }}</span> % PLF</h2>
+                                  <h2 class="card-title display-6"><span class="fw-bold">{{ castamet_object.daily_actual_plf }}</span><br> % PLF</h2>
                                 </div>
                                 <div class="card-header fs-5">Daily Solar Generation</div>
                               </div>
                             </center>
                           </div>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                           <center>
 
                             <!-- Chart area for Beawar site -->
-                            <canvas id="myChart-Castamet" width="200" height="200"></canvas>
+                            <canvas id="myChart-Castamet" width="200" height="150"></canvas>
                           </center>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                           <div class="col-12">
                             <center>
 
                               <!-- Performance Ratio card -->
                               <div class="card text-white bg-warning bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
-                                  <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.daily_actual_performance_ratio }}</span> %</h2>
+                                  <h2 class="card-title display-6"><span class="fw-bold">{{ castamet_object.daily_actual_performance_ratio }}</span><br> %</h2>
                                 </div>
                                 <div class="card-header fs-5">Performance Ratio</div>
                               </div>
@@ -385,7 +385,7 @@
                               <!-- Inclined irradiance card -->
                               <div class="card text-white bg-danger bg-gradient mb-3" style="max-width: 20rem;">
                                 <div class="card-body">
-                                  <h2 class="card-title display-5 py-2"><span class="fw-bold">{{ castamet_object.monthly_actual_irradiance }}</span> kWh/m<sup>2</sup></h2>
+                                  <h2 class="card-title display-6"><span class="fw-bold">{{ castamet_object.monthly_actual_irradiance }}</span><br> kWh/m<sup>2</sup></h2>
                                 </div>
                                 <div class="card-header fs-5">Inclined irradiance</div>
                               </div>
@@ -405,10 +405,48 @@
   {% endblock %}
     <!-- Main cards area -->
 
-    
-    {% block extra_scripts %}
-          <script>
 
+    {% block extra_scripts %}
+          {{ beawar_gen|json_script:"beawar-data" }}    
+          {{ panipat_gen|json_script:"panipat-data" }}
+          {{ jharkhand_gen|json_script:"jharkhand-data" }}
+          {{ castamet_gen|json_script:"castamet-data" }}
+          {{ roorkee_gen|json_script:"roorkee-data" }}
+          <script>
+            const beawarData = JSON.parse(document.getElementById('beawar-data').textContent);
+            const panipatData = JSON.parse(document.getElementById('panipat-data').textContent);
+            const jharkhandData = JSON.parse(document.getElementById('jharkhand-data').textContent);
+            const castametData = JSON.parse(document.getElementById('castamet-data').textContent);
+            const roorkeeData = JSON.parse(document.getElementById('roorkee-data').textContent);
+
+            // console.log(beawarData);
+            // console.log(panipatData);
+            console.log(jharkhandData);
+            console.log(castametData);
+            console.log(roorkeeData);
+
+
+            const beawarInvertors = []
+            const panipatInvertors = []
+            const jharkhandInvertors = []
+            const castametInvertors = []
+            const roorkeeInvertors = []
+
+            for(let i=1; i<=beawarData.length; i++) {
+              beawarInvertors.push('Invertor-'+i);
+            }
+            for(let i=1; i<=panipatData.length; i++) {
+              panipatInvertors.push('Invertor-'+i);
+            }
+            for(let i=1; i<=jharkhandData.length; i++) {
+              jharkhandInvertors.push('Invertor-'+i);
+            }
+            for(let i=1; i<=castametData.length; i++) {
+              castametInvertors.push('Invertor-'+i);
+            }
+            for(let i=1; i<=roorkeeData.length; i++) {
+              roorkeeInvertors.push('Invertor-'+i);
+            }
             // Variables for creating generation chart using ChartJS
             var ctxBeawar = document.getElementById('myChart-Beawar').getContext('2d');
             var ctxPanipat = document.getElementById('myChart-Panipat').getContext('2d');
@@ -423,7 +461,7 @@
                 data: {
 
                     // define the labels for each invertor
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'], 
+                    labels: beawarInvertors,
 
                     // define the value of each bar,
                     //            color of each bar,
@@ -431,24 +469,17 @@
                     //            and the label for the chart(define the legends)
 
                     datasets: [{
-                        label: 'Comparison of Day-to-Day generation(in kWh)',
-                        // data: [panipat_gen.0,],
-                        data: [12, 19, 3, 5, 2, 3],
+                        label: 'Daily Solar generation(in kWh)',
+                        data: beawarData,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
                             'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
                         ],
                         borderColor: [
                             'rgba(255, 99, 132, 1)',
                             'rgba(54, 162, 235, 1)',
                             'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -456,6 +487,7 @@
 
                 // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -465,19 +497,19 @@
             });
 
             var myChartPanipat = new Chart(ctxPanipat, {
-                type: 'bar',
+              type: 'bar',
                 data: {
 
                   // define the labels for each invertor
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: panipatInvertors,
 
                     // define the value of each bar,
                     //            color of each bar,
                     //            border-color and border-width of each bar
                     //            and the label for the chart(define the legends)
                     datasets: [{
-                        label: 'Comparison of Day-to-Day generation(in kWh)',
-                        data: [12, 19, 13, 5, 2, 3],
+                        label: 'Daily Solar generation(in kWh)',
+                        data: panipatData,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -500,10 +532,12 @@
 
                 // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
-                            beginAtZero: true
-                        }
+                            beginAtZero: false,
+                            stepSize: 70,
+                        },
                     }
                 }
             });
@@ -513,15 +547,15 @@
                 data: {
 
                     // define the labels for each invertor
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: roorkeeInvertors,
 
                     // define the value of each bar,
                     //            color of each bar,
                     //            border-color and border-width of each bar
                     //            and the label for the chart(define the legends)
                     datasets: [{
-                        label: 'Comparison of Day-to-Day generation(in kWh)',
-                        data: [12, 19, 3, 15, 2, 3],
+                        label: 'Daily Solar generation(in kWh)',
+                        data: roorkeeData,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -544,6 +578,8 @@
 
                 // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
+                    responsive: true,
+                    // maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -556,15 +592,15 @@
                 type: 'bar',
                 data: {
                     // define the labels for each invertor
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: jharkhandInvertors,
 
                     // define the value of each bar,
                     //            color of each bar,
                     //            border-color and border-width of each bar
                     //            and the label for the chart(define the legends)
                     datasets: [{
-                        label: 'Comparison of Day-to-Day generation(in kWh)',
-                        data: [12, 19, 3, 5, 2, 3],
+                        label: 'Daily Solar generation(in kWh)',
+                        data: jharkhandData,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -587,6 +623,8 @@
 
                 // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
+                    responsive: true,
+                    // maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -599,15 +637,15 @@
                 type: 'bar',
                 data: {
                     // define the labels for each invertor
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: castametInvertors,
 
                     // define the value of each bar,
                     //            color of each bar,
                     //            border-color and border-width of each bar
                     //            and the label for the chart(define the legends)
                     datasets: [{
-                        label: 'Comparison of Day-to-Day generation(in kWh)',
-                        data: [12, 19, 3, 5, 2, 3],
+                        label: 'Daily Solar generation(in kWh)',
+                        data: castametData,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -630,6 +668,8 @@
 
                 // define the starting point of the graph, maybe use kink for bigger graphs
                 options: {
+                    responsive: true,
+                    // maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true

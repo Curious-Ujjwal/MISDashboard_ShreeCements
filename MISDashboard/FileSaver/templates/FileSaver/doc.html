@@ -12,6 +12,31 @@
 
 <!-- Load main content of web page -->
 {% block main_content %}
-    Welcome to the Documentation of this project
+    <main class="mt-5 pt-5">
+        Welcome to the documentation of the project
+        <div class="container">
+            Options available:<br>
+            1. Latest Statistics<br>
+            2. Analysis Window<br>
+            3. Solar Exception Report<br>
+            4. Getting Started<br>
+            5. Operator Login<br>
+
+            Latest Statistics
+            <br>
+            This shows live statistics of daily solar power generation. These shows Daily Solar Generation(kWh and %PLF), Performace Ratio and inclined irradiance
+            Graph are generated for the daily solar generations
+            <br>
+            Analysis Window gives us option of analysing solar data with two options explained in detail.
+            <br>
+            Solar Exception Report of everyday is displayed and form to select which date report is to be displayed. Download in CSV format also available.
+            <br>
+            Operator Login connects you to django-admin system. It has option of editing site sheets for exception report parameters. Can handle login authentication system also.
+            <br>
+            Detailed procedure to be explained in the documentation.
+            <br>
+            Extra steps for code to be edited and other procedures that are followed.
+        </div>
+    </main>
 {% endblock %}
 <!-- Load main content of web page -->
