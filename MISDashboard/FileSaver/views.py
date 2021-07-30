@@ -6,6 +6,7 @@ import webbrowser
 import pandas as pd
 from .models import *
 from datetime import date
+from decimal import Decimal
 from .defineconstants import *
 from django.shortcuts import render
 from email.header import decode_header
@@ -115,9 +116,7 @@ def download_files():
 	imap.logout()	
 
 
-
 # #Site sheet and WMS sheet variables
-
 # """
 # 	siteP -> Panipat SiteSheet
 # 	siteB -> Beawar SiteSheet
@@ -1388,7 +1387,7 @@ def dailyupdates(request):
 	lastBrecord = Beawar_Sheet.objects.latest('date')
 	lastRrecord = Roorkee_Sheet.objects.latest('date')
 	global p_rows, b_rows, j_rows, c_rows, r_rows
-	global siteP, siteJ, siteR, siteC, siteB
+	global siteP, siteJ, siteR, siteC, siteB, wmsC, wmsJ, wmsP, wmsR
 
 
 	#prepare lists for data-values
@@ -1396,19 +1395,28 @@ def dailyupdates(request):
 	daily_panipat_gen = []
 	daily_jharkhand_gen = []
 	daily_castamet_gen = []
-	daily_beawar_gen = [siteB[0][1], siteB[1][1], siteB[2][1]]
+	daily_beawar_gen = [siteB[0][3], siteB[1][3], siteB[2][3]]
+	# daily_beawar_gen = [siteB[0][date_day], siteB[1][date_day], siteB[2][date_day]]
 	daily_roorkee_gen = []
 
-	for i in range(p_rows):
+	# for i in range(p_rows):
+	# for i in range(22):	actual count
+	for i in range(17):		#just for testing
 		daily_panipat_gen.append(siteP[i][4])
 
-	for i in range(j_rows):
+	# for i in range(j_rows):
+	# for i in range(21):	actual count
+	for i in range(21):		#just for testing
 		daily_jharkhand_gen.append(siteJ[i][4])
 
-	for i in range(c_rows):
+	# for i in range(c_rows):
+	# for i in range(18):	actual count
+	for i in range(22):		#just for testing
 		daily_castamet_gen.append(siteC[i][4])
 
-	for i in range(r_rows):
+	# for i in range(r_rows):
+	# for i in range(21):
+	for i in range(14):
 		daily_roorkee_gen.append(siteR[i][4])
 
 	context = {
@@ -1450,7 +1458,40 @@ def analysis(request):
 
 #For page with exception report
 def report(request):
-	return render(request, 'FileSaver/exceptionreport.html')
+	lastJrecord = Jharkhand_Sheet.objects.latest('date')
+	lastPrecord = Panipat_Sheet.objects.latest('date')
+	lastCrecord = Castamet_Sheet.objects.latest('date')
+	lastBrecord = Beawar_Sheet.objects.latest('date')
+	lastRrecord = Roorkee_Sheet.objects.latest('date')
+	prDiffPanipat = lastPrecord.daily_target_performance_ratio - lastPrecord.daily_actual_performance_ratio
+	prDiffJharkhand = lastJrecord.daily_target_performance_ratio - lastJrecord.daily_actual_performance_ratio
+	prDiffRoorkee = lastRrecord.daily_target_performance_ratio - lastRrecord.daily_actual_performance_ratio
+	prDiffCastamet = lastCrecord.daily_target_performance_ratio - lastCrecord.daily_actual_performance_ratio
+	prDiffBeawar = lastBrecord.daily_target_performance_ratio - lastBrecord.daily_actual_performance_ratio
+	misclossB = (float(lastBrecord.daily_misc_loss)*24)/float(lastBrecord.daily_actual_irradiance)
+	misclossP = (float(lastPrecord.daily_misc_loss)*24)/float(lastPrecord.daily_actual_irradiance)
+	misclossR = (float(lastRrecord.daily_misc_loss)*24)/float(lastRrecord.daily_actual_irradiance)
+	misclossJ = (float(lastJrecord.daily_misc_loss)*24)/float(lastJrecord.daily_actual_irradiance)
+	misclossC = (float(lastCrecord.daily_misc_loss)*24)/float(lastCrecord.daily_actual_irradiance)
+
+	context = {
+		'panipat_object': lastPrecord,
+		'jharkhand_object': lastJrecord,
+		'castamet_object': lastCrecord,
+		'beawar_object': lastBrecord,
+		'roorkee_object': lastRrecord,
+		'prDiffP': prDiffPanipat,
+		'prDiffJ': prDiffJharkhand,
+		'prDiffR': prDiffRoorkee,
+		'prDiffC': prDiffCastamet,
+		'prDiffB': prDiffBeawar,
+		'misclossB': misclossB,
+		'misclossP': misclossP,
+		'misclossR': misclossR,
+		'misclossJ': misclossJ,
+		'misclossC': misclossC,
+	}
+	return render(request, 'FileSaver/exceptionreport.html', context)
 
 
 #Function for storing the CSV formatted data and then downloading it onto the machine

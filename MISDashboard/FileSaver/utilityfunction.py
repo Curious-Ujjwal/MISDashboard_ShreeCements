@@ -14,8 +14,12 @@ wmsJ = None
 wmsP = None
 wmsR = None
 
+#All the files to be scanned should be in .xlsx format
+#They are read using read_excel and 'openpyxl' engine specifically made for scanning and editing .xlsx files without any errors.
+#Other methods may prove to be error-prone.
+
 def sheet_variables():
-	today = date.today().strftime('%d-%m-%Y')
+	today = date.today().strftime('%d-%m-%Y') #reform it, because it should be one day before than the current day
 	# path = os.getcwd() + "\..\..\SiteSheets\\" + today
 	#Uncomment after debug successful
 	# path = os.getcwd() + "\\..\\..\\SiteSheets\\" + '30-06-2021'
@@ -56,7 +60,7 @@ def sheet_variables():
 				# print(site2)
 			elif(i == 2):
 				global siteJ
-				siteJ = pd.read_excel(path, skiprows=3, engine='openpyxl')
+				siteJ = pd.read_excel(path, skiprows=5, engine='openpyxl')
 				i += 1
 				# print(site3)
 			elif(i == 3):
@@ -72,22 +76,22 @@ def sheet_variables():
 				# print(site5)
 			elif(i == 5):
 				global wmsC
-				wmsC = pd.read_excel(path, skiprows=3, engine='openpyxl')
+				wmsC = pd.read_excel(path, skiprows=6, engine='openpyxl')
 				i+=1
 				# print(wmsC)	
 			elif(i == 6):
 				global wmsJ
-				wmsJ = pd.read_excel(path, skiprows=3, engine='openpyxl')
+				wmsJ = pd.read_excel(path, skiprows=6, engine='openpyxl')
 				i+=1
 				# print(wmsJ)
 			elif(i == 7):
 				global wmsP
-				wmsP = pd.read_excel(path, skiprows=3, engine='openpyxl')
+				wmsP = pd.read_excel(path, skiprows=6, engine='openpyxl')
 				i+=1
 				# print(wmsP)
 			elif(i == 8):
 				global wmsR
-				wmsR = pd.read_excel(path, skiprows=3, engine='openpyxl')
+				wmsR = pd.read_excel(path, skiprows=6, engine='openpyxl')
 				i += 1
 				# print(wmsR)
 				path = os.getcwd() + "\\..\\"
