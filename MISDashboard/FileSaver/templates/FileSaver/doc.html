@@ -13,29 +13,128 @@
 <!-- Load main content of web page -->
 {% block main_content %}
     <main class="mt-5 pt-5">
-        Welcome to the documentation of the project
         <div class="container">
-            Options available:<br>
-            1. Latest Statistics<br>
-            2. Analysis Window<br>
-            3. Solar Exception Report<br>
-            4. Getting Started<br>
-            5. Operator Login<br>
+            <div class="mb-3 bg-danger fs-2 text-center text-white">MIS PROJECT DOCUMENTATION</div>
+            <div class="container">
+                <p class="">
+                    This page covers the documentation of the features provided in this Management Information System (MIS) software. This software is used for taking live updates on data from the Solar plants at Beawar, Jharkhand, Castamet, Roorkee and Panipat. This software provides the following features:
+                    <ol class="text-danger fs-5 fw-bold">
+                        <li>Latest Statistics</li>
+                        <li>Analysis Window</li>
+                        <li>Solar Exception Report</li>
+                        <li>Getting Started</li>
+                        <li>Operator Login</li>
+                    </ol>
+                </p>
+                <br><br>
+                <p class="">
+                    Refer the sections below to see how to use these features.
+                    <div class="mb-3 bg-danger px-3">
+                        <span class="bg-light fs-5 text-danger fw-bold px-3 border border-light border-2 text-uppercase">
+                            Latest Statistics
+                        </span>
+                    </div>
+                    <div class="container">
+                        <p>
+                            This provides you with the latest information about all the solar plant sites, one by one. These data are categorised in vertically collapsing sections. Each section is identified by the site name followed by the number of invertors at that site.<br>
+                            For each site, the following particulars are displayed:
+                            <ol>
+                                <li>Daily Solar Generation (in kWh)</li>
+                                <li>Daily Solar Generation (in % PLF)</li>
+                                <li>Daily Performance Ratio (in %)</li>
+                                <li>Inclined irradiance (in kWh/m<sup>2</sup>)</li>
+                                <li>Bar Graph representing the latest data about the solar generations from all the invertors</li>
+                            </ol>
+                        </p>
+                        <p>
+                            To access this page, click on <a href="{% url 'dailyupdates' %}" class="text-danger">localhost:8000/sites-liveupdates/</a>
+                        </p>
+                    </div>
+                    <br><br>
+                    <div class="mb-3 bg-danger px-3">
+                        <span class="bg-light fs-5 text-danger fw-bold px-3 border border-light border-2 text-uppercase">
+                            Analysis Window
+                        </span>
+                    </div>
+                    <div class="container">
+                        <p>
+                            This provides you the space for data analysis. Plug into the required type of analysis. Two options are made available for analysis:
+                            <ul type="square">
+                                <li>Analyse Solar Data At A Particular Site</li>
+                                <li>Analyse Solar Data Between Different Sites</li>
+                            </ul>
 
-            Latest Statistics
-            <br>
-            This shows live statistics of daily solar power generation. These shows Daily Solar Generation(kWh and %PLF), Performace Ratio and inclined irradiance
-            Graph are generated for the daily solar generations
-            <br>
-            Analysis Window gives us option of analysing solar data with two options explained in detail.
-            <br>
-            Solar Exception Report of everyday is displayed and form to select which date report is to be displayed. Download in CSV format also available.
-            <br>
-            Operator Login connects you to django-admin system. It has option of editing site sheets for exception report parameters. Can handle login authentication system also.
-            <br>
-            Detailed procedure to be explained in the documentation.
-            <br>
-            Extra steps for code to be edited and other procedures that are followed.
+                            <p>
+                                <h5 class="text-danger text-decoration-underline">Analyse Solar Data At A Particular Site</h5>
+                                <div class="container">
+                                    In this mode of analysis, you need to select a few parameters based upon which tables and graphs will be generated. <br>Select Date, Site and two invertors to compare their solar generation. <br>
+                                    You will also be presented with that day's solar generation statistics from the site.
+                                </div>
+                            </p>
+                            <p>
+                                <h5 class="text-danger text-decoration-underline">Analyse Solar data between different sites</h5>
+                                <div class="container">
+                                   This mode of analysis allows to compare the data between different sites.<br>
+                                   Select a Date and the Particular from the form that shows up.<br>
+                                   All the sites are compared for that particular for the specific date, and the results are presented in the tabular form along with the graphs.
+                                </div>
+                            </p>
+                            <p>
+                                
+                            </p>
+                        </p>
+                        <p>
+                            To access this page click on <a href="{% url 'analysis' %}" class="text-danger">localhost:8000/analysis-window/</a>
+                        </p>
+                    </div>
+                    <br><br>
+                    <div class="mb-3 bg-danger px-3">
+                        <span class="bg-light fs-5 text-danger fw-bold px-3 border border-light border-2 text-uppercase">
+                            Solar Exception Report
+                        </span>
+                    </div>
+                    <div class="container">
+                        <p>
+                            This page presents with the Day's Solar Exception Report. This report comprises of all the figures/metrics that are calculated from the everyday's Solar Data Sheets and WMS Reports.<br>
+                            Select a date to get the finalised Solar Exception Report for that day.<br>
+                            There is also an option for downloading this report in Excel Sheet format, which can be used for many different and useful purposes.
+                        </p>
+                        <p>
+                            To access this page click on <a href="{% url 'report' %}" class="text-danger">localhost:8000/exception-report/</a>
+                        </p>
+                    </div>
+                    <br><br>
+                    <div class="mb-3 bg-danger px-3">
+                        <span class="bg-light fs-5 text-danger fw-bold px-3 border border-light border-2 text-uppercase">
+                            Getting Started
+                        </span>
+                    </div>
+                    <div class="container">
+                        <p>
+                            This page presents the brief documentation of the software. Click on the links to know more about the feature.
+                        </p>
+                        <p>
+                            To access this page click on <a href="{% url 'startdoc' %}" class="text-danger">localhost:8000/getting-started/</a>
+                        </p>
+                    </div>
+                    <br><br>
+                    <div class="mb-3 bg-danger px-3" id="loginsection">
+                        <span class="bg-light fs-5 text-danger fw-bold px-3 border border-light border-2 text-uppercase">
+                            Operator Login
+                        </span>
+                    </div>
+                    <div class="container">
+                        <p>
+                            This pairs up to the Operator Login Page. This is accessible only to the Site Operators and Upper Management Staff.<br>
+                            By logging into the admin page, operators can see and edit the compiled information particulars of each and every site.<br>
+                            The procedure of adding some Target Data about every particular site has to be followed everyday, because the final compiled results do depend on the Targets set by the Operators.
+                        </p>
+                        <p>
+                            To access this page click on <a href="../admin/" class="text-danger">localhost:8000/admin/</a>
+                        </p>
+                    </div>
+                </p>
+            </div>
         </div>
     </main>
 {% endblock %}
