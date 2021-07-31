@@ -8,7 +8,8 @@ from .models import *
 from datetime import date
 from decimal import Decimal
 from .defineconstants import *
-from django.shortcuts import render
+from django.urls import reverse
+from django.shortcuts import render, redirect
 from email.header import decode_header
 from django.template import RequestContext
 from django.contrib.auth import login, authenticate
@@ -1458,41 +1459,66 @@ def analysis(request):
 
 #For page with exception report
 def report(request):
-	lastJrecord = Jharkhand_Sheet.objects.latest('date')
-	lastPrecord = Panipat_Sheet.objects.latest('date')
-	lastCrecord = Castamet_Sheet.objects.latest('date')
-	lastBrecord = Beawar_Sheet.objects.latest('date')
-	lastRrecord = Roorkee_Sheet.objects.latest('date')
-	prDiffPanipat = lastPrecord.daily_target_performance_ratio - lastPrecord.daily_actual_performance_ratio
-	prDiffJharkhand = lastJrecord.daily_target_performance_ratio - lastJrecord.daily_actual_performance_ratio
-	prDiffRoorkee = lastRrecord.daily_target_performance_ratio - lastRrecord.daily_actual_performance_ratio
-	prDiffCastamet = lastCrecord.daily_target_performance_ratio - lastCrecord.daily_actual_performance_ratio
-	prDiffBeawar = lastBrecord.daily_target_performance_ratio - lastBrecord.daily_actual_performance_ratio
-	misclossB = (float(lastBrecord.daily_misc_loss)*24)/float(lastBrecord.daily_actual_irradiance)
-	misclossP = (float(lastPrecord.daily_misc_loss)*24)/float(lastPrecord.daily_actual_irradiance)
-	misclossR = (float(lastRrecord.daily_misc_loss)*24)/float(lastRrecord.daily_actual_irradiance)
-	misclossJ = (float(lastJrecord.daily_misc_loss)*24)/float(lastJrecord.daily_actual_irradiance)
-	misclossC = (float(lastCrecord.daily_misc_loss)*24)/float(lastCrecord.daily_actual_irradiance)
+	if request.method == 'GET':
+		print('Hullaaa')
+		day_asked = request.GET.dict()
+		day_date = day_asked.get('ipdate')
+		print(day_date)
+		
+		if day_date == None:
+			context = {
+				'recordsearch': False,
+			}
+			print('Hi')
+			return render(request, 'FileSaver/exceptionreport.html', context)
 
-	context = {
-		'panipat_object': lastPrecord,
-		'jharkhand_object': lastJrecord,
-		'castamet_object': lastCrecord,
-		'beawar_object': lastBrecord,
-		'roorkee_object': lastRrecord,
-		'prDiffP': prDiffPanipat,
-		'prDiffJ': prDiffJharkhand,
-		'prDiffR': prDiffRoorkee,
-		'prDiffC': prDiffCastamet,
-		'prDiffB': prDiffBeawar,
-		'misclossB': misclossB,
-		'misclossP': misclossP,
-		'misclossR': misclossR,
-		'misclossJ': misclossJ,
-		'misclossC': misclossC,
-	}
-	return render(request, 'FileSaver/exceptionreport.html', context)
+		if Panipat_Sheet.objects.filter(date=day_date).exists()==True:
+			print('HEy, yes')
+			lastJrecord = Jharkhand_Sheet.objects.filter(date=day_date).first()
+			lastPrecord = Panipat_Sheet.objects.filter(date=day_date).first()
+			lastCrecord = Castamet_Sheet.objects.filter(date=day_date).first()
+			lastBrecord = Beawar_Sheet.objects.filter(date=day_date).first()
+			lastRrecord = Roorkee_Sheet.objects.filter(date=day_date).first()
 
+			print('Hello new comment')
+			prDiffPanipat = lastPrecord.daily_target_performance_ratio - lastPrecord.daily_actual_performance_ratio
+			prDiffJharkhand = lastJrecord.daily_target_performance_ratio - lastJrecord.daily_actual_performance_ratio
+			prDiffRoorkee = lastRrecord.daily_target_performance_ratio - lastRrecord.daily_actual_performance_ratio
+			prDiffCastamet = lastCrecord.daily_target_performance_ratio - lastCrecord.daily_actual_performance_ratio
+			prDiffBeawar = lastBrecord.daily_target_performance_ratio - lastBrecord.daily_actual_performance_ratio
+			misclossB = (float(lastBrecord.daily_misc_loss)*24)/float(lastBrecord.daily_actual_irradiance)
+			misclossP = (float(lastPrecord.daily_misc_loss)*24)/float(lastPrecord.daily_actual_irradiance)
+			misclossR = (float(lastRrecord.daily_misc_loss)*24)/float(lastRrecord.daily_actual_irradiance)
+			misclossJ = (float(lastJrecord.daily_misc_loss)*24)/float(lastJrecord.daily_actual_irradiance)
+			misclossC = (float(lastCrecord.daily_misc_loss)*24)/float(lastCrecord.daily_actual_irradiance)
+
+			context = {
+				'panipat_object': lastPrecord,
+				'jharkhand_object': lastJrecord,
+				'castamet_object': lastCrecord,
+				'beawar_object': lastBrecord,
+				'roorkee_object': lastRrecord,
+				'prDiffP': prDiffPanipat,
+				'prDiffJ': prDiffJharkhand,
+				'prDiffR': prDiffRoorkee,
+				'prDiffC': prDiffCastamet,
+				'prDiffB': prDiffBeawar,
+				'misclossB': misclossB,
+				'misclossP': misclossP,
+				'misclossR': misclossR,
+				'misclossJ': misclossJ,
+				'misclossC': misclossC,
+				'recordpresent': True,
+				'recordsearch': True,
+			}
+			return render(request, 'FileSaver/exceptionreport.html', context)
+		else:
+			print('Try again next time!')
+			context = {
+				'recordpresent': False,
+				'recordsearch': True,
+			}
+			return render(request, 'FileSaver/exceptionreport.html', context)
 
 #Function for storing the CSV formatted data and then downloading it onto the machine
 def downloadreport(request):

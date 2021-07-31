@@ -26,9 +26,10 @@
         <br><br>
 
         <!-- Select that date at which Solar Exception Report is required -->
-        <form action="#">
+        <form action="{% url 'report' %}" method="GET">
+            {% csrf_token %}
             <label for="ipdate" class="form-label d-block mx-auto" style="width: 40%;">Select a date</label>
-            <input type="date" class="mx-auto form-control mb-1" name="ipdate" id="ipdate" style="width: 40%;">
+            <input type="date" class="mx-auto form-control mb-1" name="ipdate" id="ipdate" style="width: 40%;" required>
             <div class="row justify-content-center">
                 <div class="col-1">
                     <button type="submit" class="btn btn-danger fw-bold">SUBMIT</button>
@@ -37,440 +38,449 @@
         </form>
         <br><br><br>
 
+        {% if not recordsearch %}
+            <p class="text-center display-6">Type in the date to search for the Solar Exception Report.</p>
+        {% endif %}
+
         <!-- Area where the Solar Exception Report/Table is displayed -->
-        <div class="container-fluid">
-            
-            <!-- Click this button to download Solar Exception Report -->
-            <a href="{% url 'downloadreport' %}">
-                <button class="btn btn-success bg-gradient text-white fw-bold" style="font-family: Noto Sans;">
-                    Download Solar Exception Report
-                </button>
-            </a>
-            <br><br>
+        {% if recordpresent and recordsearch %}
+            <div class="container-fluid">
+                <!-- Click this button to download Solar Exception Report -->
+                <a href="{% url 'downloadreport' %}">
+                    <button class="btn btn-success bg-gradient text-white fw-bold" style="font-family: Noto Sans;">
+                        Download Solar Exception Report
+                    </button>
+                </a>
+                <br><br>
+                <!-- Solar Exception Report/Table -->
+                <table class="table table-hover mytable table-bordered border-danger">
+                    <thead class="table-danger">
 
-            <!-- Solar Exception Report/Table -->
-            <table class="table table-hover mytable table-bordered border-danger">
-                <thead class="table-danger">
+                        <!-- Display all the sites -->
+                        <tr class="text-uppercase fs-5">
+                            <th scope="col" colspan="3">
+                                <center>Site Locations</center>
+                            </th>
+                            <th scope="col" colspan="6" class="text-white bg-primary sticky-top"><center>Site Beawar</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-danger sticky-top"><center>Site Panipat</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-warning sticky-top"><center>Site Roorkee</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-info sticky-top"><center>Site Jharkhand</center></th>
+                            <th scope="col" colspan="6" class="text-white bg-dark sticky-top"><center>Site Castamet</center></th>
+                        </tr>
 
-                    <!-- Display all the sites -->
-                    <tr class="text-uppercase fs-5">
-                        <th scope="col" colspan="3">
-                            <center>Site Locations</center>
-                        </th>
-                        <th scope="col" colspan="6" class="text-white bg-primary sticky-top"><center>Site Beawar</center></th>
-                        <th scope="col" colspan="6" class="text-white bg-danger sticky-top"><center>Site Panipat</center></th>
-                        <th scope="col" colspan="6" class="text-white bg-warning sticky-top"><center>Site Roorkee</center></th>
-                        <th scope="col" colspan="6" class="text-white bg-info sticky-top"><center>Site Jharkhand</center></th>
-                        <th scope="col" colspan="6" class="text-white bg-dark sticky-top"><center>Site Castamet</center></th>
+                        <!-- Display the time period at which parameters are to be shown -->
+                        <tr>
+                            <th></th><th></th><th></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                            <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
+                            <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
+                            <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                        </tr>
+                        
+                        <!-- Below heading area -->
+                        <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Particulars</th>
+                            <th scope="col">UOM</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">Actual</th>
+                        </tr>
+                    </thead>
+
+                    <!-- Generation in kWh, this row spans with the next row -->
+                    <tbody>
+                        <tr>
+                            <th scope="row" rowspan="2">1</th>
+                            <td rowspan="2" class="text-decoration-underline">Generation (Today)</td>
+                            <td>KWH</td>
+                            <td>{{ beawar_object.daily_target_generation }}</td>
+                            <td>{{ beawar_object.daily_actual_generation }}</td>
+                            <td>{{ beawar_object.monthly_target_generation }}</td>
+                            <td>{{ beawar_object.monthly_actual_generation }}</td>
+                            <td>{{ beawar_object.yearly_target_generation }}</td>
+                            <td>{{ beawar_object.yearly_actual_generation }}</td>
+
+                            <td>{{ panipat_object.daily_target_generation }}</td>
+                            <td>{{ panipat_object.daily_actual_generation }}</td>
+                            <td>{{ panipat_object.monthly_target_generation }}</td>
+                            <td>{{ panipat_object.monthly_actual_generation }}</td>
+                            <td>{{ panipat_object.yearly_target_generation }}</td>
+                            <td>{{ panipat_object.yearly_actual_generation }}</td>
+
+                            <td>{{ roorkee_object.daily_target_generation }}</td>
+                            <td>{{ roorkee_object.daily_actual_generation }}</td>
+                            <td>{{ roorkee_object.monthly_target_generation }}</td>
+                            <td>{{ roorkee_object.monthly_actual_generation }}</td>
+                            <td>{{ roorkee_object.yearly_target_generation }}</td>
+                            <td>{{ roorkee_object.yearly_actual_generation }}</td>
+
+                            <td>{{ jharkhand_object.daily_target_generation }}</td>
+                            <td>{{ jharkhand_object.daily_actual_generation }}</td>
+                            <td>{{ jharkhand_object.monthly_target_generation }}</td>
+                            <td>{{ jharkhand_object.monthly_actual_generation }}</td>
+                            <td>{{ jharkhand_object.yearly_target_generation }}</td>
+                            <td>{{ jharkhand_object.yearly_actual_generation }}</td>
+
+                            <td>{{ castamet_object.daily_target_generation }}</td>
+                            <td>{{ castamet_object.daily_actual_generation }}</td>
+                            <td>{{ castamet_object.monthly_target_generation }}</td>
+                            <td>{{ castamet_object.monthly_actual_generation }}</td>
+                            <td>{{ castamet_object.yearly_target_generation }}</td>
+                            <td>{{ castamet_object.yearly_actual_generation }}</td>
+                        </tr>
+
+                        <!-- Generation as in % PLF -->
+                        <tr>
+                            <td>PLF</td>
+                            <td>{{ beawar_object.daily_target_plf }}</td>
+                            <td>{{ beawar_object.daily_actual_plf }}</td>
+                            <td>{{ beawar_object.monthly_target_plf }}</td>
+                            <td>{{ beawar_object.monthly_actual_plf }}</td>
+                            <td>{{ beawar_object.yearly_target_plf }}</td>
+                            <td>{{ beawar_object.yearly_actual_plf }}</td>
+
+                            <td>{{ panipat_object.daily_target_plf }}</td>
+                            <td>{{ panipat_object.daily_actual_plf }}</td>
+                            <td>{{ panipat_object.monthly_target_plf }}</td>
+                            <td>{{ panipat_object.monthly_actual_plf }}</td>
+                            <td>{{ panipat_object.yearly_target_plf }}</td>
+                            <td>{{ panipat_object.yearly_actual_plf }}</td>
+
+                            <td>{{ roorkee_object.daily_target_plf }}</td>
+                            <td>{{ roorkee_object.daily_actual_plf }}</td>
+                            <td>{{ roorkee_object.monthly_target_plf }}</td>
+                            <td>{{ roorkee_object.monthly_actual_plf }}</td>
+                            <td>{{ roorkee_object.yearly_target_plf }}</td>
+                            <td>{{ roorkee_object.yearly_actual_plf }}</td>
+
+                            <td>{{ jharkhand_object.daily_target_plf }}</td>
+                            <td>{{ jharkhand_object.daily_actual_plf }}</td>
+                            <td>{{ jharkhand_object.monthly_target_plf }}</td>
+                            <td>{{ jharkhand_object.monthly_actual_plf }}</td>
+                            <td>{{ jharkhand_object.yearly_target_plf }}</td>
+                            <td>{{ jharkhand_object.yearly_actual_plf }}</td>
+
+                            <td>{{ castamet_object.daily_target_plf }}</td>
+                            <td>{{ castamet_object.daily_actual_plf }}</td>
+                            <td>{{ castamet_object.monthly_target_plf }}</td>
+                            <td>{{ castamet_object.monthly_actual_plf }}</td>
+                            <td>{{ castamet_object.yearly_target_plf }}</td>
+                            <td>{{ castamet_object.yearly_actual_plf }}</td>
+                        </tr>
+
+                        <!-- Performance Ratio for all sites on each of thhe 3 time-periods -->
+                        <tr>
+                        <th scope="row">2</th>
+                        <td class="text-decoration-underline">Performance Ratio (PR)</td>
+                        <td>%</td>
+                        <td>{{ beawar_object.daily_target_performance_ratio }}%</td>
+                        <td>{{ beawar_object.daily_actual_performance_ratio }}%</td>
+                        <td>{{ beawar_object.monthly_target_performance_ratio }}%</td>
+                        <td>{{ beawar_object.monthly_actual_performance_ratio }}%</td>
+                        <td>{{ beawar_object.yearly_target_performance_ratio }}%</td>
+                        <td>{{ beawar_object.yearly_actual_performance_ratio }}%</td>
+
+                        <td>{{ panipat_object.daily_target_performance_ratio }}%</td>
+                        <td>{{ panipat_object.daily_actual_performance_ratio }}%</td>
+                        <td>{{ panipat_object.monthly_target_performance_ratio }}%</td>
+                        <td>{{ panipat_object.monthly_actual_performance_ratio }}%</td>
+                        <td>{{ panipat_object.yearly_target_performance_ratio }}%</td>
+                        <td>{{ panipat_object.yearly_actual_performance_ratio }}%</td>
+
+                        <td>{{ roorkee_object.daily_target_performance_ratio }}%</td>
+                        <td>{{ roorkee_object.daily_actual_performance_ratio }}%</td>
+                        <td>{{ roorkee_object.monthly_target_performance_ratio }}%</td>
+                        <td>{{ roorkee_object.monthly_actual_performance_ratio }}%</td>
+                        <td>{{ roorkee_object.yearly_target_performance_ratio }}%</td>
+                        <td>{{ roorkee_object.yearly_actual_performance_ratio }}%</td>
+
+                        <td>{{ jharkhand_object.daily_target_performance_ratio }}%</td>
+                        <td>{{ jharkhand_object.daily_actual_performance_ratio }}%</td>
+                        <td>{{ jharkhand_object.monthly_target_performance_ratio }}%</td>
+                        <td>{{ jharkhand_object.monthly_actual_performance_ratio }}%</td>
+                        <td>{{ jharkhand_object.yearly_target_performance_ratio }}%</td>
+                        <td>{{ jharkhand_object.yearly_actual_performance_ratio }}%</td>
+
+                        <td>{{ castamet_object.daily_target_performance_ratio }}%</td>
+                        <td>{{ castamet_object.daily_actual_performance_ratio }}%</td>
+                        <td>{{ castamet_object.monthly_target_performance_ratio }}%</td>
+                        <td>{{ castamet_object.monthly_actual_performance_ratio }}%</td>
+                        <td>{{ castamet_object.yearly_target_performance_ratio }}%</td>
+                        <td>{{ castamet_object.yearly_actual_performance_ratio }}%</td>
                     </tr>
 
-                    <!-- Display the time period at which parameters are to be shown -->
+
+                    <!-- Display target/actual irraadiance of eacah site -->
                     <tr>
-                        <th></th><th></th><th></th>
-                        <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
-                        <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
-                        <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
-                        <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
-                        <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
-                        <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
-                        <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
-                        <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
-                        <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
-                        <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
-                        <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
-                        <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
-                        <th colspan="2" class="bg-success bg-gradient text-white text-uppercase sticky-top"><center>Daily</center></th>
-                        <th colspan="2" class="bg-primary bg-gradient text-white text-uppercase sticky-top"><center>Monthly</center></th>
-                        <th colspan="2" class="bg-dark bg-gradient text-white text-uppercase sticky-top"><center>Yearly</center></th>
+                        <th scope="row">3</th>
+                        <td class="text-decoration-underline">Irradiance(Inclined)</td>
+                        <td>kWh/m<sup>2</sup></td>
+                        <td>{{ beawar_object.daily_target_irradiance }}</td>
+                        <td>{{ beawar_object.daily_actual_irradiance }}</td>
+                        <td>{{ beawar_object.monthly_target_irradiance }}</td>
+                        <td>{{ beawar_object.monthly_actual_irradiance }}</td>
+                        <td>{{ beawar_object.yearly_target_irradiance }}</td>
+                        <td>{{ beawar_object.yearly_actual_irradiance }}</td>
+
+                        <td>{{ panipat_object.daily_target_irradiance }}</td>
+                        <td>{{ panipat_object.daily_actual_irradiance }}</td>
+                        <td>{{ panipat_object.monthly_target_irradiance }}</td>
+                        <td>{{ panipat_object.monthly_actual_irradiance }}</td>
+                        <td>{{ panipat_object.yearly_target_irradiance }}</td>
+                        <td>{{ panipat_object.yearly_actual_irradiance }}</td>
+
+                        <td>{{ roorkee_object.daily_target_irradiance }}</td>
+                        <td>{{ roorkee_object.daily_actual_irradiance }}</td>
+                        <td>{{ roorkee_object.monthly_target_irradiance }}</td>
+                        <td>{{ roorkee_object.monthly_actual_irradiance }}</td>
+                        <td>{{ roorkee_object.yearly_target_irradiance }}</td>
+                        <td>{{ roorkee_object.yearly_actual_irradiance }}</td>
+
+                        <td>{{ jharkhand_object.daily_target_irradiance }}</td>
+                        <td>{{ jharkhand_object.daily_actual_irradiance }}</td>
+                        <td>{{ jharkhand_object.monthly_target_irradiance }}</td>
+                        <td>{{ jharkhand_object.monthly_actual_irradiance }}</td>
+                        <td>{{ jharkhand_object.yearly_target_irradiance }}</td>
+                        <td>{{ jharkhand_object.yearly_actual_irradiance }}</td>
+
+                        <td>{{ castamet_object.daily_target_irradiance }}</td>
+                        <td>{{ castamet_object.daily_actual_irradiance }}</td>
+                        <td>{{ castamet_object.monthly_target_irradiance }}</td>
+                        <td>{{ castamet_object.monthly_actual_irradiance }}</td>
+                        <td>{{ castamet_object.yearly_target_irradiance }}</td>
+                        <td>{{ castamet_object.yearly_actual_irradiance }}</td>
                     </tr>
-                    
-                    <!-- Below heading area -->
+
+                    <!-- Display low due to low irradiance -->
                     <tr>
-                        <th scope="col">S.No.</th>
-                        <th scope="col">Particulars</th>
-                        <th scope="col">UOM</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                        <th scope="col">Target</th>
-                        <th scope="col">Actual</th>
-                    </tr>
-                </thead>
+                        <th scope="row">4a</th>
+                        <td class="text-decoration-underline">Loss Due to Low Irradiance</td>
+                        <td>% PLF</td>
+                        <td colspan="2">{{ beawar_object.daily_irradiance_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.monthly_irradiance_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.yearly_irradiance_loss }}%</td>
 
-                <!-- Generation in kWh, this row spans with the next row -->
-                <tbody>
+                        <td colspan="2">{{ panipat_object.daily_irradiance_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.monthly_irradiance_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.yearly_irradiance_loss }}%</td>
+
+                        <td colspan="2">{{ roorkee_object.daily_irradiance_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.monthly_irradiance_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.yearly_irradiance_loss }}%</td>
+
+                        <td colspan="2">{{ jharkhand_object.daily_irradiance_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.monthly_irradiance_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.yearly_irradiance_loss }}%</td>
+
+                        <td colspan="2">{{ castamet_object.daily_irradiance_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.monthly_irradiance_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.yearly_irradiance_loss }}%</td>
+                    </tr>
+
+                    <!-- Deemed loss on daily, monthly, and yearly bais -->
                     <tr>
-                        <th scope="row" rowspan="2">1</th>
-                        <td rowspan="2" class="text-decoration-underline">Generation (Today)</td>
-                        <td>KWH</td>
-                        <td>{{ beawar_object.daily_target_generation }}</td>
-                        <td>{{ beawar_object.daily_actual_generation }}</td>
-                        <td>{{ beawar_object.monthly_target_generation }}</td>
-                        <td>{{ beawar_object.monthly_actual_generation }}</td>
-                        <td>{{ beawar_object.yearly_target_generation }}</td>
-                        <td>{{ beawar_object.yearly_actual_generation }}</td>
+                        <th scope="row">4b</th>
+                        <td class="text-decoration-underline">Loss Due to Deemed</td>
+                        <td>% PLF</td>
+                        <td colspan="2">{{ beawar_object.daily_deemed_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.monthly_deemed_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.yearly_deemed_loss }}%</td>
 
-                        <td>{{ panipat_object.daily_target_generation }}</td>
-                        <td>{{ panipat_object.daily_actual_generation }}</td>
-                        <td>{{ panipat_object.monthly_target_generation }}</td>
-                        <td>{{ panipat_object.monthly_actual_generation }}</td>
-                        <td>{{ panipat_object.yearly_target_generation }}</td>
-                        <td>{{ panipat_object.yearly_actual_generation }}</td>
+                        <td colspan="2">{{ panipat_object.daily_deemed_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.monthly_deemed_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.yearly_deemed_loss }}%</td>
 
-                        <td>{{ roorkee_object.daily_target_generation }}</td>
-                        <td>{{ roorkee_object.daily_actual_generation }}</td>
-                        <td>{{ roorkee_object.monthly_target_generation }}</td>
-                        <td>{{ roorkee_object.monthly_actual_generation }}</td>
-                        <td>{{ roorkee_object.yearly_target_generation }}</td>
-                        <td>{{ roorkee_object.yearly_actual_generation }}</td>
+                        <td colspan="2">{{ roorkee_object.daily_deemed_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.monthly_deemed_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.yearly_deemed_loss }}%</td>
 
-                        <td>{{ jharkhand_object.daily_target_generation }}</td>
-                        <td>{{ jharkhand_object.daily_actual_generation }}</td>
-                        <td>{{ jharkhand_object.monthly_target_generation }}</td>
-                        <td>{{ jharkhand_object.monthly_actual_generation }}</td>
-                        <td>{{ jharkhand_object.yearly_target_generation }}</td>
-                        <td>{{ jharkhand_object.yearly_actual_generation }}</td>
+                        <td colspan="2">{{ jharkhand_object.daily_deemed_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.monthly_deemed_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.yearly_deemed_loss }}%</td>
 
-                        <td>{{ castamet_object.daily_target_generation }}</td>
-                        <td>{{ castamet_object.daily_actual_generation }}</td>
-                        <td>{{ castamet_object.monthly_target_generation }}</td>
-                        <td>{{ castamet_object.monthly_actual_generation }}</td>
-                        <td>{{ castamet_object.yearly_target_generation }}</td>
-                        <td>{{ castamet_object.yearly_actual_generation }}</td>
+                        <td colspan="2">{{ castamet_object.daily_deemed_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.monthly_deemed_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.yearly_deemed_loss }}%</td>
                     </tr>
 
-                    <!-- Generation as in % PLF -->
+                    <!-- GRID outage loss in % PLF for daily, monthly and yearly time periods -->
                     <tr>
-                        <td>PLF</td>
-                        <td>{{ beawar_object.daily_target_plf }}</td>
-                        <td>{{ beawar_object.daily_actual_plf }}</td>
-                        <td>{{ beawar_object.monthly_target_plf }}</td>
-                        <td>{{ beawar_object.monthly_actual_plf }}</td>
-                        <td>{{ beawar_object.yearly_target_plf }}</td>
-                        <td>{{ beawar_object.yearly_actual_plf }}</td>
+                        <th scope="row">4c</th>
+                        <td class="text-decoration-underline">Loss Due to GRID outage</td>
+                        <td>% PLF</td>
+                        <td colspan="2">{{ beawar_object.daily_grid_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.monthly_grid_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.yearly_grid_loss }}%</td>
 
-                        <td>{{ panipat_object.daily_target_plf }}</td>
-                        <td>{{ panipat_object.daily_actual_plf }}</td>
-                        <td>{{ panipat_object.monthly_target_plf }}</td>
-                        <td>{{ panipat_object.monthly_actual_plf }}</td>
-                        <td>{{ panipat_object.yearly_target_plf }}</td>
-                        <td>{{ panipat_object.yearly_actual_plf }}</td>
+                        <td colspan="2">{{ panipat_object.daily_grid_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.monthly_grid_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.yearly_grid_loss }}%</td>
 
-                        <td>{{ roorkee_object.daily_target_plf }}</td>
-                        <td>{{ roorkee_object.daily_actual_plf }}</td>
-                        <td>{{ roorkee_object.monthly_target_plf }}</td>
-                        <td>{{ roorkee_object.monthly_actual_plf }}</td>
-                        <td>{{ roorkee_object.yearly_target_plf }}</td>
-                        <td>{{ roorkee_object.yearly_actual_plf }}</td>
+                        <td colspan="2">{{ roorkee_object.daily_grid_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.monthly_grid_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.yearly_grid_loss }}%</td>
 
-                        <td>{{ jharkhand_object.daily_target_plf }}</td>
-                        <td>{{ jharkhand_object.daily_actual_plf }}</td>
-                        <td>{{ jharkhand_object.monthly_target_plf }}</td>
-                        <td>{{ jharkhand_object.monthly_actual_plf }}</td>
-                        <td>{{ jharkhand_object.yearly_target_plf }}</td>
-                        <td>{{ jharkhand_object.yearly_actual_plf }}</td>
+                        <td colspan="2">{{ jharkhand_object.daily_grid_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.monthly_grid_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.yearly_grid_loss }}%</td>
 
-                        <td>{{ castamet_object.daily_target_plf }}</td>
-                        <td>{{ castamet_object.daily_actual_plf }}</td>
-                        <td>{{ castamet_object.monthly_target_plf }}</td>
-                        <td>{{ castamet_object.monthly_actual_plf }}</td>
-                        <td>{{ castamet_object.yearly_target_plf }}</td>
-                        <td>{{ castamet_object.yearly_actual_plf }}</td>
+                        <td colspan="2">{{ castamet_object.daily_grid_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.monthly_grid_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.yearly_grid_loss }}%</td>
                     </tr>
 
-                    <!-- Performance Ratio for all sites on each of thhe 3 time-periods -->
+                    <!-- BreakDown loss in % PLF -->
                     <tr>
-                    <th scope="row">2</th>
-                    <td class="text-decoration-underline">Performance Ratio (PR)</td>
-                    <td>%</td>
-                    <td>{{ beawar_object.daily_target_performance_ratio }}%</td>
-                    <td>{{ beawar_object.daily_actual_performance_ratio }}%</td>
-                    <td>{{ beawar_object.monthly_target_performance_ratio }}%</td>
-                    <td>{{ beawar_object.monthly_actual_performance_ratio }}%</td>
-                    <td>{{ beawar_object.yearly_target_performance_ratio }}%</td>
-                    <td>{{ beawar_object.yearly_actual_performance_ratio }}%</td>
+                        <th scope="row">4d</th>
+                        <td class="text-decoration-underline">Loss Due to BD</td>
+                        <td>% PLF</td>
+                        <td colspan="2">{{ beawar_object.daily_bd_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.monthly_bd_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.yearly_bd_loss }}%</td>
 
-                    <td>{{ panipat_object.daily_target_performance_ratio }}%</td>
-                    <td>{{ panipat_object.daily_actual_performance_ratio }}%</td>
-                    <td>{{ panipat_object.monthly_target_performance_ratio }}%</td>
-                    <td>{{ panipat_object.monthly_actual_performance_ratio }}%</td>
-                    <td>{{ panipat_object.yearly_target_performance_ratio }}%</td>
-                    <td>{{ panipat_object.yearly_actual_performance_ratio }}%</td>
+                        <td colspan="2">{{ panipat_object.daily_bd_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.monthly_bd_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.yearly_bd_loss }}%</td>
 
-                    <td>{{ roorkee_object.daily_target_performance_ratio }}%</td>
-                    <td>{{ roorkee_object.daily_actual_performance_ratio }}%</td>
-                    <td>{{ roorkee_object.monthly_target_performance_ratio }}%</td>
-                    <td>{{ roorkee_object.monthly_actual_performance_ratio }}%</td>
-                    <td>{{ roorkee_object.yearly_target_performance_ratio }}%</td>
-                    <td>{{ roorkee_object.yearly_actual_performance_ratio }}%</td>
+                        <td colspan="2">{{ roorkee_object.daily_bd_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.monthly_bd_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.yearly_bd_loss }}%</td>
 
-                    <td>{{ jharkhand_object.daily_target_performance_ratio }}%</td>
-                    <td>{{ jharkhand_object.daily_actual_performance_ratio }}%</td>
-                    <td>{{ jharkhand_object.monthly_target_performance_ratio }}%</td>
-                    <td>{{ jharkhand_object.monthly_actual_performance_ratio }}%</td>
-                    <td>{{ jharkhand_object.yearly_target_performance_ratio }}%</td>
-                    <td>{{ jharkhand_object.yearly_actual_performance_ratio }}%</td>
+                        <td colspan="2">{{ jharkhand_object.daily_bd_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.monthly_bd_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.yearly_bd_loss }}%</td>
 
-                    <td>{{ castamet_object.daily_target_performance_ratio }}%</td>
-                    <td>{{ castamet_object.daily_actual_performance_ratio }}%</td>
-                    <td>{{ castamet_object.monthly_target_performance_ratio }}%</td>
-                    <td>{{ castamet_object.monthly_actual_performance_ratio }}%</td>
-                    <td>{{ castamet_object.yearly_target_performance_ratio }}%</td>
-                    <td>{{ castamet_object.yearly_actual_performance_ratio }}%</td>
-                </tr>
-
-
-                <!-- Display target/actual irraadiance of eacah site -->
-                <tr>
-                    <th scope="row">3</th>
-                    <td class="text-decoration-underline">Irradiance(Inclined)</td>
-                    <td>kWh/m<sup>2</sup></td>
-                    <td>{{ beawar_object.daily_target_irradiance }}</td>
-                    <td>{{ beawar_object.daily_actual_irradiance }}</td>
-                    <td>{{ beawar_object.monthly_target_irradiance }}</td>
-                    <td>{{ beawar_object.monthly_actual_irradiance }}</td>
-                    <td>{{ beawar_object.yearly_target_irradiance }}</td>
-                    <td>{{ beawar_object.yearly_actual_irradiance }}</td>
-
-                    <td>{{ panipat_object.daily_target_irradiance }}</td>
-                    <td>{{ panipat_object.daily_actual_irradiance }}</td>
-                    <td>{{ panipat_object.monthly_target_irradiance }}</td>
-                    <td>{{ panipat_object.monthly_actual_irradiance }}</td>
-                    <td>{{ panipat_object.yearly_target_irradiance }}</td>
-                    <td>{{ panipat_object.yearly_actual_irradiance }}</td>
-
-                    <td>{{ roorkee_object.daily_target_irradiance }}</td>
-                    <td>{{ roorkee_object.daily_actual_irradiance }}</td>
-                    <td>{{ roorkee_object.monthly_target_irradiance }}</td>
-                    <td>{{ roorkee_object.monthly_actual_irradiance }}</td>
-                    <td>{{ roorkee_object.yearly_target_irradiance }}</td>
-                    <td>{{ roorkee_object.yearly_actual_irradiance }}</td>
-
-                    <td>{{ jharkhand_object.daily_target_irradiance }}</td>
-                    <td>{{ jharkhand_object.daily_actual_irradiance }}</td>
-                    <td>{{ jharkhand_object.monthly_target_irradiance }}</td>
-                    <td>{{ jharkhand_object.monthly_actual_irradiance }}</td>
-                    <td>{{ jharkhand_object.yearly_target_irradiance }}</td>
-                    <td>{{ jharkhand_object.yearly_actual_irradiance }}</td>
-
-                    <td>{{ castamet_object.daily_target_irradiance }}</td>
-                    <td>{{ castamet_object.daily_actual_irradiance }}</td>
-                    <td>{{ castamet_object.monthly_target_irradiance }}</td>
-                    <td>{{ castamet_object.monthly_actual_irradiance }}</td>
-                    <td>{{ castamet_object.yearly_target_irradiance }}</td>
-                    <td>{{ castamet_object.yearly_actual_irradiance }}</td>
-                </tr>
-
-                <!-- Display low due to low irradiance -->
-                <tr>
-                    <th scope="row">4a</th>
-                    <td class="text-decoration-underline">Loss Due to Low Irradiance</td>
-                    <td>% PLF</td>
-                    <td colspan="2">{{ beawar_object.daily_irradiance_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.monthly_irradiance_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.yearly_irradiance_loss }}%</td>
-
-                    <td colspan="2">{{ panipat_object.daily_irradiance_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.monthly_irradiance_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.yearly_irradiance_loss }}%</td>
-
-                    <td colspan="2">{{ roorkee_object.daily_irradiance_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.monthly_irradiance_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.yearly_irradiance_loss }}%</td>
-
-                    <td colspan="2">{{ jharkhand_object.daily_irradiance_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.monthly_irradiance_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.yearly_irradiance_loss }}%</td>
-
-                    <td colspan="2">{{ castamet_object.daily_irradiance_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.monthly_irradiance_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.yearly_irradiance_loss }}%</td>
-                </tr>
-
-                <!-- Deemed loss on daily, monthly, and yearly bais -->
-                <tr>
-                    <th scope="row">4b</th>
-                    <td class="text-decoration-underline">Loss Due to Deemed</td>
-                    <td>% PLF</td>
-                    <td colspan="2">{{ beawar_object.daily_deemed_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.monthly_deemed_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.yearly_deemed_loss }}%</td>
-
-                    <td colspan="2">{{ panipat_object.daily_deemed_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.monthly_deemed_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.yearly_deemed_loss }}%</td>
-
-                    <td colspan="2">{{ roorkee_object.daily_deemed_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.monthly_deemed_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.yearly_deemed_loss }}%</td>
-
-                    <td colspan="2">{{ jharkhand_object.daily_deemed_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.monthly_deemed_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.yearly_deemed_loss }}%</td>
-
-                    <td colspan="2">{{ castamet_object.daily_deemed_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.monthly_deemed_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.yearly_deemed_loss }}%</td>
-                </tr>
-
-                <!-- GRID outage loss in % PLF for daily, monthly and yearly time periods -->
-                <tr>
-                    <th scope="row">4c</th>
-                    <td class="text-decoration-underline">Loss Due to GRID outage</td>
-                    <td>% PLF</td>
-                    <td colspan="2">{{ beawar_object.daily_grid_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.monthly_grid_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.yearly_grid_loss }}%</td>
-
-                    <td colspan="2">{{ panipat_object.daily_grid_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.monthly_grid_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.yearly_grid_loss }}%</td>
-
-                    <td colspan="2">{{ roorkee_object.daily_grid_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.monthly_grid_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.yearly_grid_loss }}%</td>
-
-                    <td colspan="2">{{ jharkhand_object.daily_grid_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.monthly_grid_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.yearly_grid_loss }}%</td>
-
-                    <td colspan="2">{{ castamet_object.daily_grid_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.monthly_grid_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.yearly_grid_loss }}%</td>
-                </tr>
-
-                <!-- BreakDown loss in % PLF -->
-                <tr>
-                    <th scope="row">4d</th>
-                    <td class="text-decoration-underline">Loss Due to BD</td>
-                    <td>% PLF</td>
-                    <td colspan="2">{{ beawar_object.daily_bd_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.monthly_bd_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.yearly_bd_loss }}%</td>
-
-                    <td colspan="2">{{ panipat_object.daily_bd_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.monthly_bd_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.yearly_bd_loss }}%</td>
-
-                    <td colspan="2">{{ roorkee_object.daily_bd_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.monthly_bd_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.yearly_bd_loss }}%</td>
-
-                    <td colspan="2">{{ jharkhand_object.daily_bd_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.monthly_bd_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.yearly_bd_loss }}%</td>
-
-                    <td colspan="2">{{ castamet_object.daily_bd_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.monthly_bd_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.yearly_bd_loss }}%</td>
-                </tr>
-
-                <!-- Dust loss in daily, monthly, and yearly time periods in % PLF -->
-                <tr>
-                    <th scope="row">4e</th>
-                    <td class="text-decoration-underline">Loss due to Dust</td>
-                    <td>% PLF</td>
-                    <td colspan="2">{{ beawar_object.daily_dust_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.monthly_dust_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.yearly_dust_loss }}%</td>
-
-                    <td colspan="2">{{ panipat_object.daily_dust_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.monthly_dust_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.yearly_dust_loss }}%</td>
-
-                    <td colspan="2">{{ roorkee_object.daily_dust_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.monthly_dust_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.yearly_dust_loss }}%</td>
-
-                    <td colspan="2">{{ jharkhand_object.daily_dust_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.monthly_dust_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.yearly_dust_loss }}%</td>
-
-                    <td colspan="2">{{ castamet_object.daily_dust_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.monthly_dust_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.yearly_dust_loss }}%</td>
-                </tr>
-
-                <!-- Miscellanoeus Loss for daily, monthly and yearly timeperiods -->
-                <tr>
-                    <th scope="row">4f</th>
-                    <td class="text-decoration-underline">Misc. Loss</td>
-                    <td>% PLF</td>
-                    <td colspan="2">{{ beawar_object.daily_misc_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.monthly_misc_loss }}%</td>
-                    <td colspan="2">{{ beawar_object.yearly_misc_loss }}%</td>
-
-                    <td colspan="2">{{ panipat_object.daily_misc_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.monthly_misc_loss }}%</td>
-                    <td colspan="2">{{ panipat_object.yearly_misc_loss }}%</td>
-
-                    <td colspan="2">{{ roorkee_object.daily_misc_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.monthly_misc_loss }}%</td>
-                    <td colspan="2">{{ roorkee_object.yearly_misc_loss }}%</td>
-
-                    <td colspan="2">{{ jharkhand_object.daily_misc_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.monthly_misc_loss }}%</td>
-                    <td colspan="2">{{ jharkhand_object.yearly_misc_loss }}%</td>
-
-                    <td colspan="2">{{ castamet_object.daily_misc_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.monthly_misc_loss }}%</td>
-                    <td colspan="2">{{ castamet_object.yearly_misc_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.daily_bd_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.monthly_bd_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.yearly_bd_loss }}%</td>
                     </tr>
+
+                    <!-- Dust loss in daily, monthly, and yearly time periods in % PLF -->
                     <tr>
-                    <th scope="row">5</th>
+                        <th scope="row">4e</th>
+                        <td class="text-decoration-underline">Loss due to Dust</td>
+                        <td>% PLF</td>
+                        <td colspan="2">{{ beawar_object.daily_dust_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.monthly_dust_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.yearly_dust_loss }}%</td>
 
-                    <!-- Major observations fetched right from the database sent as a context to the views -->
-                    <td class="text-decoration-underline">Today's Major Observations</td>
-                    <td></td>
-                    <td colspan="6">i) Total PR difference : {{ prDiffB|floatformat:3 }}%<br>
-                        a){{ misclossB|floatformat:2 }}% Misc losses<br>
-                        <!-- Code for user-editable comments -->
-                    </td>
-                    <td colspan="6">i) Total PR difference : {{ prDiffP|floatformat:2 }}%<br>
-                        a){{ misclossP|floatformat:2 }}% Misc losses<br>
-                        <!-- Code for user-editable comments -->
-                    </td>
-                    <td colspan="6">i) Total PR difference : {{ prDiffR|floatformat:2 }}%<br>
-                        a){{ misclossR|floatformat:2 }}% Misc losses<br>
-                        <!-- Code for user-editable comments -->
-                    </td>
-                    <td colspan="6">i) Total PR difference : {{ prDiffJ|floatformat:2 }}%<br>
-                        a){{ misclossJ|floatformat:2 }}% Misc losses<br>
-                        <!-- Code for user-editable comments -->
-                    </td>
-                    <td colspan="6">i) Total PR difference : {{ prDiffC|floatformat:2 }}%<br>
-                        a){{ misclossC|floatformat:2 }}% Misc losses<br>
-                        <!-- Code for user-editable comments -->
-                    </td>
+                        <td colspan="2">{{ panipat_object.daily_dust_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.monthly_dust_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.yearly_dust_loss }}%</td>
+
+                        <td colspan="2">{{ roorkee_object.daily_dust_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.monthly_dust_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.yearly_dust_loss }}%</td>
+
+                        <td colspan="2">{{ jharkhand_object.daily_dust_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.monthly_dust_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.yearly_dust_loss }}%</td>
+
+                        <td colspan="2">{{ castamet_object.daily_dust_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.monthly_dust_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.yearly_dust_loss }}%</td>
                     </tr>
-                </tbody>
+
+                    <!-- Miscellanoeus Loss for daily, monthly and yearly timeperiods -->
+                    <tr>
+                        <th scope="row">4f</th>
+                        <td class="text-decoration-underline">Misc. Loss</td>
+                        <td>% PLF</td>
+                        <td colspan="2">{{ beawar_object.daily_misc_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.monthly_misc_loss }}%</td>
+                        <td colspan="2">{{ beawar_object.yearly_misc_loss }}%</td>
+
+                        <td colspan="2">{{ panipat_object.daily_misc_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.monthly_misc_loss }}%</td>
+                        <td colspan="2">{{ panipat_object.yearly_misc_loss }}%</td>
+
+                        <td colspan="2">{{ roorkee_object.daily_misc_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.monthly_misc_loss }}%</td>
+                        <td colspan="2">{{ roorkee_object.yearly_misc_loss }}%</td>
+
+                        <td colspan="2">{{ jharkhand_object.daily_misc_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.monthly_misc_loss }}%</td>
+                        <td colspan="2">{{ jharkhand_object.yearly_misc_loss }}%</td>
+
+                        <td colspan="2">{{ castamet_object.daily_misc_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.monthly_misc_loss }}%</td>
+                        <td colspan="2">{{ castamet_object.yearly_misc_loss }}%</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">5</th>
+
+                        <!-- Major observations fetched right from the database sent as a context to the views -->
+                        <td class="text-decoration-underline">Today's Major Observations</td>
+                        <td></td>
+                        <td colspan="6">i) Total PR difference : {{ prDiffB|floatformat:3 }}%<br>
+                            a){{ misclossB|floatformat:2 }}% Misc losses<br>
+                            <!-- Code for user-editable comments -->
+                        </td>
+                        <td colspan="6">i) Total PR difference : {{ prDiffP|floatformat:2 }}%<br>
+                            a){{ misclossP|floatformat:2 }}% Misc losses<br>
+                            <!-- Code for user-editable comments -->
+                        </td>
+                        <td colspan="6">i) Total PR difference : {{ prDiffR|floatformat:2 }}%<br>
+                            a){{ misclossR|floatformat:2 }}% Misc losses<br>
+                            <!-- Code for user-editable comments -->
+                        </td>
+                        <td colspan="6">i) Total PR difference : {{ prDiffJ|floatformat:2 }}%<br>
+                            a){{ misclossJ|floatformat:2 }}% Misc losses<br>
+                            <!-- Code for user-editable comments -->
+                        </td>
+                        <td colspan="6">i) Total PR difference : {{ prDiffC|floatformat:2 }}%<br>
+                            a){{ misclossC|floatformat:2 }}% Misc losses<br>
+                            <!-- Code for user-editable comments -->
+                        </td>
+                        </tr>
+                    </tbody>
                 </table>
-        </div>
+            </div>
+        {% endif %}    
+
+        {% if recordsearch and not recordpresent %}
+            <p class="display-6 text-center">Data not present! Check the date once again!!</p>
+        {% endif %}
+            
     </div>
     </main>
 {% endblock %}
