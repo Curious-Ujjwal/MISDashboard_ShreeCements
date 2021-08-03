@@ -1460,10 +1460,117 @@ def startdoc(request):
 def analysis(request):
 	return render(request, 'FileSaver/analysis.html')
 
-#Variables that help to download the solar exception report in .csv format
-dateexists = False
-reporturl = None
-report_token = False
+def return_context(day_date, argument):
+	# print(day_date)
+	# print(argument)
+	lastJrecord = Jharkhand_Sheet.objects.filter(date=day_date).first()
+	lastPrecord = Panipat_Sheet.objects.filter(date=day_date).first()
+	lastCrecord = Castamet_Sheet.objects.filter(date=day_date).first()
+	lastBrecord = Beawar_Sheet.objects.filter(date=day_date).first()
+	lastRrecord = Roorkee_Sheet.objects.filter(date=day_date).first()
+	switcher = {
+		'1': {'jvalue': lastJrecord.daily_actual_generation,
+			'pvalue': lastPrecord.daily_actual_generation,
+			'cvalue': lastCrecord.daily_actual_generation,
+			'bvalue': lastBrecord.daily_actual_generation,
+			'rvalue': lastRrecord.daily_actual_generation,
+			'date': day_date,
+			'particular': 'Daily generation (in kWh)',
+			'sitewise': True,
+		},
+		'2': {'jvalue': lastJrecord.daily_actual_performance_ratio,
+			'pvalue': lastPrecord.daily_actual_performance_ratio,
+			'cvalue': lastCrecord.daily_actual_performance_ratio,
+			'bvalue': lastBrecord.daily_actual_performance_ratio,
+			'rvalue': lastRrecord.daily_actual_performance_ratio,
+			'date': day_date,
+			'particular': 'Performance Ratio (in %PLF)',
+			'sitewise': True,
+		},
+		'3': {'jvalue': lastJrecord.daily_actual_irradiance,
+			'pvalue': lastPrecord.daily_actual_irradiance,
+			'cvalue': lastCrecord.daily_actual_irradiance,
+			'bvalue': lastBrecord.daily_actual_irradiance,
+			'rvalue': lastRrecord.daily_actual_irradiance,
+			'date': day_date,
+			'particular': 'Irradiance(inclined) (in kWh/m<sup>2</sup>)',
+			'sitewise': True,
+		},
+		'4': {'jvalue': lastJrecord.daily_irradiance_loss,
+			'pvalue': lastPrecord.daily_irradiance_loss,
+			'cvalue': lastCrecord.daily_irradiance_loss,
+			'bvalue': lastBrecord.daily_irradiance_loss,
+			'rvalue': lastRrecord.daily_irradiance_loss,
+			'date': day_date,
+			'particular': 'Loss due to low Irradiance (in % PLF)',
+			'sitewise': True,
+		},
+		'5': {'jvalue': lastJrecord.daily_deemed_loss_plf,
+			'pvalue': lastPrecord.daily_deemed_loss_plf,
+			'cvalue': lastCrecord.daily_deemed_loss_plf,
+			'bvalue': lastBrecord.daily_deemed_loss_plf,
+			'rvalue': lastRrecord.daily_deemed_loss_plf,
+			'date': day_date,
+			'particular': 'Loss due to deemed (in % PLF)',
+			'sitewise': True,
+		},
+		'6': {'jvalue': lastJrecord.daily_grid_loss_plf,
+			'pvalue': lastPrecord.daily_grid_loss_plf,
+			'cvalue': lastCrecord.daily_grid_loss_plf,
+			'bvalue': lastBrecord.daily_grid_loss_plf,
+			'rvalue': lastRrecord.daily_grid_loss_plf,
+			'date': day_date,
+			'particular': 'Loss due to GRID outage (in % PLF)',
+			'sitewise': True,
+		},
+		'7': {'jvalue': lastJrecord.daily_bd_loss_plf,
+			'pvalue': lastPrecord.daily_bd_loss_plf,
+			'cvalue': lastCrecord.daily_bd_loss_plf,
+			'bvalue': lastBrecord.daily_bd_loss_plf,
+			'rvalue': lastRrecord.daily_bd_loss_plf,
+			'date': day_date,
+			'particular': 'Loss due to BreakDown (in % PLF)',
+			'sitewise': True,
+		},
+		'8': {'jvalue': lastJrecord.daily_dust_loss_plf,
+			'pvalue': lastPrecord.daily_dust_loss_plf,
+			'cvalue': lastCrecord.daily_dust_loss_plf,
+			'bvalue': lastBrecord.daily_dust_loss_plf,
+			'rvalue': lastRrecord.daily_dust_loss_plf,
+			'date': day_date,
+			'particular': 'Loss due to Dust (in % PLF)',
+			'sitewise': True,
+		},
+		'9': {'jvalue': lastJrecord.daily_misc_loss,
+			'pvalue': lastPrecord.daily_misc_loss,
+			'cvalue': lastCrecord.daily_misc_loss,
+			'bvalue': lastBrecord.daily_misc_loss,
+			'rvalue': lastRrecord.daily_misc_loss,
+			'date': day_date,
+			'particular': 'Misc. Losses (in % PLF)',
+			'sitewise': True,
+		},
+	}
+	return switcher[argument]
+	# return switcher[argument]
+
+def siteanalysis(request):
+	if request.method == 'GET':
+		data_asked = request.GET.dict()
+		day_date = data_asked.get('form2-date')
+		particular = data_asked.get('form2-particular')
+		# print(day_date)
+		# print(particular)
+		lastJrecord = Jharkhand_Sheet.objects.filter(date=day_date).first()
+		lastPrecord = Panipat_Sheet.objects.filter(date=day_date).first()
+		lastCrecord = Castamet_Sheet.objects.filter(date=day_date).first()
+		lastBrecord = Beawar_Sheet.objects.filter(date=day_date).first()
+		lastRrecord = Roorkee_Sheet.objects.filter(date=day_date).first()
+
+		context = return_context(day_date, particular)
+		print(context)
+
+		return render(request, 'FileSaver/analysis.html', context)
 
 #For page with exception report
 def report(request):

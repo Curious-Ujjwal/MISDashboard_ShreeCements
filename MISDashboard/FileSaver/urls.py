@@ -7,4 +7,5 @@ urlpatterns = [
 	path('getting-started/', views.startdoc, name='startdoc'),
 	path('analysis-window/', views.analysis, name='analysis'),
 	path('exception-report/', views.report, name='report'),
+	path('analysis-window-among-sites', views.siteanalysis, name='siteanalysis'),
 ]
