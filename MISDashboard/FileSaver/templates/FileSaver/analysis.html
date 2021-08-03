@@ -84,16 +84,17 @@
                             <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis based on a particular (Comparison between all sites)</li>
                             <li>
                                 <div class="container">
-                                    <form action="#">
+                                    <form action="{% url 'siteanalysis' %}" method="GET">
+                                        {% csrf_token %}
                                         <div class="input-group mb-3">
-                                            <input type="date" class="form-control">
+                                            <input type="date" class="form-control" name="form2-date" required>
                                         </div>
                                         <div class="form-floating">
-                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="chooseparticular">
-                                                <option selected>Click to select</option>
+                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="chooseparticular" name="form2-particular" required>
+                                                <option selected value="" hidden="" disabled="disabled">Click to select</option>
                                                 <option value="1">Daily generation</option>
                                                 <option value="2">Performance Ratio</option>
-                                                <option value="3">Irradiance(inclinced)</option>
+                                                <option value="3">Irradiance(inclined)</option>
                                                 <option value="4">Loss due to low Irradiance</option>
                                                 <option value="5">Loss due to deemed</option>
                                                 <option value="6">Loss due to GRID outage</option>
@@ -119,8 +120,10 @@
             <!-- This the display area after selecting the form -->
             <!-- It displays the parameters selected for analysis of data -->
             <!-- Then major graphs are also displayed along with the comparison tables -->
+            <br>
             <div class="container">
                 <div class="p-5 mb-4 bg-light rounded-3">
+                    
                     <div class="container-fluid py-5">
                         Analysis mode: Analyse Solar data from a particular site<br>
                         Date: 28-07-2021<br>
@@ -128,10 +131,125 @@
                         Invertors to compare: Invertor1, Invertor2<br>
                       <!-- <h1 class="display-6 fw-bold">Analyse Solar data from a particular site</h1> -->
                       <br><br>
-                      <p class="col-md-8 fs-4">The results have been compiled, presented. Scroll down to view the tables and the graphs.</p>
+                      <p class="fs-4">The results have been compiled, presented. Scroll down to view the tables and the graphs.</p>
                     </div>
+
+                    {% if sitewise %}
+                    <div class="container-fluid py-5">
+                        Analysis Mode: Analyse Solar Data Between Different sites<br>
+                        Date: {{ date }}<br>
+                        Particular chosen: {{ particular|safe }}<br>
+                        <p class="fs-4">The results have been compiled, presented. Scroll down to view the tables and the graphs.</p>
+                            <center>
+                                <div class="row">
+                                    <div class="col-md-5 col-12">
+                                        <br>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Sites</th>
+                                                    <th scope="col">{{ particular|safe }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Site Panipat</th>
+                                                    <td>{{ pvalue }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Site Jharkhand</th>
+                                                    <td>{{ jvalue }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Site Castamet</th>
+                                                    <td>{{ cvalue }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Site Beawar</th>
+                                                    <td>{{ bvalue }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Site Roorkee</th>
+                                                    <td>{{ rvalue }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 col-md-2"></div>
+                                    <div class="col-md-5 col-12">
+                                        <canvas id="compChart" width="200" height="150"></canvas>
+                                    </div>
+                                </div>
+                                
+                        </center>
+                        
+                    </div>
+                    {% endif %}
                   </div>
             </div>
     </main>
     <!-- Main cards area -->
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        var cmpChart = document.getElementById('compChart').getContext('2d');
+        var cdata = JSON.parse("{{ cvalue|escapejs }}");
+        var pdata = JSON.parse("{{ pvalue|escapejs }}");
+        var jdata = JSON.parse("{{ jvalue|escapejs }}");
+        var bdata = JSON.parse("{{ bvalue|escapejs }}");
+        var rdata = JSON.parse("{{ rvalue|escapejs }}");
+        var myCmpChart = new Chart(cmpChart, {
+            type: 'bar',
+            data: {
+                labels: ['Panipat', 'Jharkhand', 'Castamet', 'Beawar', 'Roorkee'],
+                datasets: [{
+                    // label: {{ particular|safe }};
+                    label: 'Value of the particular',
+                    data: [pdata, jdata, cdata, bdata, rdata],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: {
+                title: {
+                    display: true,
+                    text: 'Particular chosen',
+                    font: {
+                        size: 15
+                    }
+                },
+                ticks: {
+                    precision: 0
+                }
+            },
+            xAxes: {
+                title: {
+                    display: true,
+                    text: 'Different Sites',
+                    font: {
+                        size: 15
+                    }
+                }
+            }
+                }
+            }
+        });
+    </script>
 {% endblock %}
