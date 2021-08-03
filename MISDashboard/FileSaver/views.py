@@ -2,6 +2,8 @@ import os
 import email
 import numpy
 import imaplib
+import requests
+from bs4 import BeautifulSoup
 import webbrowser
 import pandas as pd
 from .models import *
@@ -11,6 +13,7 @@ from .defineconstants import *
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from email.header import decode_header
+from urllib.parse import urlparse
 from django.template import RequestContext
 from django.contrib.auth import login, authenticate
 
@@ -1457,20 +1460,17 @@ def startdoc(request):
 def analysis(request):
 	return render(request, 'FileSaver/analysis.html')
 
+#Variables that help to download the solar exception report in .csv format
+dateexists = False
+reporturl = None
+report_token = False
+
 #For page with exception report
 def report(request):
-	if request.method == 'GET':
-		print('Hullaaa')
-		day_asked = request.GET.dict()
+	if request.method == 'POST':
+		day_asked = request.POST.dict()
 		day_date = day_asked.get('ipdate')
 		print(day_date)
-		
-		if day_date == None:
-			context = {
-				'recordsearch': False,
-			}
-			print('Hi')
-			return render(request, 'FileSaver/exceptionreport.html', context)
 
 		if Panipat_Sheet.objects.filter(date=day_date).exists()==True:
 			print('HEy, yes')
@@ -1520,7 +1520,8 @@ def report(request):
 			}
 			return render(request, 'FileSaver/exceptionreport.html', context)
 
-#Function for storing the CSV formatted data and then downloading it onto the machine
-def downloadreport(request):
-	#function for preparing CSV and then download
-	return render(request, 'FileSaver/exceptionreport.html')
+	else:
+		context = {
+			'recordsearch': False,
+		}
+		return render(request, 'FileSaver/exceptionreport.html', context)

@@ -23,6 +23,9 @@ def sheet_variables():
 	# path = os.getcwd() + "\..\..\SiteSheets\\" + today
 	#Uncomment after debug successful
 	# path = os.getcwd() + "\\..\\..\\SiteSheets\\" + '30-06-2021'
+	# path = os.getcwd() + "\\..\\SiteSheets\\" 
+	# print(os.getcwd())
+	print('Hello g')
 	path = os.getcwd() + "\\..\\SiteSheets\\" + '30-06-2021'
 	# print('AGAIN')
 	os.chdir(path)
@@ -50,7 +53,7 @@ def sheet_variables():
 
 			if(i == 0):
 				global siteP
-				siteP = pd.read_excel(path, skiprows=3, engine='openpyxl')
+				siteP = pd.read_excel(path, skiprows=5, engine='openpyxl')
 				i += 1
 				# print(site1)
 			elif(i == 1):

@@ -26,7 +26,7 @@
         <br><br>
 
         <!-- Select that date at which Solar Exception Report is required -->
-        <form action="{% url 'report' %}" method="GET">
+        <form action="{% url 'report' %}" method="POST">
             {% csrf_token %}
             <label for="ipdate" class="form-label d-block mx-auto" style="width: 40%;">Select a date</label>
             <input type="date" class="mx-auto form-control mb-1" name="ipdate" id="ipdate" style="width: 40%;" required>
@@ -46,14 +46,12 @@
         {% if recordpresent and recordsearch %}
             <div class="container-fluid">
                 <!-- Click this button to download Solar Exception Report -->
-                <a href="{% url 'downloadreport' %}">
-                    <button class="btn btn-success bg-gradient text-white fw-bold" style="font-family: Noto Sans;">
-                        Download Solar Exception Report
-                    </button>
-                </a>
+                <button class="btn btn-success bg-gradient text-white fw-bold" style="font-family: Noto Sans;" onclick="ExportToExcel('xlsx')">
+                    Download Solar Exception Report
+                </button>
                 <br><br>
                 <!-- Solar Exception Report/Table -->
-                <table class="table table-hover mytable table-bordered border-danger">
+                <table class="table table-hover mytable table-bordered border-danger" id="tbl_exporttable_to_xls">
                     <thead class="table-danger">
 
                         <!-- Display all the sites -->
@@ -483,4 +481,21 @@
             
     </div>
     </main>
+{% endblock %}
+
+
+{% block extra_scripts %}
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script>
+    const d = new Date();
+    const month = d.getMonth() + 1;
+    let str = d.getDate() + "-" + month + "-" + d.getFullYear();
+    function ExportToExcel(type, fn, dl) {
+        var elt = document.getElementById('tbl_exporttable_to_xls');
+        var wb = XLSX.utils.table_to_book(elt, { sheet: "Solar-Exception-Report" });
+        return dl ?
+            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+            XLSX.writeFile(wb, fn || ('solarExceptionReport_' + str + '.' + (type || 'xlsx')));
+    }
+</script>
 {% endblock %}
