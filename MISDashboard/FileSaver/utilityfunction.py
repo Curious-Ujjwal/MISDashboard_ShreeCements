@@ -19,7 +19,9 @@ wmsR = None
 #Other methods may prove to be error-prone.
 
 def sheet_variables():
-	today = date.today().strftime('%d-%m-%Y') #reform it, because it should be one day before than the current day
+	prev_datetime = datetime.datetime.today() - datetime.timedelta(days=1)
+	prev_day = prev_datetime.strftime('%d-%m-%Y')
+	today = prev_day #reform it, because it should be one day before than the current day
 	# path = os.getcwd() + "\..\..\SiteSheets\\" + today
 	#Uncomment after debug successful
 	# path = os.getcwd() + "\\..\\..\\SiteSheets\\" + '30-06-2021'
@@ -50,6 +52,8 @@ def sheet_variables():
 			filelist = [str(file) for file in os.listdir(path='.')]
 			file = filelist[0]
 			path = os.getcwd() + "\\" + file
+
+			#check the folder name and then edit the code before final submission	
 
 			if(i == 0):
 				global siteP

@@ -7,7 +7,11 @@ from .models import *
 # from .forms import *
 
 #Calcualting today's date, month and year for calculation purposes
-today = date.today().strftime('%d-%m-%Y')
+prev_datetime = datetime.datetime.today() - datetime.timedelta(days=1)
+prev_day = prev_datetime.strftime('%d-%m-%Y')
+#As on any day, we are always getting the data of one day before
+today = prev_day
+
 day = int(today[:2])
 month = int(today[3:5])
 year = int(today[6:])

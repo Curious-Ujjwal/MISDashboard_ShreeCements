@@ -3,8 +3,10 @@ from datetime import date
 import pandas as pd
 
 #sheet variables
-today = date.today().strftime('%d-%m-%Y')
-# path = os.getcwd() + "\..\..\SiteSheets\\" + today
+prev_datetime = datetime.datetime.today() - datetime.timedelta(days=1)
+prev_day = prev_datetime.strftime('%d-%m-%Y')
+today = prev_day
+# path = os.getcwd() + "\..\..\SiteSheets\\" + prev_day
 path = os.getcwd() + "\..\..\SiteSheets\\" + '30-06-2021'
 os.chdir(path)
 
