@@ -3,6 +3,7 @@ import email
 import numpy
 import imaplib
 import requests
+import datetime
 from bs4 import BeautifulSoup
 import webbrowser
 import pandas as pd
@@ -22,6 +23,7 @@ from .utilityfunction import *
 
 import json as simplejson
 from django.http import HttpResponse
+
 # #account credentials
 username = 'ujjwalrustagi@gmail.com'
 password = 'Ujjwal@123'
@@ -42,13 +44,14 @@ def download_files():
 	# 5 site reports and 4 wms reports
 	N = 9
 
-	today = date.today().strftime('%d-%m-%Y')
-	print(today)
+	prev_datetime = datetime.datetime.today() - datetime.timedelta(days=1)
+	prev_day = prev_datetime.strftime('%d-%m-%Y')
+	print(prev_day)
 
 	#search for the SiteSheets folder in the MIS project
 	path = os.getcwd()+"\..\SiteSheets"
 	os.chdir(path)
-	os.mkdir(today)			#move to the SiteSheets folder
+	os.mkdir(prev_day)			#move to the SiteSheets folder and make a folder for the previous day
 
 	#total number of messages
 	messages = int(messages[0])
@@ -70,8 +73,8 @@ def download_files():
 					From = From.decode(encoding)
 
 				#prints the subject and from ids at the terminal
-				print("Subject:", subject)
-				print("From:", From)
+				print("Subject: ", subject)
+				print("From: ", From)
 
 				#if the mail contains the many parts
 				if msg.is_multipart():
@@ -95,9 +98,13 @@ def download_files():
 							# kindly complete this after the task of calculating the values if finished
 							# folder_name pattern and file name pattern should be specified
 							# folder names should consist of the site first name
+
+							# folder names should be in the format of siteX, X == ['B', 'C', 'R', 'J', 'P']
+							# wms sheets should be in the format of wmsX, X == ['C', 'R', 'J', 'P']
 							# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
 							if filename:
+								#folder namea are dependent upon the subject of the mail
 								folder_name = clean(subject)
 								if not os.path.isdir(folder_name):
 									os.mkdir(folder_name)
@@ -152,9 +159,13 @@ def calculate_days(date_year):
 	else:
 		return False
 
-# #Day and month from date
-today = date.today().strftime('%d-%m-%Y')
-today1 = date.today()
+#Day and month from datetime
+prev_datetime = datetime.datetime.today() - datetime.timedelta(days=1)
+prev_day = prev_datetime.strftime('%d-%m-%Y')
+
+#Set the today and today1 as the prev_day and prev_datetim
+today = prev_day
+today1 = prev_datetime
 date_day = int(today[:2])
 date_month = int(today[3:5])
 date_year = int(today[6:])
@@ -1570,8 +1581,11 @@ def siteanalysis(request):
 		lastBrecord = Beawar_Sheet.objects.filter(date=day_date).first()
 		lastRrecord = Roorkee_Sheet.objects.filter(date=day_date).first()
 
-		context = return_context(day_date, particular)
-		print(context)
+		if lastJrecord == None:
+			context = {'notpresent': True, 'sitewise': True}
+		else:
+			context = return_context(day_date, particular)
+			print(context)
 
 		return render(request, 'FileSaver/analysis.html', context)
 
@@ -1667,3 +1681,58 @@ def getdetails(request):
 	print(count)
 	# return HttpResponse(simplejson.dumps(count), mimetype='application/json', content_type='application/json')
 	return HttpResponse(simplejson.dumps(count), content_type='application/json')
+
+
+def invertoranalysis(request):
+	print('I am glad I reached here!')
+	if request.method == 'GET':
+		data_asked = request.GET.dict()
+		# print(data_asked)
+		site_no = data_asked['siteselect']
+		siteswitcher = {
+			'1': siteB,
+			'2': siteJ,
+			'3': siteC,
+			'4': siteR,
+			'5': siteP,
+		}
+		siteRecord = siteswitcher[site_no]
+		# print(site_no)
+		print(siteRecord)
+
+		invertor_list = []
+		name_list = []
+		k = 0
+		for key, val in data_asked.items():
+			if k>1:
+				idx = int(val[9:])
+				if site_no == '1':
+					# print('beawar')
+					invertor_list.append(siteRecord[idx-1][3])
+				else:
+					# print('others')
+					invertor_list.append(siteRecord[idx-1][4])
+				name_list.append(idx)
+			k += 1
+
+		print(invertor_list)
+		print(name_list)
+			
+		context = {
+			'invertor_names': name_list,
+			'invertor_gen': invertor_list,
+			'invertorwise': True,
+			'sitename': 'name-of-the-site',
+		}
+		if site_no == '1':
+			context['sitename'] = 'Beawar'
+		elif site_no == '2':
+			context['sitename'] = 'Jharkhand'
+		elif site_no == '3':
+			context['sitename'] = 'Castamet'
+		elif site_no == '4':
+			context['sitename'] = 'Roorkee'
+		elif site_no == '5':
+			context['sitename'] = 'Panipat'
+
+		return render(request, 'FileSaver/analysis.html', context)

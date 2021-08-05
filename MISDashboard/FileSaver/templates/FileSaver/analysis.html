@@ -32,19 +32,16 @@
                         <!-- 1. Based on a particular date -->
                         <!-- 2. Between 2 dates for a particular invertor -->
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%; background-color: #ffeaea;">  
-                            <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis on a particular date</li>
+                            <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis on a particular site</li>
                             <li>
                                 <div class="container">
-                                    <form action="#" method="GET">
-                                        <!-- {% csrf_token %} -->
+                                    <form action="{% url 'invertoranalysis' %}" method="GET">
+                                        {% csrf_token %}
                                         <div class="mb-2 col-12 text-danger fw-bold form-text text-center">
-                                            Fill up the date, then select the site, then select the invertors.
-                                        </div>
-                                        <div class="input-group mb-3">
-                                            <input type="date" class="form-control" name="form1date">
+                                            Select the site, then select the invertors.
                                         </div>
                                         <div class="form-floating">
-                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="siteselect" name="siteselect">
+                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="siteselect" name="siteselect" required>
                                                 <option selected>Click to select</option>
                                                 <option value="1">Site Beawar</option>
                                                 <option value="2">Site Jharkhand</option>
@@ -59,7 +56,7 @@
                                         <div class="row">
                                             <div class="col-10" id="dynamicmultipleselect0">
                                                 <div class="form-floating">
-                                                    <select class="form-select mb-3 invertordropdown" aria-label="Select the particular for comparison" id="selectinvertor">
+                                                    <select class="form-select mb-3 invertordropdown" aria-label="Select the particular for comparison" id="selectinvertor" name="form1-name0" required>
                                                         <option selected>Click to select</option>
                                                         <!-- select option list for dropdown by ajax -->
                                                     </select>
@@ -138,17 +135,19 @@
             <br>
             <div class="container">
                 <div class="p-5 mb-4 bg-light rounded-3">
-                    
+                    {% if not sitewise and not invertorwise %}
                     <div class="container-fluid py-5">
                       <p class="fs-2 text-center">Choose from the two options in the Analysis Window.</p>
                     </div>
+                    {% endif %}
 
                     {% if sitewise %}
+
+                    {% if not notpresent %}
                     <div class="container-fluid py-5">
                         Analysis Mode: Analyse Solar Data Between Different sites<br>
                         Date: {{ date }}<br>
                         Particular chosen: {{ particular|safe }}<br>
-                        <p class="fs-4">The results have been compiled, presented. Scroll down to view the tables and the graphs.</p>
                             <center>
                                 <div class="row">
                                     <div class="col-md-5 col-12">
@@ -193,6 +192,53 @@
                         </center>
                         
                     </div>
+                    {% endif %}
+                    
+                    {% if notpresent %}
+                    <div class="container-fluid py-5 display-5 text-center text-danger text-capitalize fw-bold">
+                        Date not present in the database!
+                    </div>
+                    {% endif %}
+
+                    {% endif %}
+
+                    {% if invertorwise %}
+                        <div class="container-fluid py-5">
+                            Analysis Mode: Analysis on a particular site<br>
+                            Site: {{ sitename }}<br>
+                            Invertors analysed: 
+                            {% for i in invertor_names %}
+                                <strong>Invertor-{{ i }}</strong>
+                            {% endfor %}
+                        </div>
+                        <center>
+                            <div class="row">
+                                <div class="col-md-5 col-12">
+                                    <table class="table"> 
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Invertors</th>
+                                                <th scope="col">Solar Generation </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for num in invertor_names %} {% for val in invertor_gen %}
+                                                {% if forloop.counter == forloop.parentloop.counter %}
+                                                    <tr>
+                                                        <td>Invertor-{{ num }}</td>
+                                                        <td>{{ val|floatformat:2 }} kWh</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %} {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-12 col-md-2"></div>
+                                <div class="col-md-5 col-12">
+                                    <canvas id="invertorChart" width="200" height="150"></canvas>
+                                </div>
+                            </div>
+                        </center>
                     {% endif %}
                   </div>
             </div>
@@ -268,6 +314,71 @@
             });
         </script>
     {% endif %}
+    {% if invertorwise %}
+        <script>
+            var invChart = document.getElementById('invertorChart').getContext('2d');
+            var labels = JSON.parse("{{ invertor_names|escapejs }}");
+            var genData = JSON.parse("{{ invertor_gen|escapejs }}");
+
+            var labelData = [];
+            for(var l=0; l<labels.length; l++) {
+                labelData.push('Invertor-'+labels[l].toString());
+            }
+
+            console.log(labelData);
+            console.log(genData);
+
+            var myInvChart = new Chart(invChart, {
+                type: 'bar',
+                data: {
+                    labels: labelData,
+                    datasets: [{
+                        // label: {{ particular|safe }};
+                        label: 'Solar Generation (in Kwh)',
+                        
+                        data: genData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: {
+                            title: {
+                                display: true,
+                                text: 'Solar Generation (in kWh)',
+                                font: {
+                                    size: 15,
+                                    weight: 600,
+                                }
+                            },
+                            ticks: {
+                                precision: 2
+                            }
+                        },
+                        xAxes: {
+                            title: {
+                                display: true,
+                                text: 'Different Invertors',
+                                font: {
+                                    size: 15,
+                                    weight: 600,
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+        </script>
+    {% endif %}
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>
     <script>
@@ -306,18 +417,11 @@
         function duplicate() {
             var original = document.getElementById('dynamicmultipleselect'+i);
             var originalform = document.getElementById('dynamicmultipleselect'+i).getElementsByClassName('invertordropdown')[0];
-            originalform.name = "form1-name1";
-            // var originalform = original.getElementById('selectinvertor');
+            // originalform.name = "form1-name1";
+            originalform.name = "form1-name"+i;
             console.log(originalform);
             var countAll = 0;
             var selected = [];
-            // for(var option of document.getElementById('dynamicmultipleselect'+i).select.options) {
-            // for(var option of document.getElementById('selectinvertor').options) {
-            //     if(option.selected) {
-            //         selected.push(option.value);
-            //     }
-            //     ++countAll;
-            // }
             for(var option of originalform.options) {
                 if(option.selected) {
                     selected.push(option.value);
@@ -327,7 +431,6 @@
             countAll = countAll - 1;
 
             if(countAll > 1) {
-                // var selected = [...original.selectedOptions].map(option => option.value);
                 console.log(selected[0]);
                 // console.log(countAll);
                 var clone = original.cloneNode(true);
@@ -336,6 +439,7 @@
                 original.parentNode.appendChild(clone);
 
                 var cloneform = document.getElementById('dynamicmultipleselect'+i).getElementsByClassName('invertordropdown')[0];
+                cloneform.name = "form1-name"+i;
                 for(var j=0; j<countAll; j++) {
                     if(cloneform.options[j].value == selected[0]) {
                         cloneform.remove(j);
@@ -345,7 +449,7 @@
             }
             else {
                 document.getElementById('clone').style.visibility = 'hidden';
-                alert("All the invertors from this site have been selected!!");
+                alert("Check that all the invertors must have been selected!!");
             }
             
         }

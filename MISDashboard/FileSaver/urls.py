@@ -8,6 +8,6 @@ urlpatterns = [
 	path('analysis-window/', views.analysis, name='analysis'),
 	path('exception-report/', views.report, name='report'),
 	path('analysis-window-among-sites', views.siteanalysis, name='siteanalysis'),
-
+	path('analysis-in-a-site', views.invertoranalysis, name='invertoranalysis'),
 	path('getdetails/', views.getdetails, name='getdetails'),	#AJAX URL
 ]
