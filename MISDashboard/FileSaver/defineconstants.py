@@ -7,6 +7,7 @@ roorkee_constant = 999.4
 jharkhand_constant = 1998.8
 castamet_constant = 999.37
 
+
 """ //////////////////////////////////////////////////////////////// *** 
 	Non-leap year days in each month
 	For leap year the days of Feb have been adjjusted in the code itself
@@ -29,21 +30,25 @@ lp_panipat2_seasonal_tilt = [0]*12
 nlp_panipat1_seasonal_tilt = [0]*12
 nlp_panipat2_seasonal_tilt = [0]*12
 
+
 #calculate seasonal tilts for non-leap year
 for i in range(12):
 	nlp_panipat1_seasonal_tilt[i] = ((panipat1_global_inclide[i]*panipat1_constant_list[i])/month_days[i])
 	nlp_panipat2_seasonal_tilt[i] = ((panipat2_global_inclide[i]*panipat2_constant_list[i])/month_days[i])
+
 
 #error correction for months of April, May, June
 nlp_panipat1_seasonal_tilt[3] = 6.23322506140001-0.005
 nlp_panipat1_seasonal_tilt[4] = nlp_panipat1_seasonal_tilt[4]-0.31
 nlp_panipat1_seasonal_tilt[5] = 5.90162280384445+0.01544443
 
+
 #calculate seasonal tilts for leap year
 lp_panipat1_seasonal_tilt = nlp_panipat1_seasonal_tilt
 lp_panipat2_seasonal_tilt = nlp_panipat2_seasonal_tilt
 lp_panipat1_seasonal_tilt[1] = (panipat1_global_inclide[1]*panipat1_constant_list[1])/29
 lp_panipat2_seasonal_tilt[1] = (panipat2_global_inclide[1]*panipat2_constant_list[1])/29
+
 
 """ //////////////////////////////////////////// *** 
 	define constants for Beawar site month-wise
@@ -109,6 +114,7 @@ lp_castamet_5deg_fix_tilt = [0]*12
 
 for i in range(12):
 	nlp_castamet_5deg_fix_tilt[i] = ((castamet_global_inclide[i]*castamet_constant_list[i])/month_days[i])
+
 
 #Error correction code for Castamet Site
 nlp_castamet_5deg_fix_tilt[3] = 6.8158

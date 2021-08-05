@@ -1,4 +1,5 @@
-#This script is mde to execute monthly to remove all the downloaded scripts from the DJANGO mysql database.
+#This script is mde to execute monthly to remove all the downloaded sheets via email from over a month.
+#This script is scheduled to run on a monthly basis to remove all the downloaded site sheets and WMS reports from the SiteSheets folder.
 import os
 
 path = os.getcwd()+"\..\..\SiteSheets"

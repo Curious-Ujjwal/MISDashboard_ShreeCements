@@ -1,4 +1,4 @@
-#This script is made to execute monthly to remove all the downloaded scripts from the DJANGO mysql database.
+#This script is made to execute monthly to remove all the downloaded scripts from the DJANGO sqlite database.
 #This script is scheduled to run on a monthly basis to remove all the downloaded site sheets and WMS reports from the SiteSheets folder.
 
 import os
