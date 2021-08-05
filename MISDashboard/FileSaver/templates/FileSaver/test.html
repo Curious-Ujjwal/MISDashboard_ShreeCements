@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select name="SelectService" class="selService">
+        <option value="1">Some service</option>
+        <option value="2">Another one</option>
+        <option value="3">One more</option>
+        </select>
+        
+        <a id="clone">Clone</a>
+        
+        <div id="target">
+        </div>    
+    
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $('#clone').click(function() {
+                var original = $('select.selService:eq(0)');
+                var allSelects = $('select.selService');
+                var clone = original.clone();
+                
+                $('option', clone).filter(function(i) {
+                    return allSelects.find('option:selected[value="' + $(this).val() + '"]').length;
+                }).remove();
+                
+                $('#target').append(clone).append('<br />');
+            });
+        </script>
+</body>
+</html>
