@@ -19,6 +19,9 @@ from django.contrib.auth import login, authenticate
 
 from .utilityfunction import *
 
+
+import json as simplejson
+from django.http import HttpResponse
 # #account credentials
 username = 'ujjwalrustagi@gmail.com'
 password = 'Ujjwal@123'
@@ -1632,3 +1635,35 @@ def report(request):
 			'recordsearch': False,
 		}
 		return render(request, 'FileSaver/exceptionreport.html', context)
+
+
+def getdetails(request):
+	p_rows = 17
+	j_rows = 21
+	c_rows = 22
+	r_rows = 14
+	b_rows = 3
+
+	# print(p_rows)
+	# print(b_rows)
+	# print(j_rows)
+	# print(c_rows)
+	# print(r_rows)
+
+	site = request.GET['site']
+	site_identifier = site[5]
+	count = 0
+	if site_identifier=='B':
+		count = b_rows
+	elif site_identifier=='J':
+		count = j_rows
+	elif site_identifier=='C':
+		count = c_rows
+	elif site_identifier=='R':
+		count = r_rows
+	else:
+		count = p_rows
+	print(site)
+	print(count)
+	# return HttpResponse(simplejson.dumps(count), mimetype='application/json', content_type='application/json')
+	return HttpResponse(simplejson.dumps(count), content_type='application/json')

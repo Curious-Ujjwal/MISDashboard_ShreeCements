@@ -21,12 +21,12 @@
                 <div class="col-md-12 fw-normal fs-4">Analysis Window</div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6 my-2">
                     <div class="dropdown">
                         <!-- 1. From a particular site out of the 5 sites -->
-                        <a class="btn btn-secondary bg-danger dropdown-toggle fs-5 text-capitalize" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
+                        <button class="btn btn-secondary bg-danger dropdown-toggle fs-5 text-capitalize" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
                             Analyse Solar Data from a particular site
-                        </a>
+                        </button>
                       
                         <!-- Again two options -->
                         <!-- 1. Based on a particular date -->
@@ -35,12 +35,16 @@
                             <li class="text-capitalize fs-5 mx-auto text-decoration-underline mb-2" style="width: fit-content;">Analysis on a particular date</li>
                             <li>
                                 <div class="container">
-                                    <form action="#">
+                                    <form action="#" method="GET">
+                                        <!-- {% csrf_token %} -->
+                                        <div class="mb-2 col-12 text-danger fw-bold form-text text-center">
+                                            Fill up the date, then select the site, then select the invertors.
+                                        </div>
                                         <div class="input-group mb-3">
-                                            <input type="date" class="form-control">
+                                            <input type="date" class="form-control" name="form1date">
                                         </div>
                                         <div class="form-floating">
-                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="siteselect">
+                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="siteselect" name="siteselect">
                                                 <option selected>Click to select</option>
                                                 <option value="1">Site Beawar</option>
                                                 <option value="2">Site Jharkhand</option>
@@ -52,12 +56,20 @@
                                         </div>
                                         <!-- button to select all the invertors from the dropdown
                                         select menu to choose 2 invertors from -->
-                                        <div class="form-floating">
-                                            <select class="form-select mb-3" aria-label="Select the particular for comparison" id="selectinvertor">
-                                                <option selected>Click to select</option>
-                                                <option value="1">Invertor i+1</option>
-                                            </select>
-                                            <label for="selectinvertor">Select the invertor</label>
+                                        <div class="row">
+                                            <div class="col-10" id="dynamicmultipleselect0">
+                                                <div class="form-floating">
+                                                    <select class="form-select mb-3 invertordropdown" aria-label="Select the particular for comparison" id="selectinvertor">
+                                                        <option selected>Click to select</option>
+                                                        <!-- select option list for dropdown by ajax -->
+                                                    </select>
+                                                    <label for="selectinvertor">Select the invertor</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <a class="mt-2 btn btn-danger py-2 fw-bold" onclick="duplicate()" id="clone">Add</a>
+                                                <!-- <a class="mt-2 btn btn-danger py-2 fw-bold">Add</a> -->
+                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-danger bg-gradient">Analyse</button>
                                     </form>
@@ -70,12 +82,12 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6 my-2">
                     <div class="dropdown">
                         <!-- 2. Among different sites -->
-                        <a class="btn btn-secondary bg-danger dropdown-toggle fs-5 text-capitalize" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
+                        <button class="btn btn-secondary bg-danger dropdown-toggle fs-5 text-capitalize" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
                             Analyse Solar data between different sites
-                        </a>
+                        </button>
 
                         <!-- Again two options -->
                         <!-- 1. Based on a particular date -->
@@ -86,6 +98,9 @@
                                 <div class="container">
                                     <form action="{% url 'siteanalysis' %}" method="GET">
                                         {% csrf_token %}
+                                        <div class="mb-2 col-12 text-danger fw-bold form-text text-center">
+                                            Fill up the date, then select the particular for comparison among all sites
+                                        </div>
                                         <div class="input-group mb-3">
                                             <input type="date" class="form-control" name="form2-date" required>
                                         </div>
@@ -125,13 +140,7 @@
                 <div class="p-5 mb-4 bg-light rounded-3">
                     
                     <div class="container-fluid py-5">
-                        Analysis mode: Analyse Solar data from a particular site<br>
-                        Date: 28-07-2021<br>
-                        Particular: Solar Generation<br>
-                        Invertors to compare: Invertor1, Invertor2<br>
-                      <!-- <h1 class="display-6 fw-bold">Analyse Solar data from a particular site</h1> -->
-                      <br><br>
-                      <p class="fs-4">The results have been compiled, presented. Scroll down to view the tables and the graphs.</p>
+                      <p class="fs-2 text-center">Choose from the two options in the Analysis Window.</p>
                     </div>
 
                     {% if sitewise %}
@@ -191,65 +200,154 @@
     <!-- Main cards area -->
 {% endblock %}
 
+
+
 {% block extra_scripts %}
-    <script>
-        var cmpChart = document.getElementById('compChart').getContext('2d');
-        var cdata = JSON.parse("{{ cvalue|escapejs }}");
-        var pdata = JSON.parse("{{ pvalue|escapejs }}");
-        var jdata = JSON.parse("{{ jvalue|escapejs }}");
-        var bdata = JSON.parse("{{ bvalue|escapejs }}");
-        var rdata = JSON.parse("{{ rvalue|escapejs }}");
-        var myCmpChart = new Chart(cmpChart, {
-            type: 'bar',
-            data: {
-                labels: ['Panipat', 'Jharkhand', 'Castamet', 'Beawar', 'Roorkee'],
-                datasets: [{
-                    // label: {{ particular|safe }};
-                    label: 'Value of the particular',
-                    data: [pdata, jdata, cdata, bdata, rdata],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    yAxes: {
-                title: {
-                    display: true,
-                    text: 'Particular chosen',
-                    font: {
-                        size: 15
-                    }
+    {% if sitewise %}
+        <script>
+            var cmpChart = document.getElementById('compChart').getContext('2d');
+            var cdata = JSON.parse("{{ cvalue|escapejs }}");
+            var pdata = JSON.parse("{{ pvalue|escapejs }}");
+            var jdata = JSON.parse("{{ jvalue|escapejs }}");
+            var bdata = JSON.parse("{{ bvalue|escapejs }}");
+            var rdata = JSON.parse("{{ rvalue|escapejs }}");
+            var myCmpChart = new Chart(cmpChart, {
+                type: 'bar',
+                data: {
+                    labels: ['Panipat', 'Jharkhand', 'Castamet', 'Beawar', 'Roorkee'],
+                    datasets: [{
+                        // label: {{ particular|safe }};
+                        label: 'Value of the particular',
+                        
+                        data: [pdata, jdata, cdata, bdata, rdata],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
                 },
-                ticks: {
-                    precision: 0
-                }
-            },
-            xAxes: {
-                title: {
-                    display: true,
-                    text: 'Different Sites',
-                    font: {
-                        size: 15
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: {
+                            title: {
+                                display: true,
+                                text: 'Particular chosen',
+                                font: {
+                                    size: 15,
+                                    weight: 600,
+                                }
+                            },
+                            ticks: {
+                                precision: 2
+                            }
+                        },
+                        xAxes: {
+                            title: {
+                                display: true,
+                                text: 'Different Sites',
+                                font: {
+                                    size: 15,
+                                    weight: 600,
+                                }
+                            }
+                        }
                     }
                 }
-            }
-                }
-            }
+            });
+        </script>
+    {% endif %}
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('select#siteselect').change(function() {
+                var optionSelected = $(this).find("option:selected");
+                var valueSelected = optionSelected.val();
+                var site_name = optionSelected.text();
+                console.log(optionSelected);
+                console.log(valueSelected);
+                console.log(site_name);
+
+                data = {'site': site_name};
+                $.ajax({
+                    type: "GET",
+                    url: "/getdetails",
+                    data: {'site': site_name},
+                    dataType: "json",
+
+                    success:function(result) {
+                        $('#selectinvertor option:not(:selected)').remove();
+                        for(var i = 1; i<=result; i++) {
+                            $('#selectinvertor').append('<option>Invertor-'+i+'</option>');
+                        };
+                    },
+                    error: function() {
+                        console.log('Debug required!!');
+                    }
+                });
+            });
         });
+    </script>
+    <script>
+        var i = 0;
+
+        function duplicate() {
+            var original = document.getElementById('dynamicmultipleselect'+i);
+            var originalform = document.getElementById('dynamicmultipleselect'+i).getElementsByClassName('invertordropdown')[0];
+            originalform.name = "form1-name1";
+            // var originalform = original.getElementById('selectinvertor');
+            console.log(originalform);
+            var countAll = 0;
+            var selected = [];
+            // for(var option of document.getElementById('dynamicmultipleselect'+i).select.options) {
+            // for(var option of document.getElementById('selectinvertor').options) {
+            //     if(option.selected) {
+            //         selected.push(option.value);
+            //     }
+            //     ++countAll;
+            // }
+            for(var option of originalform.options) {
+                if(option.selected) {
+                    selected.push(option.value);
+                }
+                ++countAll;
+            }
+            countAll = countAll - 1;
+
+            if(countAll > 1) {
+                // var selected = [...original.selectedOptions].map(option => option.value);
+                console.log(selected[0]);
+                // console.log(countAll);
+                var clone = original.cloneNode(true);
+                clone.id = "dynamicmultipleselect"+ ++i;
+                // console.log(clone);
+                original.parentNode.appendChild(clone);
+
+                var cloneform = document.getElementById('dynamicmultipleselect'+i).getElementsByClassName('invertordropdown')[0];
+                for(var j=0; j<countAll; j++) {
+                    if(cloneform.options[j].value == selected[0]) {
+                        cloneform.remove(j);
+                    }
+                }
+                
+            }
+            else {
+                document.getElementById('clone').style.visibility = 'hidden';
+                alert("All the invertors from this site have been selected!!");
+            }
+            
+        }
     </script>
 {% endblock %}
