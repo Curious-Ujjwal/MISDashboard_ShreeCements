@@ -5,3 +5,7 @@ This file contains all the necessary requirements for running this MIS:
 4. In django-admin, the entries about the sites have to be deleted manually, as per the values.
 5. All the site sheets and WMS reports should be in the .xslx format, otherwise error will be thrown.
 6. All the sheets must have permission to edit, format or delete the entry, otherwsie the software will not be able to read the files.
+
+7. Admin credentials:
+user - admin
+pass - SC@admin21
