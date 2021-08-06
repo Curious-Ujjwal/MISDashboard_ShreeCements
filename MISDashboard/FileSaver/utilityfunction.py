@@ -2,6 +2,7 @@ import numpy
 from datetime import date
 import pandas as pd
 import os
+import datetime
 
 siteP = None 	#site1
 siteB = None	#siteB

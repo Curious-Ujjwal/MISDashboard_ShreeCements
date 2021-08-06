@@ -86,15 +86,7 @@ class Panipat_Sheet(models.Model):
 	daily_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Daily Misc. Losses(in %)')
 	monthly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Monthly Misc. Losses(in %)')
 	yearly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Yearly Misc. Losses(in %)')
-	
-	# planning of a field for operator entries as follows:
-	# 1-> make some operator entry char fields
-	# 2-> and a form to select those fields
-	# 3-> write a function in admin so that when user clicks on those options in 1) then browser prompts and ask for the observation
-	# 4-> take the i/p and save that as the value and the placeholder in the select
-	# 5-> update the entries in the form below those options to select those things
-	# 6-> write another function to save them in the respective sheet
-	# operator_entries = models.ManyToManyField(Operator_Entry, blank=True, editable=True)
+	major_observations = models.TextField(verbose_name='Today Major Observations', default='')
 
 	class Meta:
 		ordering = ['date']
@@ -165,15 +157,7 @@ class Castamet_Sheet(models.Model):
 	daily_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Daily Misc. Losses(in %)')
 	monthly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Monthly Misc. Losses(in %)')
 	yearly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Yearly Misc. Losses(in %)')
-	
-	# planning of a field for operator entries as follows:
-	# 1-> make some operator entry char fields -- DONE
-	# 2-> and a form to select those fields -- DONE
-	# 3-> write a function in admin so that when user clicks on those options in 1) then browser prompts and ask for the observation
-	# 4-> take the i/p and save that as the value and the placeholder in the select
-	# 5-> update the entries in the form below those options to select those things
-	# 6-> write another function to save them in the respective sheet
-	# operator_entries = models.ManyToManyField(Operator_Entry, blank=True, editable=True)
+	major_observations = models.TextField(verbose_name='Today Major Observations', default='')
 
 	class Meta:
 		ordering = ['date']
@@ -243,14 +227,7 @@ class Jharkhand_Sheet(models.Model):
 	daily_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Daily Misc. Losses(in %)')
 	monthly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Monthly Misc. Losses(in %)')
 	yearly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Yearly Misc. Losses(in %)')
-	# planning of a field for operator entries as follows:
-	# 1-> make some operator entry char fields -- DONE
-	# 2-> and a form to select those fields -- DONE
-	# 3-> write a function in admin so that when user clicks on those options in 1) then browser prompts and ask for the observation
-	# 4-> take the i/p and save that as the value and the placeholder in the select
-	# 5-> update the entries in the form below those options to select those things
-	# 6-> write another function to save them in the respective sheet
-	# operator_entries = models.ManyToManyField(Operator_Entry, blank=True, editable=True)
+	major_observations = models.TextField(verbose_name='Today Major Observations', default='')
 
 	class Meta:
 		ordering = ['date']
@@ -320,15 +297,7 @@ class Roorkee_Sheet(models.Model):
 	daily_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Daily Misc. Losses(in %)')
 	monthly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Monthly Misc. Losses(in %)')
 	yearly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Yearly Misc. Losses(in %)')
-	
-	# planning of a field for operator entries as follows:
-	# 1-> make some operator entry char fields -- DONE
-	# 2-> and a form to select those fields -- DONE
-	# 3-> write a function in admin so that when user clicks on those options in 1) then browser prompts and ask for the observation
-	# 4-> take the i/p and save that as the value and the placeholder in the select
-	# 5-> update the entries in the form below those options to select those things
-	# 6-> write another function to save them in the respective sheet
-	# operator_entries = models.ManyToManyField(Operator_Entry, blank=True, editable=True)
+	major_observations = models.TextField(verbose_name='Today Major Observations', default='')
 
 	class Meta:
 		ordering = ['date']
@@ -398,15 +367,7 @@ class Beawar_Sheet(models.Model):
 	daily_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Daily Misc. Losses(in %)')
 	monthly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Monthly Misc. Losses(in %)')
 	yearly_misc_loss = models.DecimalField(max_digits=4, decimal_places=2, default=0.0, verbose_name='Yearly Misc. Losses(in %)')
-	
-	# planning of a field for operator entries as follows:
-	# 1-> make some operator entry char fields -- DONE
-	# 2-> and a form to select those fields -- DONE
-	# 3-> write a function in admin so that when user clicks on those options in 1) then browser prompts and ask for the observation
-	# 4-> take the i/p and save that as the value and the placeholder in the select
-	# 5-> update the entries in the form below those options to select those things
-	# 6-> write another function to save them in the respective sheet
-	# operator_entries = models.ManyToManyField(Operator_Entry, blank=True, editable=True)
+	major_observations = models.TextField(verbose_name='Today Major Observations', default='')
 
 	class Meta:
 		ordering = ['date']
