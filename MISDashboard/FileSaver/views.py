@@ -144,9 +144,9 @@ def download_files():
 # 	wmsR -> WMS Report of Roorkee
 # """
 
-# #return the no. of days in a year based on if it is a leap/non-leap year
-# # true -> leap year
-# # false -> non-leap year
+#return the no. of days in a year based on if it is a leap/non-leap year
+# true -> leap year
+# false -> non-leap year
 def calculate_days(date_year):
 	if (date_year%4) == 0:
 		if (date_year%100) == 0:
@@ -179,7 +179,7 @@ if months_till_date==0:
 	months_till_date = 12
 
 
-# #Data used for calculating seasonal tilt
+#Data used for calculating seasonal tilt
 #Admin can modify panipat_global_inclide for any excpected changes
 panipat1_seasonal_tilt = None
 panipat2_seasonal_tilt = None
@@ -187,6 +187,7 @@ roorkee_seasonal_tilt = None
 jharkhand_seasonal_tilt = None
 castamet_5deg_fix_tilt = None
 beawar_seasonal_tilt = b_beawar_seasonal_tilt
+#Beawar seasonal tilts are all fixed
 
 if(calculate_days(date_year)):
 	panipat1_seasonal_tilt = lp_panipat1_seasonal_tilt
@@ -221,44 +222,64 @@ def calculate_panipat_values():
 
 	for i in range(p_rows):
 		today_sum += siteP[i][4]
+	#today_sum -> sum of solar generation from all invertors - today_actual_generation_value
 
-	last_record = None
-	count_till_date = 0
-	monthly_sum = 0.0
+	last_record = None	#last_record gives the last saved record.
+	count_till_date = 0	#count of days passed
+	monthly_sum = 0.0	#monthly sum of solar generation
 
 	try:
 		last_record = Panipat_Sheet.objects.latest('date')
 		count_till_date = Panipat_Sheet.objects.all().count()
-		print('Here')
+		
 		#check if the month is same
 		last_record_month = int(last_record.date[3:5])
 		if(date_month == last_record_month):
+			#if month is same, then only add it to monthly_sum
 			monthly_sum = last_record.monthly_actual_generation + today_sum
 			month_irradiance_till_date = last_record.monthly_actual_irradiance
 			actual_irradiation_target_plf = last_record.irradiation_target_plf
+			
+			#this variable need to be calculated in admin.py file
+			monthly_irradiance = (last_record.monthly_actual_irradiance)*count_till_date + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
+			deemed_loss_till_date = last_record.monthly_deemed_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
+			grid_loss_till_date = last_record.monthly_grid_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
+			bd_loss_till_date = last_record.monthly_bd_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
+			dust_loss_till_date = last_record.monthly_dust_loss + user_input
+
 		else:
+			#else today_sum will also be the monthly_sum for the day
 			monthly_sum = today_sum
+
+			#this variable need to be calculated in admin.py file
+			monthly_irradiance = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
+			deemed_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
+			grid_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
+			bd_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
+			dust_loss_till_date = user_input
+
 
 		yearly_gen_till_date = last_record.yearly_actual_generation + today_sum
 
-		#this variable need to be calculated in admin.py file
-		monthly_irradiance = (last_record.monthly_actual_irradiance)*count_till_date + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
-		deemed_loss_till_date = last_record.monthly_deemed_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
-		grid_loss_till_date = last_record.monthly_grid_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
-		bd_loss_till_date = last_record.monthly_bd_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
-		dust_loss_till_date = last_record.monthly_dust_loss + user_input
-
 	except:
 		last_record = None
-		print('Hereqkdgfckwq')
+		# print('Hereqkdgfckwq')
 		count_till_date = 0
 		monthly_sum = today_sum
 		yearly_gen_till_date = today_sum
@@ -477,24 +498,42 @@ def calculate_castamet_values():
 			monthly_sum = last_record.monthly_actual_generation + today_sum
 			month_irradiance_till_date = last_record.monthly_actual_irradiance
 			actual_irradiation_target_plf = last_record.irradiation_target_plf
+
+			#this variable need to be calculated in admin.py file
+			monthly_irradiance = (last_record.monthly_actual_irradiance)*count_till_date + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
+			deemed_loss_till_date = last_record.monthly_deemed_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
+			grid_loss_till_date = last_record.monthly_grid_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
+			bd_loss_till_date = last_record.monthly_bd_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
+			dust_loss_till_date = last_record.monthly_dust_loss + user_input
 		else:
 			monthly_sum = today_sum
+
+			#this variable need to be calculated in admin.py file
+			monthly_irradiance = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
+			deemed_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
+			grid_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
+			bd_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
+			dust_loss_till_date = user_input
+		
 		yearly_gen_till_date = last_record.yearly_actual_generation + today_sum
 
-		#this variable need to be calculated in admin.py file
-		monthly_irradiance = (last_record.monthly_actual_irradiance)*count_till_date + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
-		deemed_loss_till_date = last_record.monthly_deemed_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
-		grid_loss_till_date = last_record.monthly_grid_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
-		bd_loss_till_date = last_record.monthly_bd_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
-		dust_loss_till_date = last_record.monthly_dust_loss + user_input
+		
 
 	except:
 		last_record = None
@@ -709,24 +748,40 @@ def calculate_beawar_values():
 			monthly_sum = last_record.monthly_actual_generation + today_sum
 			month_irradiance_till_date = last_record.monthly_actual_irradiance
 			actual_irradiation_target_plf = last_record.irradiation_target_plf
+			#this variable need to be calculated in admin.py file
+			monthly_irradiance = (last_record.monthly_actual_irradiance)*count_till_date + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
+			deemed_loss_till_date = last_record.monthly_deemed_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
+			grid_loss_till_date = last_record.monthly_grid_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
+			bd_loss_till_date = last_record.monthly_bd_loss + user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
+			dust_loss_till_date = last_record.monthly_dust_loss + user_input
+		
 		else:
 			monthly_sum = today_sum
+			#this variable need to be calculated in admin.py file
+			monthly_irradiance = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
+			deemed_loss_till_date =user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
+			grid_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
+			bd_loss_till_date = user_input
+
+			#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
+			dust_loss_till_date = user_input
+
 		yearly_gen_till_date = last_record.yearly_actual_generation + today_sum
 
-		#this variable need to be calculated in admin.py file
-		monthly_irradiance = (last_record.monthly_actual_irradiance)*count_till_date + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_deemed_loss_plf
-		deemed_loss_till_date = last_record.monthly_deemed_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_grid_loss_plf
-		grid_loss_till_date = last_record.monthly_grid_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_bd_loss_plf
-		bd_loss_till_date = last_record.monthly_bd_loss + user_input
-
-		#this variable needs to be calculated in admin.py file, then calculate monthly_dust_loss_plf
-		dust_loss_till_date = last_record.monthly_dust_loss + user_input
 
 	except:
 		last_record = None
@@ -1616,6 +1671,12 @@ def report(request):
 			misclossJ = (float(lastJrecord.daily_misc_loss)*24)/float(lastJrecord.daily_actual_irradiance)
 			misclossC = (float(lastCrecord.daily_misc_loss)*24)/float(lastCrecord.daily_actual_irradiance)
 
+			panipat_obs = lastPrecord.major_observations.split(",")
+			jharkhand_obs = lastJrecord.major_observations.split(",")
+			roorkee_obs = lastRrecord.major_observations.split(",")
+			beawar_obs = lastBrecord.major_observations.split(",")
+			castamet_obs = lastCrecord.major_observations.split(",")
+
 			context = {
 				'panipat_object': lastPrecord,
 				'jharkhand_object': lastJrecord,
@@ -1634,6 +1695,11 @@ def report(request):
 				'misclossC': misclossC,
 				'recordpresent': True,
 				'recordsearch': True,
+				'panipatobs': panipat_obs,
+				'jharkhandobs': jharkhand_obs,
+				'roorkeeobs': roorkee_obs,
+				'beawarobs': beawar_obs,
+				'castametobs': castamet_obs,
 			}
 			return render(request, 'FileSaver/exceptionreport.html', context)
 		else:

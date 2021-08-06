@@ -4,7 +4,7 @@ from decimal import Decimal
 from .defineconstants import *
 from datetime import date
 from .models import *
-# from .forms import *
+import datetime
 
 #Calcualting today's date, month and year for calculation purposes
 prev_datetime = datetime.datetime.today() - datetime.timedelta(days=1)
@@ -57,10 +57,10 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 		(None, {
 				'fields': ('days_elapsed',)
 			}),
-		('Target PLF Operator Entry (in kWh)', {
+		('Target PLF Operator Entry (in kWh) [Operator Entry: Daily Irradiation Target PLF(enter the combined for both sites)]', {
 				'fields': (('irradiation_target_plf', 'kwh_target_plf'),)
 			}),
-		('Target & Actual Generation (in kWh)', {
+		('Target & Actual Generation (in kWh) [Operator Entry: Daily Target Generation]', {
 				'fields': (
 					('daily_target_generation', 'monthly_target_generation', 'yearly_target_generation'),
 					('daily_actual_generation', 'monthly_actual_generation', 'yearly_actual_generation'),
@@ -72,7 +72,7 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 					('daily_actual_plf', 'monthly_actual_plf', 'yearly_actual_plf'),
 				)
 			}),
-		('Target & Actual Irradiance', {
+		('Target & Actual Irradiance [Operator Entry: Daily Actual Irradiance,]', {
 				'fields': (
 				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
 	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
@@ -87,25 +87,25 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 		('Loss due to Irradiance', {
 				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
 			}),
-		('Deemed Loss', {
+		('Deemed Loss (Operator Entry: Daily Deemed Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_deemed_loss', 'monthly_deemed_loss', 'yearly_deemed_loss'),
 					('daily_deemed_loss_plf', 'monthly_deemed_loss_plf', 'yearly_deemed_loss_plf'),
 				)
 			}),
-		('Loss due to grid outage', {
+		('Loss due to grid outage (Operator Entry: Daily Grid Outage Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_grid_loss', 'monthly_grid_loss', 'yearly_grid_loss'),
 					('daily_grid_loss_plf', 'monthly_grid_loss_plf', 'yearly_grid_loss_plf'),
 				)
 			}),
-		('Loss due to BreakDown', {
+		('Loss due to BreakDown (Operator Entry: Daily BreakDown Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_bd_loss', 'monthly_bd_loss', 'yearly_bd_loss'),
 					('daily_bd_loss_plf', 'monthly_bd_loss_plf', 'yearly_bd_loss_plf'),
 				)
 			}),
-		('Dust loss', {
+		('Dust loss (Operator Entry: Daily Dust Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_dust_loss', 'monthly_dust_loss', 'yearly_dust_loss'),
 					('daily_dust_loss_plf', 'monthly_dust_loss_plf', 'yearly_dust_loss_plf'),
@@ -113,6 +113,9 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 			}),
 		('Miscellaneous Loss', {
 				'fields': (('daily_misc_loss', 'monthly_misc_loss', 'yearly_misc_loss'),)
+			}),
+		('Today Major Observations (Separate the observations by ",")', {
+				'fields': (('major_observations',),)
 			}),
 	)
 	# read_only_fields = ('monthly_actual_irradiance', )
@@ -142,7 +145,6 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 			if last_record_month == month:
 				month_irradiance_till_date = last_record.monthly_actual_irradiance
-				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				monthly_deemedloss_till_date = last_record.monthly_deemed_loss
 				monthly_gridloss_till_date = last_record.monthly_grid_loss
 				monthly_bdloss_till_date = last_record.monthly_bd_loss
@@ -150,7 +152,6 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 
 			else:
-				month_irradiance_till_date = 0.0
 				month_irradiance_till_date = 0.0
 				monthly_deemedloss_till_date = 0.00
 				monthly_gridloss_till_date = 0.00
@@ -185,6 +186,7 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of daily parameters
 			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(panipat_constant*24))*100))
+			obj.daily_target_performance_ratio = Decimal(str((float(obj.daily_target_generation)/(float(obj.daily_target_irradiance)*panipat_constant))*100))
 			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*panipat_constant))*100))
 			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
 			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(panipat_constant*24))*100))
@@ -196,8 +198,12 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of monthly parameters
+			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
 			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
-			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(obj.days_elapsed)))*100))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio	#change
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant*(float(obj.days_elapsed))))*100))
+			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
+			obj.monthly_target_irradiance = obj.daily_target_irradiance
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*panipat_constant))*100))
@@ -214,10 +220,9 @@ class Panipat_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
-			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*obj.days_elapsed))*100))
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_generation
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(panipat_constant*24*(float(obj.days_elapsed))))*100))
 			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
-			
 			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
 			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(panipat_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(panipat_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
@@ -253,10 +258,10 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 		(None, {
 				'fields': ('days_elapsed',)
 			}),
-		('Target PLF Operator Entry (in kWh)', {
+		('Target PLF Operator Entry (in kWh) [Operator Entry: Daily Irradiation Target PLF(enter the combined for both sites)]', {
 				'fields': (('irradiation_target_plf', 'kwh_target_plf'),)
 			}),
-		('Target & Actual Generation (in kWh)', {
+		('Target & Actual Generation (in kWh) [Operator Entry: Daily Target Generation]', {
 				'fields': (
 					('daily_target_generation', 'monthly_target_generation', 'yearly_target_generation'),
 					('daily_actual_generation', 'monthly_actual_generation', 'yearly_actual_generation'),
@@ -268,40 +273,40 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 					('daily_actual_plf', 'monthly_actual_plf', 'yearly_actual_plf'),
 				)
 			}),
+		('Target & Actual Irradiance [Operator Entry: Daily Actual Irradiance,]', {
+				'fields': (
+				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
+	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
+				)
+			}),
 		('Target & Actual Performance Ratios', {
 				'fields': (
 					('daily_target_performance_ratio', 'monthly_target_performance_ratio', 'yearly_target_performance_ratio'),
 					('daily_actual_performance_ratio', 'monthly_actual_performance_ratio', 'yearly_actual_performance_ratio'),
 				)
 			}),
-		('Target & Actual Irradiance', {
-				'fields': (
-				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
-	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
-				)
+		('Loss due to Irradiance', {
+				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
 			}),
-		('Deemed Loss', {
+		('Deemed Loss (Operator Entry: Daily Deemed Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_deemed_loss', 'monthly_deemed_loss', 'yearly_deemed_loss'),
 					('daily_deemed_loss_plf', 'monthly_deemed_loss_plf', 'yearly_deemed_loss_plf'),
 				)
 			}),
-		('Loss due to Irradiance', {
-				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
-			}),
-		('Loss due to grid outage', {
+		('Loss due to grid outage (Operator Entry: Daily Grid Outage Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_grid_loss', 'monthly_grid_loss', 'yearly_grid_loss'),
 					('daily_grid_loss_plf', 'monthly_grid_loss_plf', 'yearly_grid_loss_plf'),
 				)
 			}),
-		('Loss due to BreakDown', {
+		('Loss due to BreakDown (Operator Entry: Daily BreakDown Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_bd_loss', 'monthly_bd_loss', 'yearly_bd_loss'),
 					('daily_bd_loss_plf', 'monthly_bd_loss_plf', 'yearly_bd_loss_plf'),
 				)
 			}),
-		('Dust loss', {
+		('Dust loss (Operator Entry: Daily Dust Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_dust_loss', 'monthly_dust_loss', 'yearly_dust_loss'),
 					('daily_dust_loss_plf', 'monthly_dust_loss_plf', 'yearly_dust_loss_plf'),
@@ -309,6 +314,9 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 			}),
 		('Miscellaneous Loss', {
 				'fields': (('daily_misc_loss', 'monthly_misc_loss', 'yearly_misc_loss'),)
+			}),
+		('Today Major Observations (Separate the observations by ",")', {
+				'fields': (('major_observations',),)
 			}),
 	)
 
@@ -330,11 +338,10 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Panipat_Sheet.objects.latest('date')
+			last_record = Castamet_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
-				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				monthly_deemedloss_till_date = last_record.monthly_deemed_loss
 				monthly_gridloss_till_date = last_record.monthly_grid_loss
@@ -343,7 +350,6 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 
 
 			else:
-				month_irradiance_till_date = 0.0
 				month_irradiance_till_date = 0.0
 				monthly_deemedloss_till_date = 0.00
 				monthly_gridloss_till_date = 0.00
@@ -376,6 +382,7 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of daily parameters
 			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(castamet_constant*24))*100))
+			obj.daily_target_performance_ratio = Decimal(str((float(obj.daily_target_generation)/(float(obj.daily_target_irradiance)*castamet_constant))*100))
 			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*castamet_constant))*100))
 			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
 			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(castamet_constant*24))*100))
@@ -387,8 +394,12 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of monthly parameters
+			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
 			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio	#change
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*castamet_constant*(obj.days_elapsed)))*100))
+			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
+			obj.monthly_target_irradiance = obj.daily_target_irradiance
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*castamet_constant))*100))
@@ -405,7 +416,7 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_generation
 			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(castamet_constant*24*obj.days_elapsed))*100))
 			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
 			
@@ -441,10 +452,10 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 		(None, {
 				'fields': ('days_elapsed',)
 			}),
-		('Target PLF Operator Entry (in kWh)', {
+		('Target PLF Operator Entry (in kWh) [Operator Entry: Daily Irradiation Target PLF(enter the combined for both sites)]', {
 				'fields': (('irradiation_target_plf', 'kwh_target_plf'),)
 			}),
-		('Target & Actual Generation (in kWh)', {
+		('Target & Actual Generation (in kWh) [Operator Entry: Daily Target Generation]', {
 				'fields': (
 					('daily_target_generation', 'monthly_target_generation', 'yearly_target_generation'),
 					('daily_actual_generation', 'monthly_actual_generation', 'yearly_actual_generation'),
@@ -456,40 +467,40 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 					('daily_actual_plf', 'monthly_actual_plf', 'yearly_actual_plf'),
 				)
 			}),
+		('Target & Actual Irradiance [Operator Entry: Daily Actual Irradiance,]', {
+				'fields': (
+				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
+	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
+				)
+			}),
 		('Target & Actual Performance Ratios', {
 				'fields': (
 					('daily_target_performance_ratio', 'monthly_target_performance_ratio', 'yearly_target_performance_ratio'),
 					('daily_actual_performance_ratio', 'monthly_actual_performance_ratio', 'yearly_actual_performance_ratio'),
 				)
 			}),
-		('Target & Actual Irradiance', {
-				'fields': (
-				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
-	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
-				)
+		('Loss due to Irradiance', {
+				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
 			}),
-		('Deemed Loss', {
+		('Deemed Loss (Operator Entry: Daily Deemed Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_deemed_loss', 'monthly_deemed_loss', 'yearly_deemed_loss'),
 					('daily_deemed_loss_plf', 'monthly_deemed_loss_plf', 'yearly_deemed_loss_plf'),
 				)
 			}),
-		('Loss due to Irradiance', {
-				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
-			}),
-		('Loss due to grid outage', {
+		('Loss due to grid outage (Operator Entry: Daily Grid Outage Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_grid_loss', 'monthly_grid_loss', 'yearly_grid_loss'),
 					('daily_grid_loss_plf', 'monthly_grid_loss_plf', 'yearly_grid_loss_plf'),
 				)
 			}),
-		('Loss due to BreakDown', {
+		('Loss due to BreakDown (Operator Entry: Daily BreakDown Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_bd_loss', 'monthly_bd_loss', 'yearly_bd_loss'),
 					('daily_bd_loss_plf', 'monthly_bd_loss_plf', 'yearly_bd_loss_plf'),
 				)
 			}),
-		('Dust loss', {
+		('Dust loss (Operator Entry: Daily Dust Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_dust_loss', 'monthly_dust_loss', 'yearly_dust_loss'),
 					('daily_dust_loss_plf', 'monthly_dust_loss_plf', 'yearly_dust_loss_plf'),
@@ -498,8 +509,12 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 		('Miscellaneous Loss', {
 				'fields': (('daily_misc_loss', 'monthly_misc_loss', 'yearly_misc_loss'),)
 			}),
+		('Today Major Observations (Separate the observations by ",")', {
+				'fields': (('major_observations',),)
+			}),
 	)
 
+	#Function for calculations based on user input
 	def save_model(self, request, obj, form, change):
 		month_irradiance_till_date = 0.0
 		monthly_irradiance_loss_till_date = 0.0
@@ -518,11 +533,10 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Panipat_Sheet.objects.latest('date')
+			last_record = Jharkhand_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
-				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				monthly_deemedloss_till_date = last_record.monthly_deemed_loss
 				monthly_gridloss_till_date = last_record.monthly_grid_loss
@@ -531,7 +545,6 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 
 
 			else:
-				month_irradiance_till_date = 0.0
 				month_irradiance_till_date = 0.0
 				monthly_deemedloss_till_date = 0.00
 				monthly_gridloss_till_date = 0.00
@@ -564,6 +577,7 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of daily parameters
 			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(jharkhand_constant*24))*100))
+			obj.daily_target_performance_ratio = Decimal(str((float(obj.daily_target_generation)/(float(obj.daily_target_irradiance)*jharkhand_constant))*100))
 			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*jharkhand_constant))*100))
 			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
 			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(jharkhand_constant*24))*100))
@@ -575,8 +589,12 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of monthly parameters
+			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
 			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio	#change
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant*(obj.days_elapsed)))*100))
+			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
+			obj.monthly_target_irradiance = obj.daily_target_irradiance
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant))*100))
@@ -593,10 +611,9 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_generation
 			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(jharkhand_constant*24*obj.days_elapsed))*100))
 			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
-			
 			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
 			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(jharkhand_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(jharkhand_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
@@ -630,10 +647,10 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 		(None, {
 				'fields': ('days_elapsed',)
 			}),
-		('Target PLF Operator Entry (in kWh)', {
+		('Target PLF Operator Entry (in kWh) [Operator Entry: Daily Irradiation Target PLF(enter the combined for both sites)]', {
 				'fields': (('irradiation_target_plf', 'kwh_target_plf'),)
 			}),
-		('Target & Actual Generation (in kWh)', {
+		('Target & Actual Generation (in kWh) [Operator Entry: Daily Target Generation]', {
 				'fields': (
 					('daily_target_generation', 'monthly_target_generation', 'yearly_target_generation'),
 					('daily_actual_generation', 'monthly_actual_generation', 'yearly_actual_generation'),
@@ -645,40 +662,40 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 					('daily_actual_plf', 'monthly_actual_plf', 'yearly_actual_plf'),
 				)
 			}),
+		('Target & Actual Irradiance [Operator Entry: Daily Actual Irradiance,]', {
+				'fields': (
+				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
+	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
+				)
+			}),
 		('Target & Actual Performance Ratios', {
 				'fields': (
 					('daily_target_performance_ratio', 'monthly_target_performance_ratio', 'yearly_target_performance_ratio'),
 					('daily_actual_performance_ratio', 'monthly_actual_performance_ratio', 'yearly_actual_performance_ratio'),
 				)
 			}),
-		('Target & Actual Irradiance', {
-				'fields': (
-				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
-	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
-				)
+		('Loss due to Irradiance', {
+				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
 			}),
-		('Deemed Loss', {
+		('Deemed Loss (Operator Entry: Daily Deemed Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_deemed_loss', 'monthly_deemed_loss', 'yearly_deemed_loss'),
 					('daily_deemed_loss_plf', 'monthly_deemed_loss_plf', 'yearly_deemed_loss_plf'),
 				)
 			}),
-		('Loss due to Irradiance', {
-				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
-			}),
-		('Loss due to grid outage', {
+		('Loss due to grid outage (Operator Entry: Daily Grid Outage Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_grid_loss', 'monthly_grid_loss', 'yearly_grid_loss'),
 					('daily_grid_loss_plf', 'monthly_grid_loss_plf', 'yearly_grid_loss_plf'),
 				)
 			}),
-		('Loss due to BreakDown', {
+		('Loss due to BreakDown (Operator Entry: Daily BreakDown Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_bd_loss', 'monthly_bd_loss', 'yearly_bd_loss'),
 					('daily_bd_loss_plf', 'monthly_bd_loss_plf', 'yearly_bd_loss_plf'),
 				)
 			}),
-		('Dust loss', {
+		('Dust loss (Operator Entry: Daily Dust Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_dust_loss', 'monthly_dust_loss', 'yearly_dust_loss'),
 					('daily_dust_loss_plf', 'monthly_dust_loss_plf', 'yearly_dust_loss_plf'),
@@ -687,8 +704,12 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 		('Miscellaneous Loss', {
 				'fields': (('daily_misc_loss', 'monthly_misc_loss', 'yearly_misc_loss'),)
 			}),
+		('Today Major Observations (Separate the observations by ",")', {
+				'fields': (('major_observations',),)
+			}),
 	)
 
+	#Function for calculations based on user input
 	def save_model(self, request, obj, form, change):
 		month_irradiance_till_date = 0.0
 		monthly_irradiance_loss_till_date = 0.0
@@ -707,11 +728,10 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Panipat_Sheet.objects.latest('date')
+			last_record = Roorkee_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
-				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				monthly_deemedloss_till_date = last_record.monthly_deemed_loss
 				monthly_gridloss_till_date = last_record.monthly_grid_loss
@@ -720,7 +740,6 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 
 
 			else:
-				month_irradiance_till_date = 0.0
 				month_irradiance_till_date = 0.0
 				monthly_deemedloss_till_date = 0.00
 				monthly_gridloss_till_date = 0.00
@@ -753,6 +772,7 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of daily parameters
 			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(roorkee_constant*24))*100))
+			obj.daily_target_performance_ratio = Decimal(str((float(obj.daily_target_generation)/(float(obj.daily_target_irradiance)*roorkee_constant))*100))
 			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*roorkee_constant))*100))
 			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
 			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(roorkee_constant*24))*100))
@@ -764,11 +784,14 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of monthly parameters
+			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
 			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
-			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant*(obj.days_elapsed)))*100))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio	#change
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant*(float(obj.days_elapsed))))*100))
+			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
+			obj.monthly_target_irradiance = obj.daily_target_irradiance
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
-			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*roorkee_constant))*100))
 			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
 			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(roorkee_constant*24*day))*100))
 			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
@@ -782,10 +805,9 @@ class Roorkee_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_generation
 			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(roorkee_constant*24*obj.days_elapsed))*100))
 			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
-			
 			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
 			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(roorkee_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(roorkee_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
@@ -820,10 +842,10 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 		(None, {
 				'fields': ('days_elapsed',)
 			}),
-		('Target PLF Operator Entry (in kWh)', {
+		('Target PLF Operator Entry (in kWh) [Operator Entry: Daily Irradiation Target PLF(enter the combined for both sites)]', {
 				'fields': (('irradiation_target_plf', 'kwh_target_plf'),)
 			}),
-		('Target & Actual Generation (in kWh)', {
+		('Target & Actual Generation (in kWh) [Operator Entry: Daily Target Generation]', {
 				'fields': (
 					('daily_target_generation', 'monthly_target_generation', 'yearly_target_generation'),
 					('daily_actual_generation', 'monthly_actual_generation', 'yearly_actual_generation'),
@@ -835,40 +857,40 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 					('daily_actual_plf', 'monthly_actual_plf', 'yearly_actual_plf'),
 				)
 			}),
+		('Target & Actual Irradiance [Operator Entry: Daily Actual Irradiance,]', {
+				'fields': (
+				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
+	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
+				)
+			}),
 		('Target & Actual Performance Ratios', {
 				'fields': (
 					('daily_target_performance_ratio', 'monthly_target_performance_ratio', 'yearly_target_performance_ratio'),
 					('daily_actual_performance_ratio', 'monthly_actual_performance_ratio', 'yearly_actual_performance_ratio'),
 				)
 			}),
-		('Target & Actual Irradiance', {
-				'fields': (
-				 	('daily_target_irradiance', 'monthly_target_irradiance', 'yearly_target_irradiance'),
-	 				('daily_actual_irradiance', 'monthly_actual_irradiance', 'yearly_actual_irradiance'),
-				)
+		('Loss due to Irradiance', {
+				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
 			}),
-		('Deemed Loss', {
+		('Deemed Loss (Operator Entry: Daily Deemed Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_deemed_loss', 'monthly_deemed_loss', 'yearly_deemed_loss'),
 					('daily_deemed_loss_plf', 'monthly_deemed_loss_plf', 'yearly_deemed_loss_plf'),
 				)
 			}),
-		('Loss due to Irradiance', {
-				'fields': (('daily_irradiance_loss', 'monthly_irradiance_loss', 'yearly_irradiance_loss'),)
-			}),
-		('Loss due to grid outage', {
+		('Loss due to grid outage (Operator Entry: Daily Grid Outage Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_grid_loss', 'monthly_grid_loss', 'yearly_grid_loss'),
 					('daily_grid_loss_plf', 'monthly_grid_loss_plf', 'yearly_grid_loss_plf'),
 				)
 			}),
-		('Loss due to BreakDown', {
+		('Loss due to BreakDown (Operator Entry: Daily BreakDown Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_bd_loss', 'monthly_bd_loss', 'yearly_bd_loss'),
 					('daily_bd_loss_plf', 'monthly_bd_loss_plf', 'yearly_bd_loss_plf'),
 				)
 			}),
-		('Dust loss', {
+		('Dust loss (Operator Entry: Daily Dust Loss, PLFs will be calculated accordingly)', {
 				'fields': (
 					('daily_dust_loss', 'monthly_dust_loss', 'yearly_dust_loss'),
 					('daily_dust_loss_plf', 'monthly_dust_loss_plf', 'yearly_dust_loss_plf'),
@@ -876,6 +898,9 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 			}),
 		('Miscellaneous Loss', {
 				'fields': (('daily_misc_loss', 'monthly_misc_loss', 'yearly_misc_loss'),)
+			}),
+		('Today Major Observations (Separate the observations by ",")', {
+				'fields': (('major_observations',),)
 			}),
 	)
 
@@ -897,11 +922,10 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 		yearly_tg_till_date = 0.0
 
 		try:
-			last_record = Panipat_Sheet.objects.latest('date')
+			last_record = Beawar_Sheet.objects.latest('date')
 			last_record_month = int(last_record.date[3:5])
 
 			if last_record_month == month:
-				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				month_irradiance_till_date = last_record.monthly_actual_irradiance
 				monthly_deemedloss_till_date = last_record.monthly_deemed_loss
 				monthly_gridloss_till_date = last_record.monthly_grid_loss
@@ -943,6 +967,7 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of daily parameters
 			obj.daily_target_plf = Decimal(str(((float(obj.daily_target_generation))/(beawar_constant*24))*100))
+			obj.daily_target_performance_ratio = Decimal(str((float(obj.daily_target_generation)/(float(obj.daily_target_irradiance)*beawar_constant))*100))
 			obj.daily_actual_performance_ratio = Decimal(str(((float(obj.daily_actual_generation))/(float(obj.daily_actual_irradiance)*beawar_constant))*100))
 			obj.daily_irradiance_loss = Decimal(str(obj.daily_target_plf)) - obj.irradiation_target_plf
 			obj.daily_deemed_loss_plf = Decimal(str(((float(obj.daily_deemed_loss))/(beawar_constant*24))*100))
@@ -954,8 +979,12 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of monthly parameters
+			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
 			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*beawar_constant*(obj.days_elapsed)))*100))
+			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
+			obj.monthly_target_irradiance = obj.daily_target_irradiance
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*beawar_constant))*100))
@@ -972,10 +1001,9 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 
 
 			#Calculation of Yearly Parameters
-			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_plf
-			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(beawar_constant*24*obj.days_elapsed))*100))
+			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_generation
+			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(beawar_constant*24*(float(obj.days_elapsed))))*100))
 			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
-			
 			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
 			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(beawar_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(beawar_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
