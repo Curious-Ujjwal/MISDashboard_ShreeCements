@@ -452,22 +452,47 @@
                         <td colspan="6">i) Total PR difference : {{ prDiffB|floatformat:3 }}%<br>
                             a){{ misclossB|floatformat:2 }}% Misc losses<br>
                             <!-- Code for user-editable comments -->
+                            <ol>
+                                {% for i in beawarobs %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
                         </td>
                         <td colspan="6">i) Total PR difference : {{ prDiffP|floatformat:2 }}%<br>
                             a){{ misclossP|floatformat:2 }}% Misc losses<br>
                             <!-- Code for user-editable comments -->
+                            <ol>
+                                {% for i in panipatobs %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
                         </td>
                         <td colspan="6">i) Total PR difference : {{ prDiffR|floatformat:2 }}%<br>
                             a){{ misclossR|floatformat:2 }}% Misc losses<br>
                             <!-- Code for user-editable comments -->
+                            <ol>
+                                {% for i in roorkeeobs %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
                         </td>
                         <td colspan="6">i) Total PR difference : {{ prDiffJ|floatformat:2 }}%<br>
                             a){{ misclossJ|floatformat:2 }}% Misc losses<br>
                             <!-- Code for user-editable comments -->
+                            <ol>
+                                {% for i in jharkhandobs %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
                         </td>
                         <td colspan="6">i) Total PR difference : {{ prDiffC|floatformat:2 }}%<br>
                             a){{ misclossC|floatformat:2 }}% Misc losses<br>
                             <!-- Code for user-editable comments -->
+                            <ol>
+                                {% for i in castametobs %}
+                                    <li>{{ i }}</li>
+                                {% endfor %}
+                            </ol>
                         </td>
                         </tr>
                     </tbody>
