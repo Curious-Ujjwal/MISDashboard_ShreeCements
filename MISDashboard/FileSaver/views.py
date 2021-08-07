@@ -367,7 +367,7 @@ def calculate_panipat_values():
 	avg2 = avg2/months_till_date
 
 	yearly_target_irradiance = (avg1*999.4 + avg2*248)/panipat_constant
-	yearly_target_performance_ratio = (float(yearly_target_generation_value)/(panipat_constant*yearly_target_irradiance*days_elapsed))*100
+	yearly_target_performance_ratio = (float(yearly_target_generation_value)/(panipat_constant*yearly_target_irradiance*days_elapsed))*100	#in admin.py file
 	yearly_actual_performance_ratio = (float(yearly_actual_generation_value)/(panipat_constant*yearly_actual_irradiance*days_elapsed))*100
 	yearly_generation_loss = yearly_target_plf - yearly_actual_plf
 
@@ -556,14 +556,14 @@ def calculate_castamet_values():
 
 	days_elapsed = count_till_date + 1 				#all the data is stored in sql db for a year
 
-	today_target_generation_value = 0.00
+	today_target_generation_value = user_input
 	today_actual_generation_value = today_sum
-	today_target_plf = ((float(today_target_generation_value))/(castamet_constant*24))*100
+	today_target_plf = ((float(today_target_generation_value))/(castamet_constant*24))*100		#in admin.py file
 	today_actual_plf = ((float(today_actual_generation_value))/(castamet_constant*24))*100
 	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 0.0 #from WMS report	
-	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*castamet_constant))*100
-	today_actual_performance_ratio = 0.0
+	today_actual_irradiance = 1.0 #from WMS report	
+	today_target_performance_ratio = ((float(today_target_generation_value))/(today_target_irradiance*castamet_constant))*100
+	today_actual_performance_ratio = float(today_actual_generation_value)/(today_actual_irradiance*roorkee_constant)
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user, in admin.py)
 	today_generation_loss = today_target_plf-today_actual_plf
 	today_deemed_loss_kwh = 0.0 	#user input
@@ -577,14 +577,14 @@ def calculate_castamet_values():
 	today_misc_loss = today_generation_loss-today_irradiance_loss-today_deemed_loss_plf-today_grid_outage_loss_plf-today_bd_loss_plf-today_dust_loss_plf
 
 	#Monthly paramter values
-	monthly_target_generation_value = today_target_generation_value*date_day
+	monthly_target_generation_value = today_target_generation_value*date_day					#in admin.py file
 	monthly_actual_generation_value = monthly_sum
-	monthly_target_plf = ((float(monthly_target_generation_value))/(castamet_constant*24*date_day))*100
+	monthly_target_plf = ((float(monthly_target_generation_value))/(castamet_constant*24*date_day))*100	#in admin.py file
 	monthly_actual_plf = ((float(monthly_actual_generation_value))/(castamet_constant*24*date_day))*100
 	monthly_target_irradiance = today_target_irradiance
 	monthly_actual_irradiance = month_irradiance_till_date
 	monthly_target_performance_ratio = ((float(monthly_target_generation_value))/(monthly_target_irradiance*castamet_constant))*100 #in admin.py file
-	monthly_actual_performance_ratio = 0.0
+	monthly_actual_performance_ratio = (float(monthly_sum)/(roorkee_constant*24*day_date))*100
 	monthly_irradiance_loss = 0.0
 	monthly_deemed_loss_kwh = 0.00	#sum of today_deemed_loss_kwh & prev. calculated monthly_deemed_loss_kwh
 	monthly_deemed_loss_plf = ((float(monthly_deemed_loss_kwh))/(castamet_constant*24*date_day))*100 #in admin.py file
@@ -609,7 +609,7 @@ def calculate_castamet_values():
 		or the monthly last-day recorded irradiance multiplied with 
 		either no. of days or the days_elapsed if it is a current month.
 	"""
-	yearly_actual_irradiance = sumall/(float(days_elapsed))
+	yearly_actual_irradiance = sumall/(float(days_elapsed))					#in admin.py file
 	
 	avg1 = 0	#average of all the seasonal tilts from the year_start_month to the current_month from panipat_seasonal_tilt1
 	
@@ -667,7 +667,7 @@ def calculate_castamet_values():
 					  monthly_actual_plf=monthly_actual_plf,
 					  yearly_target_plf=yearly_target_plf,
 					  yearly_actual_plf=yearly_actual_plf,
-					  daily_target_performance_ratio=today_target_performace_ratio,
+					  daily_target_performance_ratio=today_target_performance_ratio,
 					  daily_actual_performance_ratio=today_actual_performance_ratio,
 					  monthly_target_performance_ratio=monthly_target_performance_ratio,
 					  monthly_actual_performance_ratio=monthly_actual_performance_ratio,
