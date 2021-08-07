@@ -206,11 +206,10 @@ else:
 #For panipat site using siteP datasheet and Panipat WMS report
 def calculate_panipat_values():
 	#Daily parameters calculation
-	today_sum = 0.0
-	monthly_sum = 0.0
-	count_till_date = 0
-	monthly_irradiance = 0.0
-	user_input = 0.0
+	today_sum = 0.0					#for storing sum of generation of all invertors
+	monthly_sum = 0.0				#monthly sum of solar generation from all invertors
+	monthly_irradiance = 0.0		
+	user_input = 0.0				#variable to depict the behaviour in admin.py
 	deemed_loss_till_date = 0.0
 	grid_loss_till_date = 0.0
 	bd_loss_till_date = 0.0
@@ -218,7 +217,7 @@ def calculate_panipat_values():
 	yearly_gen_till_date = 0.0
 	month_irradiance_till_date = 0.0
 	actual_irradiation_target_plf = 0.0
-	p_rows, p_cols = siteP.shape
+	p_rows, p_cols = siteP.shape	#p_rows depict the no. of invertors in Panipat Site
 
 	for i in range(p_rows):
 		today_sum += siteP[i][4]
@@ -226,7 +225,6 @@ def calculate_panipat_values():
 
 	last_record = None	#last_record gives the last saved record.
 	count_till_date = 0	#count of days passed
-	monthly_sum = 0.0	#monthly sum of solar generation
 
 	try:
 		last_record = Panipat_Sheet.objects.latest('date')
@@ -301,7 +299,7 @@ def calculate_panipat_values():
 
 	days_elapsed = count_till_date + 1 				#all the data is stored in sql db for a year
 	print(days_elapsed)
-	today_target_generation_value = 0.00
+	today_target_generation_value = user_input
 	today_actual_generation_value = today_sum
 	today_target_plf = ((float(today_target_generation_value))/(panipat_constant*24))*100
 	today_actual_plf = ((float(today_actual_generation_value))/(panipat_constant*24))*100
@@ -720,7 +718,6 @@ def calculate_beawar_values():
 	#Daily parameter values
 	today_sum = 0.0
 	monthly_sum = 0.0
-	count_till_date = 0
 	monthly_irradiance = 0.0
 	user_input = 0.0
 	deemed_loss_till_date = 0.0
@@ -737,7 +734,6 @@ def calculate_beawar_values():
 
 	last_record = None
 	count_till_date = 0
-	monthly_sum = 0.0
 
 	try:
 		last_record = Beawar_Sheet.objects.latest('date')
@@ -806,12 +802,12 @@ def calculate_beawar_values():
 
 	days_elapsed = count_till_date + 1 				#all the data is stored in sql db for a year
 
-	today_target_generation_value = 0.00	#user input
+	today_target_generation_value = user_input
 	today_actual_generation_value = site5[4][3]
 	today_target_plf = (float(today_target_generation_value)/(beawar_constant*24))*100
 	today_actual_plf = (float(today_actual_generation_value)/(beawar_constant*24))*100
-	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 0.0	#from WMS report
+	today_target_irradiance = user_input		#user entry
+	today_actual_irradiance = site5[5][3] 		#site5[5][date_day]
 	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*beawar_constant))*100	#in admin.py file
 	today_actual_performance_ratio = ((float(today_actual_generation_value))/(today_actual_irradiance*beawar_constant))*100	#in admin.py file
 	kwh_target_plf=site5[3][5]
@@ -828,9 +824,9 @@ def calculate_beawar_values():
 	today_misc_loss = today_generation_loss-today_irradiance_loss-today_deemed_loss_plf-today_grid_outage_loss_plf-today_bd_loss_plf-today_dust_loss_plf
 
 	#Monthly paramter values
-	monthly_target_generation_value = today_target_generation_value*date_day #DOUBT
+	monthly_target_generation_value = today_target_generation_value*date_day #in admin.py file
 	monthly_actual_generation_value = monthly_sum
-	monthly_target_plf = (float(monthly_target_generation_value)/(beawar_constant*24*date_day))*100
+	monthly_target_plf = (float(monthly_target_generation_value)/(beawar_constant*24*date_day))*100	#in admin.py file
 	monthly_actual_plf = (float(monthly_actual_generation_value)/(beawar_constant*24*date_day))*100
 	monthly_target_irradiance = today_target_irradiance
 	monthly_actual_irradiance = 0.0	#take avg. of all the values for the current month from WMS sheet and prev. stored monthly_actual_irradiance, in admin.py file
@@ -851,7 +847,7 @@ def calculate_beawar_values():
 	#Yearly parameter values
 	yearly_target_generation_value = 0.0		#sum of all monthly_target_generation_value OR sum of prev. stored yearly_target_generation_value + today_generation_value	#in admin.py file
 	yearly_actual_generation_value = yearly_gen_till_date
-	yearly_target_plf = 0.00
+	yearly_target_plf = 0.00			#in admin.py file
 	yearly_actual_plf = ((float(yearly_actual_generation_value))/(beawar_constant*24*days_elapsed))*100
 	sumall = 100		#in admin.py file
 	"""
@@ -907,7 +903,7 @@ def calculate_beawar_values():
 					  days_elapsed= days_elapsed,
 					  daily_target_generation=today_target_generation_value,
 					  daily_actual_generation=today_actual_generation_value,
-					  irradiation_target_plf=0.0,
+					  irradiation_target_plf=site5[6][3],	#site5[6][date_day]
 					  kwh_target_plf=site5[3][5],
 					  monthly_target_generation=monthly_target_generation_value,
 					  monthly_actual_generation=monthly_actual_generation_value,
@@ -1498,11 +1494,11 @@ def dailyupdates(request):
 		# 'jcount': j_rows,	#Jharkhand has 21 invertors
 		# 'ccount': c_rows,	#Castamet has 18 invertors
 		# 'rcount': r_rows,	#Roorkee has 21 invertors
-		'pcount': 22,	#Panipat has 22 invertors
+		'pcount': 17,	#Panipat has 22 invertors
 		'bcount': 3,		#Beawar has 3 invertors
 		'jcount': 21,	#Jharkhand has 21 invertors
-		'ccount': 18,	#Castamet has 18 invertors
-		'rcount': 21,	#Roorkee has 21 invertors
+		'ccount': 22,	#Castamet has 18 invertors
+		'rcount': 14,	#Roorkee has 21 invertors
 		'panipat_object': lastPrecord,
 		'jharkhand_object': lastJrecord,
 		'castamet_object': lastCrecord,

@@ -905,6 +905,7 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 	)
 
 	def save_model(self, request, obj, form, change):
+		monthly_actual_performance_ratio_till_date = 0.0
 		month_irradiance_till_date = 0.0
 		monthly_irradiance_loss_till_date = 0.0
 		monthly_deemedloss_till_date = 0.0
@@ -931,10 +932,11 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 				monthly_gridloss_till_date = last_record.monthly_grid_loss
 				monthly_bdloss_till_date = last_record.monthly_bd_loss
 				monthly_dustloss_till_date = last_record.monthly_dust_loss
+				monthly_actual_performance_ratio_till_date = last_record.monthly_actual_performance_ratio
+				monthly_irradiance_loss_till_date = last_record.monthly_actual_irradiance
 
 
 			else:
-				month_irradiance_till_date = 0.0
 				month_irradiance_till_date = 0.0
 				monthly_deemedloss_till_date = 0.00
 				monthly_gridloss_till_date = 0.00
@@ -980,17 +982,18 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of monthly parameters
 			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
-			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
-			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio
-			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*beawar_constant*(obj.days_elapsed)))*100))
 			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
 			obj.monthly_target_irradiance = obj.daily_target_irradiance
+			obj.monthly_actual_irradiance = Decimal(str((((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/float(day))))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(day) - 1)*(float(monthly_actual_performance_ratio_till_date)) + (float(obj.daily_actual_performance_ratio))/float(day))))
+			
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*beawar_constant))*100))
 			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
 			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(beawar_constant*24*day))*100))
-			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
+			obj.monthly_grid_loss = obj.daily_grid_loss + Decimal(str(monthly_gridloss_till_date))
 			obj.monthly_grid_loss_plf = Decimal(str(((float(obj.monthly_grid_loss))/(beawar_constant*24*day))*100))
 			obj.monthly_bd_loss = Decimal(str(monthly_bdloss_till_date)) + obj.daily_bd_loss
 			obj.monthly_bd_loss_plf = Decimal(str(((float(obj.monthly_bd_loss))/(beawar_constant*24*day))*100))
@@ -1003,9 +1006,11 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 			#Calculation of Yearly Parameters
 			obj.yearly_target_generation = Decimal(str(yearly_target_gen_till_date)) + obj.daily_target_generation
 			obj.yearly_target_plf = Decimal(str(((float(obj.yearly_target_generation))/(beawar_constant*24*(float(obj.days_elapsed))))*100))
-			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed)))
+			obj.yearly_actual_irradiance = Decimal(str(((float(obj.days_elapsed)-1)*(float(annual_actual_irradiance_till_date)) + (float(obj.daily_actual_irradiance)))/(obj.days_elapsed))) + 0.1
+			
+			obj.yearly_target_performance_ratio = Decimal(str((float(obj.yearly_target_generation)/(float(obj.yearly_target_irradiance)*beawar_constant*float(obj.days_elapsed)))*100))
 			irradiation_sum = Decimal(str(((irradiation_sum*(obj.days_elapsed-1) + float(obj.kwh_target_plf))/obj.days_elapsed)))
-			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(beawar_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(beawar_constant*24*(obj.days_elapsed)))*100 - 0.1))
+			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(beawar_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(beawar_constant*24*(obj.days_elapsed)))*100))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
 			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
 			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(beawar_constant*24*(obj.days_elapsed)))*100))
@@ -1027,6 +1032,6 @@ class Beawar_SheetAdmin(admin.ModelAdmin):
 
 admin.site.register(Beawar_Sheet, Beawar_SheetAdmin)
 
-@admin.register(Operator_Entry)
-class Operator_EntryAdmin(admin.ModelAdmin):
-	pass
+# @admin.register(Operator_Entry)
+# class Operator_EntryAdmin(admin.ModelAdmin):
+# 	pass
