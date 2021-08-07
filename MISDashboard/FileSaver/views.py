@@ -301,12 +301,12 @@ def calculate_panipat_values():
 	print(days_elapsed)
 	today_target_generation_value = user_input
 	today_actual_generation_value = today_sum
-	today_target_plf = ((float(today_target_generation_value))/(panipat_constant*24))*100
+	today_target_plf = ((float(today_target_generation_value))/(panipat_constant*24))*100	#in admin.py file
 	today_actual_plf = ((float(today_actual_generation_value))/(panipat_constant*24))*100
 	today_target_irradiance = (panipat1_seasonal_tilt[date_month]*999.4 + panipat2_seasonal_tilt[date_month]*248)/panipat_constant
-	today_actual_irradiance = 0.0 #from WMS report	
-	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*panipat_constant))*100
-	today_actual_performance_ratio = 0.00
+	today_actual_irradiance = 1.0 	#from WMS report	
+	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*panipat_constant))*100		#in admin.py file
+	today_actual_performance_ratio = (today_actual_generation_value/(today_actual_irradiance*panipat_constant))*100
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user, in admin.py)
 	today_generation_loss = today_target_plf-today_actual_plf
 	today_deemed_loss_kwh = 0.0	#given by the user
@@ -322,12 +322,12 @@ def calculate_panipat_values():
 	#Monthly parameter values
 	monthly_target_generation_value = today_target_generation_value*date_day
 	monthly_actual_generation_value = monthly_sum
-	monthly_target_plf = ((float(monthly_target_generation_value))/(panipat_constant*24*date_day))*100
+	monthly_target_plf = ((float(monthly_target_generation_value))/(panipat_constant*24*date_day))*100				#in admin.py file
 	monthly_actual_plf = ((float(monthly_actual_generation_value))/(panipat_constant*24*date_day))*100
 	monthly_target_irradiance = today_target_irradiance
-	monthly_actual_irradiance = month_irradiance_till_date
+	monthly_actual_irradiance = (float(month_irradiance_till_date)*(date_day-1) + today_actual_irradiance)/float(date_day)
 	monthly_target_performance_ratio = ((float(monthly_target_generation_value))/(monthly_target_irradiance*panipat_constant))*100
-	monthly_actual_performance_ratio = 0.00
+	monthly_actual_performance_ratio = (monthly_sum/(monthly_actual_irradiance*panipat_constant*date_day))*100
 	monthly_irradiance_loss = 0.0
 	monthly_deemed_loss_kwh = 0.0	#sum of today_deemed_loss_kwh & prev. calculated monthly_deemed_loss_kwh, in admin.py file
 	monthly_deemed_loss_plf = ((float(monthly_deemed_loss_kwh))/(panipat_constant*24*date_day))*100	#in admin.py file
@@ -341,9 +341,9 @@ def calculate_panipat_values():
 	monthly_misc_loss = monthly_generation_loss-monthly_irradiance_loss-monthly_deemed_loss_plf-monthly_grid_outage_loss_plf-monthly_bd_loss_plf-monthly_dust_loss_plf
 
 	#Yearly parameter values
-	yearly_target_generation_value = 0.0
+	yearly_target_generation_value = 0.00																	#in admin.py file
 	yearly_actual_generation_value = yearly_gen_till_date
-	yearly_target_plf = 0.00
+	yearly_target_plf = 0.00																				#in admin.py file
 	yearly_actual_plf = ((float(yearly_actual_generation_value))/(panipat_constant*24*days_elapsed))*100
 	sumall = 100	#in admin.py file
 	"""
