@@ -203,6 +203,40 @@ else:
 	jharkhand_seasonal_tilt = nlp_jharkhand_seasonal_tilt
 	castamet_5deg_fix_tilt = nlp_castamet_5deg_fix_tilt
 
+
+#Code for wms irradiance values to be verified by the mentor
+# wc_rows, wc_cols = wmsC.shape
+# wj_rows, wj_cols = wmsJ.shape
+# wr_rows, wr_cols = wmsR.shape
+# wp_rows, wp_cols = wmsP.shape
+
+# c_sum = 0
+# j_sum = 0
+# r_sum = 0
+# p_sum = 0
+
+# for i in range(wc_rows):
+# 	c_sum += wmsC[i][3]
+# c_sum = c_sum/float(wc_rows)
+# c_sum -> kWh/m**2
+
+# for i in range(wj_rows):
+# 	j_sum += wmsJ[i][3]
+# j_sum = j_sum/float(wj_rows)
+# j_sum -> kWh/m**2
+
+# for i in range(wr_rows):
+# 	r_sum += wmsR[i][3]
+# r_sum = r_sum/float(wr_rows)
+# r_sum -> kWh/m**2
+
+# for i in range(wp_rows):
+# 	p_sum += wmsP[i][3]
+# p_sum = p_sum/float(wp_rows)
+# p_sum -> kWh/m**2
+
+
+
 #For panipat site using siteP datasheet and Panipat WMS report
 def calculate_panipat_values():
 	#Daily parameters calculation
@@ -1037,14 +1071,14 @@ def calculate_roorkee_values():
 
 	days_elapsed = count_till_date + 1 				#all the data is stored in sql db for a year
 
-	today_target_generation_value = 0.00
+	today_target_generation_value = user_input		#in admin.py
 	today_actual_generation_value = today_sum
-	today_target_plf = ((float(today_target_generation_value))/(roorkee_constant*24))*100
-	today_actual_plf = ((float(today_actual_generation_value))/(roorkee_constant*24))*100
+	today_target_plf = ((float(today_target_generation_value))/(roorkee_constant*24))*100			#in admin.py
+	today_actual_plf = ((float(today_actual_generation_value))/(roorkee_constant*24))*100	
 	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 0.0	#to be taken as an input from user OR from WMS report, in admin.py
+	today_actual_irradiance = 1.0	#to be taken from WMS report
 	today_target_performace_ratio = 0.00
-	today_actual_performance_ratio = 0.0
+	today_actual_performance_ratio = (float(today_actual_generation_value)/(today_actual_irradiance*roorkee_constant))*100
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user)
 	today_generation_loss = today_target_plf-today_actual_plf
 	today_deemed_loss_kwh = 0.0	#given by the user	#in admin.py file
@@ -1060,7 +1094,7 @@ def calculate_roorkee_values():
 	#Monthly paramter values
 	monthly_target_generation_value = today_target_generation_value*date_day
 	monthly_actual_generation_value = monthly_sum
-	monthly_target_plf = ((float(monthly_target_generation_value))/(roorkee_constant*24*date_day))*100
+	monthly_target_plf = ((float(monthly_target_generation_value))/(roorkee_constant*24*date_day))*100			#in admin.py
 	monthly_actual_plf = ((float(monthly_actual_generation_value))/(roorkee_constant*24*date_day))*100
 	monthly_target_irradiance = today_target_irradiance
 	monthly_actual_irradiance = 100.00	#take avg. of all the values for the current month from WMS sheet and prev. stored monthly_actual_irradiance
@@ -1079,9 +1113,9 @@ def calculate_roorkee_values():
 	monthly_misc_loss = monthly_generation_loss-monthly_irradiance_loss-monthly_deemed_loss_plf-monthly_grid_outage_loss_plf-monthly_bd_loss_plf-monthly_dust_loss_plf	#in admin.py file
 
 	#Yearly parameter values
-	yearly_target_generation_value = 0.0		#sum of all monthly_target_generation_value
+	yearly_target_generation_value = 0.0		#sum of all monthly_target_generation_value in admin.py
 	yearly_actual_generation_value = yearly_gen_till_date
-	yearly_target_plf = 0.0
+	yearly_target_plf = 0.0		#in admin.py file
 		#calculate the days_elapsed from the given starting date in the year
 	yearly_actual_plf = ((float(yearly_actual_generation_value))/(roorkee_constant*24*days_elapsed))*100
 	sumall = 100	#in admin.py file
@@ -1090,7 +1124,7 @@ def calculate_roorkee_values():
 		or the monthly last-day recorded irradiance multiplied with 
 		either no. of days or the days_elapsed if it is a current month.
 	"""
-	yearly_actual_irradiance = sumall/(float(days_elapsed))
+	yearly_actual_irradiance = sumall/(float(days_elapsed))			##final calculation in admin.py
 	
 	avg1 = 0	#average of all the seasonal tilts from the year_start_month to the current_month from panipat_seasonal_tilt1
 	
@@ -1270,14 +1304,14 @@ def calculate_jharkhand_values():
 
 	days_elapsed = count_till_date + 1 				#all the data is stored in sql db for a year
 
-	today_target_generation_value = 0.00	#this value is entered by user?
+	today_target_generation_value = user_input	
 	today_actual_generation_value = today_sum
 	today_target_plf = ((float(today_target_generation_value))/(jharkhand_constant*24))*100
 	today_actual_plf = ((float(today_actual_generation_value))/(jharkhand_constant*24))*100
 	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 0.0 #from WMS report	
-	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*jharkhand_constant))*100
-	today_actual_performance_ratio = 0.00
+	today_actual_irradiance = 1.0 #from WMS report	
+	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*jharkhand_constant))*100		#in admin.py file
+	today_actual_performance_ratio = (float(today_sum)/(today_actual_irradiance*jharkhand_constant))*100
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user)
 	today_generation_loss = today_target_plf-today_actual_plf
 	today_deemed_loss_kwh = 0.0	#given by the user
@@ -1291,9 +1325,9 @@ def calculate_jharkhand_values():
 	today_misc_loss = today_generation_loss-today_irradiance_loss-today_deemed_loss_plf-today_grid_outage_loss_plf-today_bd_loss_plf-today_dust_loss_plf
 
 	#Monthly paramter values
-	monthly_target_generation_value = today_target_generation_value*date_day 
+	monthly_target_generation_value = today_target_generation_value*date_day 		#in admin.py file
 	monthly_actual_generation_value = monthly_sum
-	monthly_target_plf = ((float(monthly_target_generation_value))/(jharkhand_constant*24*date_day))*100
+	monthly_target_plf = ((float(monthly_target_generation_value))/(jharkhand_constant*24*date_day))*100		#in admin.py file
 	monthly_actual_plf = ((float(monthly_actual_generation_value))/(jharkhand_constant*24*date_day))*100
 	monthly_target_irradiance = today_target_irradiance
 	monthly_actual_irradiance = 0.00	#take avg. of all the values for the current month from WMS sheet and prev. stored monthly_actual_irradiance #in admin.py file
@@ -1312,7 +1346,7 @@ def calculate_jharkhand_values():
 	monthly_misc_loss = monthly_generation_loss-monthly_irradiance_loss-monthly_deemed_loss_plf-monthly_grid_outage_loss_plf-monthly_bd_loss_plf-monthly_dust_loss_plf
 
 	#Yearly parameter values
-	yearly_target_generation_value = 0.0		#sum of all monthly_target_generation_value
+	yearly_target_generation_value = 0.0		#sum of all monthly_target_generation_value, in admin.py file
 	yearly_actual_generation_value = yearly_gen_till_date
 	yearly_target_plf = ((float(yearly_target_generation_value))/(jharkhand_constant*24*days_elapsed))*100
 	yearly_actual_plf = ((float(yearly_actual_generation_value))/(jharkhand_constant*24*days_elapsed))*100

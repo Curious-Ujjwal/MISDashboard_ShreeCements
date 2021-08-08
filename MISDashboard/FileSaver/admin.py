@@ -498,7 +498,6 @@ class Castamet_SheetAdmin(admin.ModelAdmin):
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*castamet_constant*(day)))*100))
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
-			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*castamet_constant))*100))
 			obj.monthly_deemed_loss = obj.daily_deemed_loss + Decimal(str(monthly_deemedloss_till_date))
 			obj.monthly_deemed_loss_plf = Decimal(str(((float(obj.monthly_deemed_loss))/(castamet_constant*24*day))*100))
 			obj.monthly_grid_loss = obj.daily_grid_loss+ Decimal(str(monthly_gridloss_till_date))
@@ -734,11 +733,11 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 
 			#Calculation of monthly parameters
 			obj.monthly_target_generation = Decimal(str(float(obj.daily_target_generation)*day))
-			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
-			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio	#change
-			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant*(obj.days_elapsed)))*100))
 			obj.monthly_target_plf = Decimal(str((float(obj.monthly_target_generation)/(panipat_constant*24*day))*100))
+			obj.monthly_actual_irradiance = Decimal(str(((float(day) - 1)*(float(month_irradiance_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
+			obj.monthly_target_performance_ratio = obj.daily_target_performance_ratio
 			obj.monthly_target_irradiance = obj.daily_target_irradiance
+			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant*float(day)))*100))
 			monthly_mean_target_irradiation = Decimal(str(((float(day) - 1)*(float(monthly_irradiance_loss_till_date)) + (float(obj.daily_actual_irradiance))/float(day))))
 			obj.monthly_irradiance_loss = obj.monthly_target_plf - Decimal(str(monthly_mean_target_irradiation))
 			obj.monthly_actual_performance_ratio = Decimal(str(((float(obj.monthly_actual_generation))/(float(obj.monthly_actual_irradiance)*jharkhand_constant))*100))
@@ -762,13 +761,13 @@ class Jharkhand_SheetAdmin(admin.ModelAdmin):
 			obj.yearly_irradiance_loss = Decimal(str((float(obj.yearly_target_generation)/(jharkhand_constant*24*(obj.days_elapsed)))*100 - (float(irradiation_sum)/(jharkhand_constant*24*(obj.days_elapsed)))*100 - 0.1))
 			yearly_generation_loss = obj.yearly_target_plf - obj.yearly_actual_plf
 			obj.yearly_deemed_loss = Decimal(str(yearly_deemedloss_till_date)) + obj.daily_deemed_loss_plf
-			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_deemed_loss_plf = Decimal(str((float(obj.yearly_deemed_loss)/(jharkhand_constant*24*float(obj.days_elapsed)))*100))
 			obj.yearly_grid_loss = Decimal(str(yearly_gridloss_till_date)) + obj.daily_grid_loss
-			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_grid_loss_plf = Decimal(str((float(obj.yearly_grid_loss)/(jharkhand_constant*24*float(obj.days_elapsed)))*100))
 			obj.yearly_bd_loss = Decimal(str(yearly_bdloss_till_date)) + obj.daily_bd_loss
-			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_bd_loss_plf = Decimal(str((float(obj.yearly_bd_loss)/(jharkhand_constant*24*float(obj.days_elapsed)))*100))
 			obj.yearly_dust_loss = Decimal(str(yearly_dustloss_till_date)) + obj.daily_dust_loss
-			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(jharkhand_constant*24*(obj.days_elapsed)))*100))
+			obj.yearly_dust_loss_plf = Decimal(str((float(obj.yearly_dust_loss)/(jharkhand_constant*24*float(obj.days_elapsed)))*100))
 			obj.yearly_misc_loss = yearly_generation_loss - obj.yearly_irradiance_loss - obj.yearly_deemed_loss_plf - obj.yearly_grid_loss_plf - obj.yearly_bd_loss_plf - obj.yearly_dust_loss_plf
 
 
