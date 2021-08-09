@@ -45,6 +45,9 @@
         <!-- Area where the Solar Exception Report/Table is displayed -->
         {% if recordpresent and recordsearch %}
             <div class="container-fluid">
+                <p class="fw-bold text-decoration-underline">
+                    {{ day_date }}
+                </p>
                 <!-- Click this button to download Solar Exception Report -->
                 <button class="btn btn-success bg-gradient text-white fw-bold" style="font-family: Noto Sans;" onclick="ExportToExcel('xlsx')">
                     Download Solar Exception Report
@@ -501,6 +504,9 @@
         {% endif %}    
 
         {% if recordsearch and not recordpresent %}
+            <p class="fw-bold text-decoration-underline">
+                {{ day_date }}
+            </p>
             <p class="display-6 text-center">Data not present! Check the date once again!!</p>
         {% endif %}
             
