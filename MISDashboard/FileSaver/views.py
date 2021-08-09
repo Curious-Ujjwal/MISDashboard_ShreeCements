@@ -217,23 +217,24 @@ else:
 
 # for i in range(wc_rows):
 # 	c_sum += wmsC[i][3]
-# c_sum = c_sum/float(wc_rows)
-# c_sum -> kWh/m**2
+# c_sum = c_sum/float(wc_rows)		#taking average of all the values
+# c_sum = c_sum/float(5000)			#converting W/m2/min to kWh/m2/day
+
 
 # for i in range(wj_rows):
 # 	j_sum += wmsJ[i][3]
 # j_sum = j_sum/float(wj_rows)
-# j_sum -> kWh/m**2
+# j_sum = j_sum/float(5000)
 
 # for i in range(wr_rows):
 # 	r_sum += wmsR[i][3]
 # r_sum = r_sum/float(wr_rows)
-# r_sum -> kWh/m**2
+# r_sum = r_sum/float(5000)
 
 # for i in range(wp_rows):
 # 	p_sum += wmsP[i][3]
 # p_sum = p_sum/float(wp_rows)
-# p_sum -> kWh/m**2
+# p_sum = p_sum/float(5000)
 
 
 
@@ -1548,6 +1549,7 @@ def dailyupdates(request):
 		'castamet_gen': daily_castamet_gen,
 		'roorkee_gen': daily_roorkee_gen,
 		'beawar_gen': daily_beawar_gen,
+		'today_date': today,
 	}
 	return render(request, 'FileSaver/statistics.html', context)
 
@@ -1557,7 +1559,7 @@ def startdoc(request):
 
 #For HTML page with analysis window
 def analysis(request):
-	return render(request, 'FileSaver/analysis.html')
+	return render(request, 'FileSaver/analysis.html', {'today_date': today,})
 
 def return_context(day_date, argument):
 	# print(day_date)
@@ -1665,7 +1667,7 @@ def siteanalysis(request):
 		lastCrecord = Castamet_Sheet.objects.filter(date=day_date).first()
 		lastBrecord = Beawar_Sheet.objects.filter(date=day_date).first()
 		lastRrecord = Roorkee_Sheet.objects.filter(date=day_date).first()
-
+		
 		if lastJrecord == None:
 			context = {'notpresent': True, 'sitewise': True}
 		else:
@@ -1730,6 +1732,7 @@ def report(request):
 				'roorkeeobs': roorkee_obs,
 				'beawarobs': beawar_obs,
 				'castametobs': castamet_obs,
+				'day_date': day_date,
 			}
 			return render(request, 'FileSaver/exceptionreport.html', context)
 		else:
@@ -1737,6 +1740,7 @@ def report(request):
 			context = {
 				'recordpresent': False,
 				'recordsearch': True,
+				'day_date': day_date,
 			}
 			return render(request, 'FileSaver/exceptionreport.html', context)
 
@@ -1780,7 +1784,7 @@ def getdetails(request):
 
 
 def invertoranalysis(request):
-	print('I am glad I reached here!')
+	# print('I am glad I reached here!')
 	if request.method == 'GET':
 		data_asked = request.GET.dict()
 		# print(data_asked)
@@ -1820,6 +1824,7 @@ def invertoranalysis(request):
 			'invertorwise': True,
 			'sitename': 'name-of-the-site',
 		}
+		context['today_date'] = today
 		if site_no == '1':
 			context['sitename'] = 'Beawar'
 		elif site_no == '2':
