@@ -8,3 +8,6 @@ Starting instructions for this project:
 7. Manual cleaning of the database is mandatory.
 8. The different constants for each site like seasonal_tilt and max_power are defined in defineconstants.py file.
 9. Currently, at any day, the downloaded files are read and stored in separate variables as can be found in utilityfunction.py file. The variables are created daily as the new sheets are downloaded.
+10. Email subjects need to be properly configured.
+a) Email containing WMS report should have 'wms' and sitename in subject.
+b) Email containing SiteSheet need to only have sitename in subject.

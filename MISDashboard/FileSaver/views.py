@@ -105,7 +105,37 @@ def download_files():
 
 							if filename:
 								#folder namea are dependent upon the subject of the mail
-								folder_name = clean(subject)
+								folder_name = None
+								sub = subject.lower()
+
+								if sub.find('panipat')!=-1:
+									if sub.find('wms')==-1:
+										folder_name = 'siteP'
+									else:
+										folder_name = 'wmsP'
+
+								elif sub.find('castamet')!=-1:
+									if sub.find('wms')==-1:
+										folder_name = 'siteC'
+									else:
+										folder_name = 'wmsC'
+
+								elif sub.find('jharkhand')!=-1:
+									if sub.find('wms')==-1:
+										folder_name = 'siteJ'
+									else:
+										folder_name = 'wmsJ'
+
+								elif sub.find('roorkee')!=-1:
+									if sub.find('wms')==-1:
+										folder_name = 'siteR'
+									else:
+										folder_name = 'wmsR'
+
+								elif sub.find('beawar')!=-1:
+									folder_name = 'siteB'
+
+								
 								if not os.path.isdir(folder_name):
 									os.mkdir(folder_name)
 
