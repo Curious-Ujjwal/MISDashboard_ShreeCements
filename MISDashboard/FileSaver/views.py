@@ -203,7 +203,7 @@ else:
 	jharkhand_seasonal_tilt = nlp_jharkhand_seasonal_tilt
 	castamet_5deg_fix_tilt = nlp_castamet_5deg_fix_tilt
 
-
+#Uncomment the code by pressing Ctrl + '/'
 #Code for wms irradiance values to be verified by the mentor
 # wc_rows, wc_cols = wmsC.shape
 # wj_rows, wj_cols = wmsJ.shape
@@ -339,7 +339,7 @@ def calculate_panipat_values():
 	today_target_plf = ((float(today_target_generation_value))/(panipat_constant*24))*100	#in admin.py file
 	today_actual_plf = ((float(today_actual_generation_value))/(panipat_constant*24))*100
 	today_target_irradiance = (panipat1_seasonal_tilt[date_month]*999.4 + panipat2_seasonal_tilt[date_month]*248)/panipat_constant
-	today_actual_irradiance = 1.0 	#from WMS report	
+	today_actual_irradiance = 1.00 #p_sum 	#from WMS report	
 	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*panipat_constant))*100		#in admin.py file
 	today_actual_performance_ratio = (today_actual_generation_value/(today_actual_irradiance*panipat_constant))*100
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user, in admin.py)
@@ -596,7 +596,7 @@ def calculate_castamet_values():
 	today_target_plf = ((float(today_target_generation_value))/(castamet_constant*24))*100		#in admin.py file
 	today_actual_plf = ((float(today_actual_generation_value))/(castamet_constant*24))*100
 	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 1.0 #from WMS report	
+	today_actual_irradiance = 1.0 	#c_sum	#from WMS report	
 	today_target_performance_ratio = ((float(today_target_generation_value))/(today_target_irradiance*castamet_constant))*100
 	today_actual_performance_ratio = float(today_actual_generation_value)/(today_actual_irradiance*roorkee_constant)
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user, in admin.py)
@@ -1077,7 +1077,7 @@ def calculate_roorkee_values():
 	today_target_plf = ((float(today_target_generation_value))/(roorkee_constant*24))*100			#in admin.py
 	today_actual_plf = ((float(today_actual_generation_value))/(roorkee_constant*24))*100	
 	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 1.0	#to be taken from WMS report
+	today_actual_irradiance = 1.10	#r_sum	#to be taken from WMS report
 	today_target_performace_ratio = 0.00
 	today_actual_performance_ratio = (float(today_actual_generation_value)/(today_actual_irradiance*roorkee_constant))*100
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user)
@@ -1310,7 +1310,7 @@ def calculate_jharkhand_values():
 	today_target_plf = ((float(today_target_generation_value))/(jharkhand_constant*24))*100
 	today_actual_plf = ((float(today_actual_generation_value))/(jharkhand_constant*24))*100
 	today_target_irradiance = float(0)		#user entry
-	today_actual_irradiance = 1.0 #from WMS report	
+	today_actual_irradiance = 1.90 	#j_sum	#from WMS report	
 	today_target_performace_ratio = ((float(today_target_generation_value))/(today_target_irradiance*jharkhand_constant))*100		#in admin.py file
 	today_actual_performance_ratio = (float(today_sum)/(today_actual_irradiance*jharkhand_constant))*100
 	today_irradiance_loss = today_target_plf - 0 #(value of Target PLF based on Actual Irradiation given by the user)
