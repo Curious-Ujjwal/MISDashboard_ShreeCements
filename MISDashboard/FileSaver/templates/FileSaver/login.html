@@ -1,0 +1,41 @@
+<!-- Common HTML template code for all the dashboard pages -->
+{% extends 'FileSaver/base.html' %}
+
+<!-- Title block for all the webpages -->
+{% block title %}
+  User Login - MIS Dashboard
+{% endblock %}
+
+<!-- Load static images, css and js defined in STATIC_URL in settings.py -->
+{% load static %}
+
+{% block main_content %}
+  <div class="container">
+    <div class="pt-5 mt-5">
+      <div class="container-fluid p-5 bg-light rounded-2">
+        {% if incorrect %}
+          <div class="container text-center display-5 text-danger fw-normal text-uppercase bg-warning" style="width: 70%;">
+            Check your credentials again!
+          </div>
+        {% else %}
+          <div class="container text-center display-5 mt-4">
+            Enter username and password to login
+          </div>
+        {% endif %}
+
+        <form class="mt-5 pt-2 px-5 mx-auto" style="width: 50%;" method="POSt" action="{% url 'userlogin' %}">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label fs-4 text-secondary text-capitalize">Username</label>
+            <input type="text" class="form-control" id="InputUser" aria-describedby="emailHelp" required name="InputUser">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label fs-4 text-secondary text-capitalize">Password</label>
+            <input type="password" class="form-control" id="InputPassword" required name="InputPassword">
+          </div>
+          <button type="submit" class="btn btn-success bg-gradient">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,3 +1,9 @@
+/////////////////////////////
+Credentials for project login
+Username: userSCL
+Password: user@SCL21
+////////////////////////////
+
 Starting instructions for this project:
 1. Pre-requisites: [Bootstrap+ChartJS (FrontEnd)] & [Django (BackEnd)]
 2. All the controllable variables are mentioned in controllables.md explicitly[need to be carefully followed].

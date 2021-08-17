@@ -1,0 +1,17 @@
+Steps to setup the project:
+1. Install virtualenv
+2. Go to the File Explorer and navigate to the project folder
+3. Go inside the project folder
+4. Double click on the Address bar in the explorer window, and type cmd. Press Enter
+5. Command Prompt will open up.
+6. Type virtualenv venv. venv folder will be created which stores packages solely for this project.
+7. Type venv\Scripts\activate. It activates the virtual environment.
+8. Type pip install -r requirements.txt. It installs all the necessary packages for this project to run.
+9. Type cd MISDashboard. 
+10. Type python manage.py makemigrations.
+11. Type python manage.py migrate.
+12. Type python manage.py createsuperuser. This helps to create admin for the database. Enter the preferred username and password. No need for email.
+13. After this, type python manage.py runserver. This will run a loval server on the computer.
+14. Then open your browser, and type localhost:8000/ in search bar at the top, to start the project.
+
+15. Also read starting.md file and controllables.md file for futher information on the project. [Developer's PoV]

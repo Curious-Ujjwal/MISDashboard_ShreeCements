@@ -47,6 +47,7 @@
     <!-- 4. Solar Exception Report -->
     <!-- 5. Getting Started (Documentation of how to use this Dashboard) -->
     <!-- 6. Operator Login -> Login into the Django-Admin Panel -->
+    {% if userlogin %}
       <div class="offcanvas offcanvas-start sidebar-nav text-danger bg-light" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title text-uppercase" id="offcanvasExampleLabel">Navigation Menu</h5>
@@ -99,6 +100,8 @@
         <div class="offcanvas-body p-0">
         </div>
       </div>
+    {% else %}
+    {% endif %}
     <!-- Offcanvas Backdrop -->
 
     <!-- Main area of the Templates -->

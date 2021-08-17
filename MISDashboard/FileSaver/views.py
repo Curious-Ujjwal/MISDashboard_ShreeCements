@@ -25,8 +25,30 @@ import json as simplejson
 from django.http import HttpResponse
 
 # #account credentials
-username = 'ujjwalrustagi@gmail.com'
-password = 'Ujjwal@123'
+username = 'username@domain.com'
+password = 'password'
+
+#Function for user login
+def userlogin(request):
+	if request.method == 'POST':
+		ipcredentials = request.POST.dict()
+		username = ipcredentials.get('InputUser')
+		passw = ipcredentials.get('InputPassword')
+		if username == 'userSCL' and passw == 'userSCL@21':
+			return redirect('dailyupdates')
+		else:
+			context = {
+				'userlogin': False,
+				'incorrect': True,
+			}
+			print('Hi')
+			return render(request, 'FileSaver/login.html', context)
+	else:
+		context = {
+			'userlogin': False,
+			'incorrect': False,
+		}
+		return render(request, 'FileSaver/login.html', context)
 
 # #function to create the folder name
 def clean(text):
@@ -1580,16 +1602,24 @@ def dailyupdates(request):
 		'roorkee_gen': daily_roorkee_gen,
 		'beawar_gen': daily_beawar_gen,
 		'today_date': today,
+		'userlogin': True,
 	}
 	return render(request, 'FileSaver/statistics.html', context)
 
 #For documentation html page
 def startdoc(request):
-	return render(request, 'FileSaver/doc.html')
+	context = {
+		'userlogin': True,
+	}
+	return render(request, 'FileSaver/doc.html', context)
 
 #For HTML page with analysis window
 def analysis(request):
-	return render(request, 'FileSaver/analysis.html', {'today_date': today,})
+	context = {
+		'userlogin': True,
+		'today_date': today,
+	}
+	return render(request, 'FileSaver/analysis.html', context)
 
 def return_context(day_date, argument):
 	# print(day_date)
@@ -1703,7 +1733,7 @@ def siteanalysis(request):
 		else:
 			context = return_context(day_date, particular)
 			print(context)
-
+		context['userlogin'] = True
 		return render(request, 'FileSaver/analysis.html', context)
 
 #For page with exception report
@@ -1763,6 +1793,7 @@ def report(request):
 				'beawarobs': beawar_obs,
 				'castametobs': castamet_obs,
 				'day_date': day_date,
+				'userlogin': True
 			}
 			return render(request, 'FileSaver/exceptionreport.html', context)
 		else:
@@ -1771,12 +1802,14 @@ def report(request):
 				'recordpresent': False,
 				'recordsearch': True,
 				'day_date': day_date,
+				'userlogin': True,
 			}
 			return render(request, 'FileSaver/exceptionreport.html', context)
 
 	else:
 		context = {
 			'recordsearch': False,
+			'userlogin': True,
 		}
 		return render(request, 'FileSaver/exceptionreport.html', context)
 
@@ -1853,6 +1886,7 @@ def invertoranalysis(request):
 			'invertor_gen': invertor_list,
 			'invertorwise': True,
 			'sitename': 'name-of-the-site',
+			'userlogin': True,
 		}
 		context['today_date'] = today
 		if site_no == '1':
